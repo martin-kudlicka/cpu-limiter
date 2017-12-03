@@ -1,6 +1,10 @@
 #include "ruledialog.h"
 
-RuleDialog::RuleDialog(QWidget *parent) : QDialog(parent), _widgetSettings(&_options)
+RuleDialog::RuleDialog(QWidget *parent) : RuleDialog(MUuidPtr::createUuid(), parent)
+{
+}
+
+RuleDialog::RuleDialog(const MUuidPtr &id, QWidget *parent) : QDialog(parent), _widgetSettings(&_options)
 {
   _ui.setupUi(this);
 
@@ -11,6 +15,8 @@ void RuleDialog::setupSettings()
 {
   _widgetSettings.setWidget(RuleOptions::Property::Name,    _ui.name);
   _widgetSettings.setWidget(RuleOptions::Property::Enabled, _ui.enabled);
+
+  _widgetSettings.setWidget(RuleOptions::Property::Condition_Status, qMove(QRadioButtonPtrList() << _ui.conditionStatusRunning << _ui.conditionStatusForeground << _ui.conditionStatusBackground << _ui.conditionStatusNotRunning));
 
   _widgetSettings.load();
 }
