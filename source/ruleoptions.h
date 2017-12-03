@@ -16,6 +16,7 @@ class RuleOptions : public MSettings
         static const QString Condition_Status;
 
         static const QString Target_Action;
+        static const QString Target_CPULimit;
     };
 
     virtual ~RuleOptions() Q_DECL_OVERRIDE Q_DECL_EQ_DEFAULT;
