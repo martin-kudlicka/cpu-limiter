@@ -10,9 +10,12 @@ class RuleOptions : public MSettings
     class Property
     {
       public:
-        static const QString Condition_Status;
         static const QString Enabled;
         static const QString Name;
+
+        static const QString Condition_Status;
+
+        static const QString Target_Action;
     };
 
     virtual ~RuleOptions() Q_DECL_OVERRIDE Q_DECL_EQ_DEFAULT;

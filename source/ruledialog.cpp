@@ -18,6 +18,8 @@ void RuleDialog::setupSettings()
 
   _widgetSettings.setWidget(RuleOptions::Property::Condition_Status, qMove(QRadioButtonPtrList() << _ui.conditionStatusRunning << _ui.conditionStatusForeground << _ui.conditionStatusBackground << _ui.conditionStatusNotRunning));
 
+  _widgetSettings.setWidget(RuleOptions::Property::Target_Action, qMove(QRadioButtonPtrList() << _ui.targetActionLimitCPU << _ui.targetActionSuspend));
+
   _widgetSettings.load();
 }
 
