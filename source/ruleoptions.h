@@ -19,7 +19,11 @@ class RuleOptions : public MSettings
         static const QString Target_CPULimit;
     };
 
+             RuleOptions(MUuidPtr &&id);
     virtual ~RuleOptions() Q_DECL_OVERRIDE Q_DECL_EQ_DEFAULT;
+
+  private:
+    MUuidPtr _id;
 };
 
 #endif
