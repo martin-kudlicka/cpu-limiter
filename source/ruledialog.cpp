@@ -37,6 +37,8 @@ void RuleDialog::setupWidgets()
   _ui.conditionSelectedProcessesList->setModel(&_conditionProcessesModel);
   _ui.targetSelectedProcessesList->setModel(&_targetProcessesModel);
 
+  _ui.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
+
   connect(_ui.conditionSelectedProcessesList->selectionModel(), &QItemSelectionModel::selectionChanged, this, &RuleDialog::on_conditionSelectedProcessesList_selectionChanged);
   connect(_ui.targetSelectedProcessesList->selectionModel(),    &QItemSelectionModel::selectionChanged, this, &RuleDialog::on_targetSelectedProcessesList_selectionChanged);
 }
