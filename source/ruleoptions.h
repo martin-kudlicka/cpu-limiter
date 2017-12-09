@@ -7,20 +7,31 @@
 class RuleOptions : public MSettings
 {
   public:
+    enum class SelectedProcesses
+    {
+      Condition,
+      Target
+    };
+
     class Property
     {
       public:
-        static const QString Enabled;
-        static const QString Name;
+        static Q_DECL_CONSTEXPR QString Enabled;
+        static Q_DECL_CONSTEXPR QString Name;
 
-        static const QString Condition_Status;
+        static Q_DECL_CONSTEXPR QString Condition_SelectedProcesses;
+        static Q_DECL_CONSTEXPR QString Condition_Status;
 
-        static const QString Target_Action;
-        static const QString Target_CPULimit;
+        static Q_DECL_CONSTEXPR QString Target_Action;
+        static Q_DECL_CONSTEXPR QString Target_CPULimit;
+        static Q_DECL_CONSTEXPR QString Target_SelectedProcesses;
     };
 
              RuleOptions(MUuidPtr &&id);
     virtual ~RuleOptions() Q_DECL_OVERRIDE Q_DECL_EQ_DEFAULT;
+
+    QString  selectedProcesses    (SelectedProcesses type, quintptr index);
+    quintptr selectedProcessesSize(SelectedProcesses type);
 
   private:
     MUuidPtr _id;
