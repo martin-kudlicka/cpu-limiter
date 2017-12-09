@@ -30,7 +30,8 @@ class RuleOptions : public MSettings
              RuleOptions(MUuidPtr &&id);
     virtual ~RuleOptions() Q_DECL_OVERRIDE Q_DECL_EQ_DEFAULT;
 
-    QString  selectedProcesses    (SelectedProcesses type, quintptr index);
+    void     setSelectedProcess   (SelectedProcesses type, quintptr index, const QString &name);
+    QString  selectedProcess      (SelectedProcesses type, quintptr index);
     quintptr selectedProcessesSize(SelectedProcesses type);
 
   private:

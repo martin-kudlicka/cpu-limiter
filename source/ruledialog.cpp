@@ -1,13 +1,16 @@
 #include "ruledialog.h"
 
+#include <QtWidgets/QInputDialog>
+
 RuleDialog::RuleDialog(QWidget *parent) : RuleDialog(MUuidPtr::createUuid(), parent)
 {
 }
 
-RuleDialog::RuleDialog(const MUuidPtr &id, QWidget *parent) : QDialog(parent), _widgetSettings(&_options)
+RuleDialog::RuleDialog(MUuidPtr &&id, QWidget *parent) : QDialog(parent), _options(qMove(id)), _widgetSettings(&_options), _conditionProcesses(&_options, RuleOptions::SelectedProcesses::Condition), _targetProcesses(&_options, RuleOptions::SelectedProcesses::Target)
 {
   _ui.setupUi(this);
 
+  setupWidgets();
   setupSettings();
 }
 
@@ -24,6 +27,12 @@ void RuleDialog::setupSettings()
   _widgetSettings.load();
 }
 
+void RuleDialog::setupWidgets()
+{
+  _ui.conditionSelectedProcessesList->setModel(&_conditionProcesses);
+  _ui.targetSelectedProcessesList->setModel(&_targetProcesses);
+}
+
 void RuleDialog::updateOkButton(bool preEnabled /* true */) const
 {
   auto enabled = preEnabled && !_ui.name->text().isEmpty();
@@ -38,7 +47,29 @@ void RuleDialog::accept()
   QDialog::accept();
 }
 
+void RuleDialog::on_conditionProcessAdd_clicked(bool checked /* false */)
+{
+  auto process = QInputDialog::getText(this, tr("Add condition process"), tr("Name:"));
+  if (process.isEmpty())
+  {
+    return;
+  }
+
+  _conditionProcesses.add(process);
+}
+
 void RuleDialog::on_name_textChanged(const QString &text) const
 {
   updateOkButton(!text.isEmpty());
+}
+
+void RuleDialog::on_targetProcessAdd_clicked(bool checked /* false */)
+{
+  auto process = QInputDialog::getText(this, tr("Add target process"), tr("Name:"));
+  if (process.isEmpty())
+  {
+    return;
+  }
+
+  _targetProcesses.add(process);
 }

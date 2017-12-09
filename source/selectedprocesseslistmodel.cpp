@@ -4,6 +4,16 @@ SelectedProcessesListModel::SelectedProcessesListModel(RuleOptions *options, Rul
 {
 }
 
+void SelectedProcessesListModel::add(const QString &name)
+{
+  auto addPosition = rowCount();
+  beginInsertRows(QModelIndex(), addPosition, addPosition);
+
+  _options->setSelectedProcess(_type, addPosition, name);
+
+  endInsertRows();
+}
+
 int SelectedProcessesListModel::rowCount(const QModelIndex &parent /* QModelIndex() */) const
 {
   return _options->selectedProcessesSize(_type);
@@ -16,5 +26,5 @@ QVariant SelectedProcessesListModel::data(const QModelIndex &index, int role /* 
     return QVariant();
   }
 
-  return _options->selectedProcesses(_type, index.row());
+  return _options->selectedProcess(_type, index.row());
 }
