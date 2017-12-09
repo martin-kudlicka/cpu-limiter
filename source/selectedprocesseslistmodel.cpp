@@ -14,6 +14,15 @@ void SelectedProcessesListModel::add(const QString &name)
   endInsertRows();
 }
 
+void SelectedProcessesListModel::remove(quintptr index)
+{
+  beginRemoveRows(QModelIndex(), index, index);
+
+  _options->removeSelectedProcess(_type, index);
+
+  endRemoveRows();
+}
+
 int SelectedProcessesListModel::rowCount(const QModelIndex &parent /* QModelIndex() */) const
 {
   return _options->selectedProcessesSize(_type);

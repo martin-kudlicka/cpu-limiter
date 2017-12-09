@@ -34,6 +34,15 @@ QString RuleOptions::name() const
   return value(Property::Name).toString();
 }
 
+void RuleOptions::removeSelectedProcess(SelectedProcesses type, quintptr index)
+{
+  auto processes = selectedProcesses(type);
+
+  processes.removeAt(index);
+
+  setSelectedProcesses(type, processes);
+}
+
 void RuleOptions::setSelectedProcess(SelectedProcesses type, quintptr index, const QString &name)
 {
   switch (type)
@@ -99,4 +108,59 @@ quintptr RuleOptions::selectedProcessesSize(SelectedProcesses type)
   endArray();
 
   return size;
+}
+
+QStringList RuleOptions::selectedProcesses(SelectedProcesses type)
+{
+  QStringList processes;
+
+  quintptr size;
+  switch (type)
+  {
+    case SelectedProcesses::Condition:
+      size = beginReadArray(Property::Condition_SelectedProcesses);
+      break;
+    case SelectedProcesses::Target:
+      size = beginReadArray(Property::Target_SelectedProcesses);
+      break;
+    default:
+      Q_ASSERT_X(false, "RuleOptions::selectedProcesses", "switch (type)");
+      return processes;
+  }
+
+  for (auto index = 0; index < size; index++)
+  {
+    setArrayIndex(index);
+
+    processes.append(value("name").toString());
+  }
+
+  endArray();
+
+  return processes;
+}
+
+void RuleOptions::setSelectedProcesses(SelectedProcesses type, const QStringList &processes)
+{
+  switch (type)
+  {
+    case SelectedProcesses::Condition:
+      beginWriteArray(Property::Condition_SelectedProcesses);
+      break;
+    case SelectedProcesses::Target:
+      beginWriteArray(Property::Target_SelectedProcesses);
+      break;
+    default:
+      Q_ASSERT_X(false, "RuleOptions::setSelectedProcesses", "switch (type)");
+      return;
+  }
+
+  for (auto index = 0; index < processes.size(); index++)
+  {
+    setArrayIndex(index);
+
+    setValue("name", processes.at(index));
+  }
+
+  endArray();
 }
