@@ -9,8 +9,7 @@ void RulesModel::insert(const MUuidPtr &id)
 
 int RulesModel::columnCount(const QModelIndex &parent /* QModelIndex() */) const
 {
-  // TODO
-  return 0;
+  return static_cast<int>(Column::Count);
 }
 
 QVariant RulesModel::data(const QModelIndex &index, int role /* Qt::DisplayRole */) const
