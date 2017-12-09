@@ -7,6 +7,16 @@ Rules::Rules()
   _settings.beginGroup(Property::Group);
 }
 
+bool Rules::empty() const
+{
+  return size() == 0;
+}
+
+MUuidPtr Rules::id(quintptr index) const
+{
+  return _settings.childGroups().at(index);
+}
+
 quintptr Rules::index(const MUuidPtr &id) const
 {
   quintptr index2 = 0;
