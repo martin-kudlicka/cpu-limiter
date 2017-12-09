@@ -12,6 +12,12 @@ class RulesModel : public QAbstractItemModel
     void insert(const MUuidPtr &id);
 
   private:
+    enum class Column
+    {
+      Name,
+      Count
+    };
+
     Rules _rules;
 
     virtual int         columnCount(const QModelIndex &parent = QModelIndex())                      const Q_DECL_OVERRIDE;
