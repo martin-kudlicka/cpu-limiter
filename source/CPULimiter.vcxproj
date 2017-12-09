@@ -90,6 +90,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
     <ClCompile Include="ruledialog.cpp" />
+    <ClCompile Include="rulemodel.cpp" />
     <ClCompile Include="ruleoptions.cpp" />
     <ClCompile Include="selectedprocesseslistmodel.cpp" />
   </ItemGroup>
@@ -133,6 +134,7 @@
     <ClInclude Include="..\..\..\intermediate\cpulimter\ui_mainwindow.h" />
     <ClInclude Include="..\..\..\intermediate\cpulimter\ui_ruledialog.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="rulemodel.h" />
     <ClInclude Include="selectedprocesseslistmodel.h" />
     <CustomBuild Include="ruledialog.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
