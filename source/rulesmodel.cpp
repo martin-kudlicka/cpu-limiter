@@ -20,8 +20,12 @@ QVariant RulesModel::data(const QModelIndex &index, int role /* Qt::DisplayRole 
 
 QModelIndex RulesModel::index(int row, int column, const QModelIndex &parent /* QModelIndex() */) const
 {
-  // TODO
-  return QModelIndex();
+  if (_rules.empty())
+  {
+    return createIndex(row, column);
+  }
+
+  return createIndex(row, column, _rules.id(row));
 }
 
 bool RulesModel::insertRows(int row, int count, const QModelIndex &parent /* QModelIndex() */)
