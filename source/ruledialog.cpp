@@ -6,12 +6,17 @@ RuleDialog::RuleDialog(QWidget *parent) : RuleDialog(MUuidPtr::createUuid(), par
 {
 }
 
-RuleDialog::RuleDialog(MUuidPtr &&id, QWidget *parent) : QDialog(parent), _options(qMove(id)), _widgetSettings(&_options), _conditionProcesses(&_options, RuleOptions::SelectedProcesses::Condition), _targetProcesses(&_options, RuleOptions::SelectedProcesses::Target)
+RuleDialog::RuleDialog(MUuidPtr &&id, QWidget *parent) : QDialog(parent), _options(qMove(id)), _widgetSettings(&_options), _conditionProcessesModel(&_options, RuleOptions::SelectedProcesses::Condition), _targetProcessesModel(&_options, RuleOptions::SelectedProcesses::Target)
 {
   _ui.setupUi(this);
 
   setupWidgets();
   setupSettings();
+}
+
+const RuleOptions &RuleDialog::options() const
+{
+  return _options;
 }
 
 void RuleDialog::setupSettings()
@@ -29,8 +34,8 @@ void RuleDialog::setupSettings()
 
 void RuleDialog::setupWidgets()
 {
-  _ui.conditionSelectedProcessesList->setModel(&_conditionProcesses);
-  _ui.targetSelectedProcessesList->setModel(&_targetProcesses);
+  _ui.conditionSelectedProcessesList->setModel(&_conditionProcessesModel);
+  _ui.targetSelectedProcessesList->setModel(&_targetProcessesModel);
 }
 
 void RuleDialog::updateOkButton(bool preEnabled /* true */) const
@@ -55,7 +60,7 @@ void RuleDialog::on_conditionProcessAdd_clicked(bool checked /* false */)
     return;
   }
 
-  _conditionProcesses.add(process);
+  _conditionProcessesModel.add(process);
 }
 
 void RuleDialog::on_name_textChanged(const QString &text) const
@@ -71,5 +76,5 @@ void RuleDialog::on_targetProcessAdd_clicked(bool checked /* false */)
     return;
   }
 
-  _targetProcesses.add(process);
+  _targetProcessesModel.add(process);
 }

@@ -1,7 +1,9 @@
 #include "ruleoptions.h"
 
-Q_DECL_CONSTEXPR QString RuleOptions::Property::Enabled           = "enabled";
-Q_DECL_CONSTEXPR QString RuleOptions::Property::Name              = "name";
+#include "rules.h"
+
+Q_DECL_CONSTEXPR QString RuleOptions::Property::Enabled = "enabled";
+Q_DECL_CONSTEXPR QString RuleOptions::Property::Name    = "name";
 
 Q_DECL_CONSTEXPR QString RuleOptions::Property::Condition_SelectedProcesses = "condition/selectedProcesses";
 Q_DECL_CONSTEXPR QString RuleOptions::Property::Condition_Status            = "condition/status";
@@ -12,8 +14,13 @@ Q_DECL_CONSTEXPR QString RuleOptions::Property::Target_SelectedProcesses = "targ
 
 RuleOptions::RuleOptions(MUuidPtr &&id) : _id(qMove(id))
 {
-  beginGroup("rules");
+  beginGroup(Rules::Property::Group);
   beginGroup(id.toString());
+}
+
+const MUuidPtr &RuleOptions::id() const
+{
+  return _id;
 }
 
 void RuleOptions::setSelectedProcess(SelectedProcesses type, quintptr index, const QString &name)

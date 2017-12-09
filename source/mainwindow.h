@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include "ui_mainwindow.h"
-#include "rulemodel.h"
+#include "rulesmodel.h"
 
 class MainWindow : public QMainWindow
 {
@@ -14,7 +14,7 @@ class MainWindow : public QMainWindow
 
   private:
 	  Ui::MainWindow _ui;
-    RuleModel      _ruleModel;
+    RulesModel     _rulesModel;
 
   private slots:
     void on_ruleAdd_clicked(bool checked = false);
