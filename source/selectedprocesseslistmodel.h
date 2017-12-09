@@ -9,6 +9,8 @@ class SelectedProcessesListModel : public QAbstractListModel
              SelectedProcessesListModel(RuleOptions *options, RuleOptions::SelectedProcesses type);
     virtual ~SelectedProcessesListModel() Q_DECL_OVERRIDE Q_DECL_EQ_DEFAULT;
 
+    void add(const QString &name);
+
   private:
     RuleOptions                   *_options;
     RuleOptions::SelectedProcesses _type;

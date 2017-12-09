@@ -16,28 +16,49 @@ RuleOptions::RuleOptions(MUuidPtr &&id) : _id(qMove(id))
   beginGroup(id.toString());
 }
 
-QString RuleOptions::selectedProcesses(SelectedProcesses type, quintptr index)
+void RuleOptions::setSelectedProcess(SelectedProcesses type, quintptr index, const QString &name)
 {
   switch (type)
   {
-  case SelectedProcesses::Condition:
-    beginReadArray(Property::Condition_SelectedProcesses);
-    break;
-  case SelectedProcesses::Target:
-    beginReadArray(Property::Target_SelectedProcesses);
-    break;
-  default:
-    Q_ASSERT_X(false, "RuleOptions::selectedProcesses", "switch (type)");
-    return QString();
+    case SelectedProcesses::Condition:
+      beginWriteArray(Property::Condition_SelectedProcesses);
+      break;
+    case SelectedProcesses::Target:
+      beginWriteArray(Property::Target_SelectedProcesses);
+      break;
+    default:
+      Q_ASSERT_X(false, "RuleOptions::setSelectedProcess", "switch (type)");
+      return;
+  }
+  setArrayIndex(index);
+
+  setValue("name", name);
+
+  endArray();
+}
+
+QString RuleOptions::selectedProcess(SelectedProcesses type, quintptr index)
+{
+  switch (type)
+  {
+    case SelectedProcesses::Condition:
+      beginReadArray(Property::Condition_SelectedProcesses);
+      break;
+    case SelectedProcesses::Target:
+      beginReadArray(Property::Target_SelectedProcesses);
+      break;
+    default:
+      Q_ASSERT_X(false, "RuleOptions::selectedProcess", "switch (type)");
+      return QString();
   }
 
   setArrayIndex(index);
 
-  auto processName = value("name").toString();
+  auto name = value("name").toString();
 
   endArray();
 
-  return processName;
+  return name;
 }
 
 quintptr RuleOptions::selectedProcessesSize(SelectedProcesses type)
