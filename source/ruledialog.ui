@@ -67,7 +67,11 @@
           <item row="0" column="1">
            <layout class="QHBoxLayout" name="horizontalLayout">
             <item>
-             <widget class="QListView" name="conditionSelectedProcessesList"/>
+             <widget class="QListView" name="conditionSelectedProcessesList">
+              <property name="selectionMode">
+               <enum>QAbstractItemView::ExtendedSelection</enum>
+              </property>
+             </widget>
             </item>
             <item>
              <layout class="QVBoxLayout" name="verticalLayout">
@@ -80,6 +84,9 @@
               </item>
               <item>
                <widget class="QPushButton" name="conditionProcessRemove">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="text">
                  <string>&amp;Remove</string>
                 </property>
@@ -121,6 +128,9 @@
             <widget class="QRadioButton" name="conditionStatusForeground">
              <property name="text">
               <string>&amp;Foreground</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
@@ -168,7 +178,11 @@
           <item row="0" column="1">
            <layout class="QHBoxLayout" name="horizontalLayout_2">
             <item>
-             <widget class="QListView" name="targetSelectedProcessesList"/>
+             <widget class="QListView" name="targetSelectedProcessesList">
+              <property name="selectionMode">
+               <enum>QAbstractItemView::ExtendedSelection</enum>
+              </property>
+             </widget>
             </item>
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -181,6 +195,9 @@
               </item>
               <item>
                <widget class="QPushButton" name="targetProcessRemove">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="text">
                  <string>&amp;Remove</string>
                 </property>
@@ -217,6 +234,9 @@
               <widget class="QRadioButton" name="targetActionLimitCPU">
                <property name="text">
                 <string>&amp;Limit CPU to</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
