@@ -18,6 +18,24 @@ QVariant RulesModel::data(const QModelIndex &index, int role /* Qt::DisplayRole 
   return QVariant();
 }
 
+QVariant RulesModel::headerData(int section, Qt::Orientation orientation, int role /* Qt::DisplayRole */) const
+{
+  if (orientation == Qt::Orientation::Vertical || role != Qt::DisplayRole)
+  {
+    return QVariant();
+  }
+
+  switch (section)
+  {
+    case Column::Name:
+      return tr("Name");
+    default:
+      Q_UNREACHABLE();
+  }
+
+  return QVariant();
+}
+
 QModelIndex RulesModel::index(int row, int column, const QModelIndex &parent /* QModelIndex() */) const
 {
   if (_rules.empty())
