@@ -15,10 +15,11 @@ class Rules
 
     Rules();
 
-    bool     empty()                   const;
-    MUuidPtr id   (quintptr index)     const;
-    quintptr index(const MUuidPtr &id) const;
-    quintptr size ()                   const;
+          bool      empty()                   const;
+    const RuleSPtr &get  (const MUuidPtr &id);
+          MUuidPtr  id   (quintptr index)     const;
+          quintptr  index(const MUuidPtr &id) const;
+          quintptr  size ()                   const;
 
   private:
     QMap<MUuidPtr, RuleSPtr> _rules;
