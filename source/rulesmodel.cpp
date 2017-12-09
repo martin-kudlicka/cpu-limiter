@@ -14,7 +14,23 @@ int RulesModel::columnCount(const QModelIndex &parent /* QModelIndex() */) const
 
 QVariant RulesModel::data(const QModelIndex &index, int role /* Qt::DisplayRole */) const
 {
-  // TODO
+  if (role != Qt::DisplayRole)
+  {
+    return QVariant();
+  }
+
+  auto rule = const_cast<Rules *>(&_rules)->get(index.internalId());
+
+  switch (role)
+  {
+    case Qt::DisplayRole:
+      switch (index.column())
+      {
+        case Column::Name:
+          return rule->options().name();
+      }
+  }
+
   return QVariant();
 }
 

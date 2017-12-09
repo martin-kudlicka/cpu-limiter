@@ -12,6 +12,17 @@ bool Rules::empty() const
   return size() == 0;
 }
 
+const RuleSPtr &Rules::get(const MUuidPtr &id)
+{
+  if (_rules.contains(id))
+  {
+    return _rules[id];
+  }
+
+  auto rule = _rules.insert(id, RuleSPtr(new Rule(id)));
+  return *rule;
+}
+
 MUuidPtr Rules::id(quintptr index) const
 {
   return _settings.childGroups().at(index);

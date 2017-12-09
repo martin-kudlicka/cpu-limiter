@@ -7,6 +7,8 @@
 class Rule
 {
   public:
+    Rule(const MUuidPtr &id);
+
     const RuleOptions &options() const;
 
   private:

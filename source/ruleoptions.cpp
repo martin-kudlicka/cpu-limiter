@@ -18,9 +18,20 @@ RuleOptions::RuleOptions(MUuidPtr &&id) : _id(qMove(id))
   beginGroup(id.toString());
 }
 
+RuleOptions::RuleOptions(const MUuidPtr &id) : _id(id)
+{
+  beginGroup(Rules::Property::Group);
+  beginGroup(id.toString());
+}
+
 const MUuidPtr &RuleOptions::id() const
 {
   return _id;
+}
+
+QString RuleOptions::name() const
+{
+  return value(Property::Name).toString();
 }
 
 void RuleOptions::setSelectedProcess(SelectedProcesses type, quintptr index, const QString &name)
