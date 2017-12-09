@@ -14,12 +14,14 @@ class RuleDialog : public QDialog
              RuleDialog(MUuidPtr &&id, QWidget *parent);
     virtual ~RuleDialog() Q_DECL_OVERRIDE Q_DECL_EQ_DEFAULT;
 
+    const RuleOptions &options() const;
+
   private:
     MWidgetSettings            _widgetSettings;
     RuleOptions                _options;
     Ui::RuleDialog             _ui;
-    SelectedProcessesListModel _conditionProcesses;
-    SelectedProcessesListModel _targetProcesses;
+    SelectedProcessesListModel _conditionProcessesModel;
+    SelectedProcessesListModel _targetProcessesModel;
 
     void setupSettings ();
     void setupWidgets  ();

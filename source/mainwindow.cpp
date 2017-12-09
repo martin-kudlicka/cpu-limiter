@@ -6,7 +6,7 @@ MainWindow::MainWindow()
 {
 	_ui.setupUi(this);
 
-  _ui.rules->setModel(&_ruleModel);
+  _ui.rules->setModel(&_rulesModel);
 }
 
 void MainWindow::on_ruleAdd_clicked(bool checked /* false */)
@@ -18,5 +18,5 @@ void MainWindow::on_ruleAdd_clicked(bool checked /* false */)
     return;
   }
 
-  //ruleModel.insert(ruleDialog.options().id());
+  _rulesModel.insert(ruleDialog.options().id());
 }
