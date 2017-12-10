@@ -94,7 +94,6 @@
     <ClCompile Include="rulesmodel.cpp" />
     <ClCompile Include="ruleoptions.cpp" />
     <ClCompile Include="rules.cpp" />
-    <ClCompile Include="selectedprocesseslistmodel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="mainwindow.h">
@@ -139,7 +138,6 @@
     <ClInclude Include="rule.h" />
     <ClInclude Include="rulesmodel.h" />
     <ClInclude Include="rules.h" />
-    <ClInclude Include="selectedprocesseslistmodel.h" />
     <CustomBuild Include="ruledialog.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing ruledialog.h...</Message>
