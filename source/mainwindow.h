@@ -16,8 +16,12 @@ class MainWindow : public QMainWindow
 	  Ui::MainWindow _ui;
     RulesModel     _rulesModel;
 
+    void setupWidgets();
+
   private slots:
-    void on_ruleAdd_clicked(bool checked = false);
+    void on_ruleAdd_clicked       (bool checked = false);
+    void on_ruleRemove_clicked    (bool checked = false);
+    void on_rules_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected) const;
 };
 
 #endif

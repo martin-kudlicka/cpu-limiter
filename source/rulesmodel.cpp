@@ -7,6 +7,11 @@ void RulesModel::insert(const MUuidPtr &id)
   insertRow(row);
 }
 
+void RulesModel::remove(const QModelIndex &index)
+{
+  removeRow(index.row());
+}
+
 int RulesModel::columnCount(const QModelIndex &parent /* QModelIndex() */) const
 {
   return static_cast<int>(Column::Count);
@@ -67,6 +72,17 @@ bool RulesModel::insertRows(int row, int count, const QModelIndex &parent /* QMo
   beginInsertRows(parent, row, row + count - 1);
   // already added
   endInsertRows();
+
+  return true;
+}
+
+bool RulesModel::removeRows(int row, int count, const QModelIndex &parent /* QModelIndex() */)
+{
+  beginRemoveRows(parent, row, row + count - 1);
+
+  _rules.removeIndex(row);
+
+  endRemoveRows();
 
   return true;
 }
