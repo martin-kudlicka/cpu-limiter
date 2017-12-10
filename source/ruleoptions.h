@@ -33,16 +33,11 @@ class RuleOptions : public MSettings
 
     const MUuidPtr &id                   () const;
           QString   name                 () const;
-          void      removeSelectedProcess(SelectedProcesses type, quintptr index);
-          void      setSelectedProcess   (SelectedProcesses type, quintptr index, const QString &name);
           QString   selectedProcess      (SelectedProcesses type, quintptr index);
           quintptr  selectedProcessesSize(SelectedProcesses type);
 
   private:
     MUuidPtr _id;
-
-    QStringList selectedProcesses   (SelectedProcesses type);
-    void        setSelectedProcesses(SelectedProcesses type, const QStringList &processes);
 };
 
 #endif
