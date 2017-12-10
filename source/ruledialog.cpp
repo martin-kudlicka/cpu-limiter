@@ -6,7 +6,7 @@ RuleDialog::RuleDialog(QWidget *parent) : RuleDialog(MUuidPtr::createUuid(), par
 {
 }
 
-RuleDialog::RuleDialog(MUuidPtr &&id, QWidget *parent) : QDialog(parent), _options(qMove(id)), _widgetSettings(&_options), _conditionProcessesModel(&_options, RuleOptions::SelectedProcesses::Condition), _targetProcessesModel(&_options, RuleOptions::SelectedProcesses::Target)
+RuleDialog::RuleDialog(MUuidPtr &&id, QWidget *parent) : QDialog(parent), _options(qMove(id)), _widgetSettings(&_options)
 {
   _ui.setupUi(this);
 
@@ -19,15 +19,40 @@ const RuleOptions &RuleDialog::options() const
   return _options;
 }
 
+void RuleDialog::addProcess(QStringListModel *model, const QString &process) const
+{
+  auto row = model->rowCount();
+  model->insertRow(row);
+
+  auto index = model->index(row);
+  model->setData(index, process);
+}
+
+void RuleDialog::removeProcesses(QListView *view) const
+{
+  forever
+  {
+    auto selected = view->selectionModel()->selectedRows();
+    if (selected.isEmpty())
+    {
+      break;
+    }
+
+    view->model()->removeRow(selected.first().row());
+  }
+}
+
 void RuleDialog::setupSettings()
 {
   _widgetSettings.setWidget(RuleOptions::Property::Name,    _ui.name);
   _widgetSettings.setWidget(RuleOptions::Property::Enabled, _ui.enabled);
 
-  _widgetSettings.setWidget(RuleOptions::Property::Condition_Status, qMove(QRadioButtonPtrList() << _ui.conditionStatusRunning << _ui.conditionStatusForeground << _ui.conditionStatusBackground << _ui.conditionStatusNotRunning));
+  _widgetSettings.setWidget(RuleOptions::Property::Condition_SelectedProcesses, _ui.conditionSelectedProcessesList);
+  _widgetSettings.setWidget(RuleOptions::Property::Condition_Status,            qMove(QRadioButtonPtrList() << _ui.conditionStatusRunning << _ui.conditionStatusForeground << _ui.conditionStatusBackground << _ui.conditionStatusNotRunning));
 
-  _widgetSettings.setWidget(RuleOptions::Property::Target_Action,   qMove(QRadioButtonPtrList() << _ui.targetActionLimitCPU << _ui.targetActionSuspend));
-  _widgetSettings.setWidget(RuleOptions::Property::Target_CPULimit, _ui.tagetCPULimit);
+  _widgetSettings.setWidget(RuleOptions::Property::Target_SelectedProcesses, _ui.targetSelectedProcessesList);
+  _widgetSettings.setWidget(RuleOptions::Property::Target_Action,            qMove(QRadioButtonPtrList() << _ui.targetActionLimitCPU << _ui.targetActionSuspend));
+  _widgetSettings.setWidget(RuleOptions::Property::Target_CPULimit,         _ui.tagetCPULimit);
 
   _widgetSettings.load();
 }
@@ -65,21 +90,12 @@ void RuleDialog::on_conditionProcessAdd_clicked(bool checked /* false */)
     return;
   }
 
-  _conditionProcessesModel.add(process);
+  addProcess(&_conditionProcessesModel, process);
 }
 
 void RuleDialog::on_conditionProcessRemove_clicked(bool checked /* false */)
 {
-  forever
-  {
-    auto selected = _ui.conditionSelectedProcessesList->selectionModel()->selectedRows();
-    if (selected.isEmpty())
-    {
-      break;
-    }
-
-    _conditionProcessesModel.remove(selected.first().row());
-  }
+  removeProcesses(_ui.conditionSelectedProcessesList);
 }
 
 void RuleDialog::on_conditionSelectedProcessesList_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected) const
@@ -101,21 +117,12 @@ void RuleDialog::on_targetProcessAdd_clicked(bool checked /* false */)
     return;
   }
 
-  _targetProcessesModel.add(process);
+ addProcess(& _targetProcessesModel, process);
 }
 
 void RuleDialog::on_targetProcessRemove_clicked(bool checked /* false */)
 {
-  forever
-  {
-    auto selected = _ui.targetSelectedProcessesList->selectionModel()->selectedRows();
-    if (selected.isEmpty())
-    {
-      break;
-    }
-
-    _targetProcessesModel.remove(selected.first().row());
-  }
+  removeProcesses(_ui.targetSelectedProcessesList);
 }
 
 void RuleDialog::on_targetSelectedProcessesList_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected) const
