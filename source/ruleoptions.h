@@ -20,6 +20,7 @@ class RuleOptions : public MSettings
         static Q_DECL_CONSTEXPR QString Name;
 
         static Q_DECL_CONSTEXPR QString Condition_SelectedProcesses;
+        static Q_DECL_CONSTEXPR QString Condition_State;
         static Q_DECL_CONSTEXPR QString Condition_Status;
 
         static Q_DECL_CONSTEXPR QString Target_Action;
@@ -31,6 +32,7 @@ class RuleOptions : public MSettings
              RuleOptions(const MUuidPtr &id);
     virtual ~RuleOptions() Q_DECL_OVERRIDE Q_DECL_EQ_DEFAULT;
 
+          bool      enabled              () const;
     const MUuidPtr &id                   () const;
           QString   name                 () const;
           QString   selectedProcess      (SelectedProcesses type, quintptr index);

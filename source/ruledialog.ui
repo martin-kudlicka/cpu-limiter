@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>979</width>
-    <height>345</height>
+    <height>390</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -116,36 +116,55 @@
           <property name="title">
            <string>S&amp;tatus</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_2">
-           <item>
+          <layout class="QFormLayout" name="formLayout_4">
+           <item row="0" column="0">
             <widget class="QRadioButton" name="conditionStatusRunning">
              <property name="text">
               <string>&amp;Running</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QRadioButton" name="conditionStatusForeground">
-             <property name="text">
-              <string>&amp;Foreground</string>
              </property>
              <property name="checked">
               <bool>true</bool>
              </property>
             </widget>
            </item>
-           <item>
-            <widget class="QRadioButton" name="conditionStatusBackground">
-             <property name="text">
-              <string>&amp;Background</string>
-             </property>
-            </widget>
-           </item>
-           <item>
+           <item row="3" column="0">
             <widget class="QRadioButton" name="conditionStatusNotRunning">
              <property name="text">
               <string>&amp;Not running</string>
              </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QGroupBox" name="groupBox_5">
+             <property name="title">
+              <string>&amp;State</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_8">
+              <item>
+               <widget class="QRadioButton" name="conditionStateAnyhow">
+                <property name="text">
+                 <string>&amp;Anyhow</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="conditionStateForeground">
+                <property name="text">
+                 <string>&amp;Foreground</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QRadioButton" name="conditionStateBackground">
+                <property name="text">
+                 <string>&amp;Background</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </widget>
            </item>
           </layout>
