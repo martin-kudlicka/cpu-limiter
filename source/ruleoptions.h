@@ -12,6 +12,11 @@ class RuleOptions : public MSettings
       Condition,
       Target
     };
+    enum class Status
+    {
+      Running,
+      NotRunning
+    };
 
     class Property
     {
@@ -38,6 +43,7 @@ class RuleOptions : public MSettings
           QString     selectedProcess      (Section section, quintptr index);
           QStringList selectedProcesses    (Section section);
           quintptr    selectedProcessesSize(Section section);
+          Status      status               () const;
 
   private:
     MUuidPtr _id;

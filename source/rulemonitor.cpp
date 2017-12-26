@@ -52,6 +52,15 @@ bool RuleMonitor::containsRunningProcess(const RuleSPtr &rule, RuleOptions::Sect
 bool RuleMonitor::evaluateConditions(const RuleSPtr &rule) const
 {
   auto hasConditionProcess = containsRunningProcess(rule, RuleOptions::Section::Condition);
-  // TODO
+
+  if (rule->options().status() == RuleOptions::Status::Running && hasConditionProcess)
+  {
+    // TODO
+    return true;
+  }
+  else if (rule->options().status() == RuleOptions::Status::NotRunning && !hasConditionProcess)
+  {
+    return true;
+  }
   return false;
 }
