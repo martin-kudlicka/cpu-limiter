@@ -12,6 +12,11 @@ void RulesModel::remove(const QModelIndex &index)
   removeRow(index.row());
 }
 
+Rules *RulesModel::rules()
+{
+  return &_rules;
+}
+
 int RulesModel::columnCount(const QModelIndex &parent /* QModelIndex() */) const
 {
   return static_cast<int>(Column::Count);

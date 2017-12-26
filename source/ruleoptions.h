@@ -7,7 +7,7 @@
 class RuleOptions : public MSettings
 {
   public:
-    enum class SelectedProcesses
+    enum class Section
     {
       Condition,
       Target
@@ -32,11 +32,12 @@ class RuleOptions : public MSettings
              RuleOptions(const MUuidPtr &id);
     virtual ~RuleOptions() Q_DECL_OVERRIDE Q_DECL_EQ_DEFAULT;
 
-          bool      enabled              () const;
-    const MUuidPtr &id                   () const;
-          QString   name                 () const;
-          QString   selectedProcess      (SelectedProcesses type, quintptr index);
-          quintptr  selectedProcessesSize(SelectedProcesses type);
+          bool        enabled              () const;
+    const MUuidPtr   &id                   () const;
+          QString     name                 () const;
+          QString     selectedProcess      (Section section, quintptr index);
+          QStringList selectedProcesses    (Section section);
+          quintptr    selectedProcessesSize(Section section);
 
   private:
     MUuidPtr _id;

@@ -91,6 +91,7 @@
     <ClCompile Include="mainwindow.cpp" />
     <ClCompile Include="rule.cpp" />
     <ClCompile Include="ruledialog.cpp" />
+    <ClCompile Include="rulemonitor.cpp" />
     <ClCompile Include="rulesmodel.cpp" />
     <ClCompile Include="ruleoptions.cpp" />
     <ClCompile Include="rules.cpp" />
@@ -136,6 +137,7 @@
     <ClInclude Include="..\..\..\intermediate\cpulimter\ui_ruledialog.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="rule.h" />
+    <ClInclude Include="rulemonitor.h" />
     <ClInclude Include="rulesmodel.h" />
     <ClInclude Include="rules.h" />
     <CustomBuild Include="ruledialog.h">

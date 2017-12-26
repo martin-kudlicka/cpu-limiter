@@ -40,44 +40,75 @@ QString RuleOptions::name() const
   return value(Property::Name).toString();
 }
 
-QString RuleOptions::selectedProcess(SelectedProcesses type, quintptr index)
+QString RuleOptions::selectedProcess(Section section, quintptr index)
 {
-  switch (type)
+  switch (section)
   {
-    case SelectedProcesses::Condition:
+    case Section::Condition:
       beginReadArray(Property::Condition_SelectedProcesses);
       break;
-    case SelectedProcesses::Target:
+    case Section::Target:
       beginReadArray(Property::Target_SelectedProcesses);
       break;
     default:
-      Q_ASSERT_X(false, "RuleOptions::selectedProcess", "switch (type)");
+      Q_ASSERT_X(false, "RuleOptions::selectedProcess", "switch (section)");
       return QString();
   }
 
   setArrayIndex(index);
 
-  auto name = value("name").toString();
+  auto name = value("value").toString();
 
   endArray();
 
   return name;
 }
 
-quintptr RuleOptions::selectedProcessesSize(SelectedProcesses type)
+QStringList RuleOptions::selectedProcesses(Section section)
 {
-  quintptr size;
+  QStringList names;
 
-  switch (type)
+  quintptr size;
+  switch (section)
   {
-    case SelectedProcesses::Condition:
+    case Section::Condition:
       size = beginReadArray(Property::Condition_SelectedProcesses);
       break;
-    case SelectedProcesses::Target:
+    case Section::Target:
       size = beginReadArray(Property::Target_SelectedProcesses);
       break;
     default:
-      Q_ASSERT_X(false, "RuleOptions::selectedProcessesSize", "switch (type)");
+      Q_ASSERT_X(false, "RuleOptions::selectedProcesses", "switch (section)");
+      return names;
+  }
+
+  for (auto index = 0; index < size; index++)
+  {
+    setArrayIndex(index);
+
+    auto name = value("value").toString();
+    names.append(qMove(name));
+  }
+
+  endArray();
+
+  return names;
+}
+
+quintptr RuleOptions::selectedProcessesSize(Section section)
+{
+  quintptr size;
+
+  switch (section)
+  {
+    case Section::Condition:
+      size = beginReadArray(Property::Condition_SelectedProcesses);
+      break;
+    case Section::Target:
+      size = beginReadArray(Property::Target_SelectedProcesses);
+      break;
+    default:
+      Q_ASSERT_X(false, "RuleOptions::selectedProcessesSize", "switch (section)");
       return 0;
   }
 
