@@ -117,6 +117,11 @@ quintptr RuleOptions::selectedProcessesSize(Section section)
   return size;
 }
 
+RuleOptions::State RuleOptions::state() const
+{
+  return static_cast<State>(value(Property::Condition_State).toUInt());
+}
+
 RuleOptions::Status RuleOptions::status() const
 {
   return static_cast<Status>(value(Property::Condition_Status).toUInt());

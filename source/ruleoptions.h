@@ -12,6 +12,12 @@ class RuleOptions : public MSettings
       Condition,
       Target
     };
+    enum class State
+    {
+      Anyhow,
+      Foreground,
+      Background
+    };
     enum class Status
     {
       Running,
@@ -43,6 +49,7 @@ class RuleOptions : public MSettings
           QString     selectedProcess      (Section section, quintptr index);
           QStringList selectedProcesses    (Section section);
           quintptr    selectedProcessesSize(Section section);
+          State       state                () const;
           Status      status               () const;
 
   private:
