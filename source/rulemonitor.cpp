@@ -18,11 +18,11 @@ RuleMonitor::RuleMonitor(Rules *rules) : _rules(rules)
   }
 }
 
-bool RuleMonitor::containsRunningProcess(const RuleSPtr &rule, RuleOptions::Section section) const
+bool RuleMonitor::containsRunningProcess(const QStringList &selectedProcesses, RuleOptions::State state) const
 {
-  auto processesInfo = MProcesses::enumerate();
+  auto processesInfo     = MProcesses::enumerate();
+  auto foregroundProcess = MProcessInfo(GetForegroundWindow());
 
-  auto selectedProcesses = rule->options().selectedProcesses(section);
   for (const auto &selectedProcess : selectedProcesses)
   {
     auto pattern = selectedProcess;
@@ -41,7 +41,26 @@ bool RuleMonitor::containsRunningProcess(const RuleSPtr &rule, RuleOptions::Sect
       QRegExp regExp(QDir::fromNativeSeparators(pattern), Qt::CaseInsensitive, QRegExp::Wildcard);
       if (regExp.exactMatch(QDir::fromNativeSeparators(processInfo.filePath())))
       {
-        return true;
+        switch (state)
+        {
+          case RuleOptions::State::Anyhow:
+            return true;
+          case RuleOptions::State::Foreground:
+            if (processInfo == foregroundProcess)
+            {
+              return true;
+            }
+            break;
+          case RuleOptions::State::Background:
+            if (processInfo != foregroundProcess)
+            {
+              return true;
+            }
+            break;
+          default:
+            Q_ASSERT_X(false, "RuleMonitor::containsRunningProcess", "switch (state)");
+            continue;
+        }
       }
     }
   }
@@ -51,7 +70,7 @@ bool RuleMonitor::containsRunningProcess(const RuleSPtr &rule, RuleOptions::Sect
 
 bool RuleMonitor::evaluateConditions(const RuleSPtr &rule) const
 {
-  auto hasConditionProcess = containsRunningProcess(rule, RuleOptions::Section::Condition);
+  auto hasConditionProcess = containsRunningProcess(rule->options().selectedProcesses(RuleOptions::Section::Condition), rule->options().state());
 
   if (rule->options().status() == RuleOptions::Status::Running && hasConditionProcess)
   {

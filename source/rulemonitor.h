@@ -13,8 +13,8 @@ class RuleMonitor
   private:
     Rules *_rules;
 
-    bool containsRunningProcess(const RuleSPtr &rule, RuleOptions::Section section) const;
-    bool evaluateConditions    (const RuleSPtr &rule)                               const;
+    bool containsRunningProcess(const QStringList &selectedProcesses, RuleOptions::State state) const;
+    bool evaluateConditions    (const RuleSPtr &rule)                                           const;
 };
 
 #endif
