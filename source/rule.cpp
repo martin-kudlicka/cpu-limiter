@@ -4,7 +4,13 @@ Rule::Rule(const MUuidPtr &id) : _options(id)
 {
 }
 
-const RuleOptions &Rule::options() const
+bool Rule::active() const
+{
+  // TODO
+  return false;
+}
+
+RuleOptions &Rule::options()
 {
   return _options;
 }

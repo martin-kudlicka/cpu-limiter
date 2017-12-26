@@ -9,7 +9,8 @@ class Rule
   public:
     Rule(const MUuidPtr &id);
 
-    const RuleOptions &options() const;
+    bool         active () const;
+    RuleOptions &options();
 
   private:
     RuleOptions _options;

@@ -2,7 +2,7 @@
 
 #include "ruledialog.h"
 
-MainWindow::MainWindow()
+MainWindow::MainWindow() : _ruleMonitor(_rulesModel.rules())
 {
 	_ui.setupUi(this);
 

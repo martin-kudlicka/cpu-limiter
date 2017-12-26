@@ -3,6 +3,7 @@
 
 #include "ui_mainwindow.h"
 #include "rulesmodel.h"
+#include "rulemonitor.h"
 
 class MainWindow : public QMainWindow
 {
@@ -15,6 +16,7 @@ class MainWindow : public QMainWindow
   private:
 	  Ui::MainWindow _ui;
     RulesModel     _rulesModel;
+    RuleMonitor    _ruleMonitor;
 
     void setupWidgets();
 
