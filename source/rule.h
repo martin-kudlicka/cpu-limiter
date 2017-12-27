@@ -9,13 +9,17 @@ class Rule
   public:
     Rule(const MUuidPtr &id);
 
-    bool         active () const;
-    RuleOptions &options();
+    bool         active       () const;
+    bool         conditionsMet();
+    RuleOptions &options      ();
 
   private:
     RuleOptions _options;
+
+    bool conditionProcessRunning();
 };
 
-using RuleSPtr = QSharedPointer<Rule>;
+using RuleSPtr     = QSharedPointer<Rule>;
+using RulesPtrList = QList<RuleSPtr>;
 
 #endif
