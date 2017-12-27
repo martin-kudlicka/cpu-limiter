@@ -12,6 +12,11 @@ bool Rules::empty() const
   return size() == 0;
 }
 
+const RulesPtrList Rules::get() const
+{
+  return _rules.values();
+}
+
 const RuleSPtr &Rules::get(const MUuidPtr &id)
 {
   if (_rules.contains(id))
