@@ -5,7 +5,7 @@
 
 MLazySingleton<MGovernor> Rule::_governor;
 
-Rule::Rule(const MUuidPtr &id) : _options(id), _active(false), _opId(-1)
+Rule::Rule(const MUuidPtr &id) : _options(id), _active(false), _opId(MGovernor::OPERATION_ID_INVALID)
 {
 }
 
@@ -114,7 +114,7 @@ void Rule::restrictSelectedProcesses()
       QRegExp regExp(QDir::fromNativeSeparators(pattern), Qt::CaseInsensitive, QRegExp::Wildcard);
       if (regExp.exactMatch(QDir::fromNativeSeparators(processInfo.filePath())))
       {
-        if (_opId == -1)
+        if (_opId == MGovernor::OPERATION_ID_INVALID)
         {
           _opId = _governor->setCpuRate(processInfo.id(), _options.cpuLimit());
         }
