@@ -120,7 +120,7 @@ void Rule::restrictSelectedProcesses()
         }
         else
         {
-          // TODO
+          _governor->addCpuRate(_opId, processInfo.id());
         }
       }
     }
