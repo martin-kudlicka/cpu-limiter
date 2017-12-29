@@ -43,6 +43,7 @@ class RuleOptions : public MSettings
              RuleOptions(const MUuidPtr &id);
     virtual ~RuleOptions() Q_DECL_OVERRIDE Q_DECL_EQ_DEFAULT;
 
+          quintptr    cpuLimit             () const;
           bool        enabled              () const;
     const MUuidPtr   &id                   () const;
           QString     name                 () const;

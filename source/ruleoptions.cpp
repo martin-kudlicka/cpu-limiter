@@ -25,6 +25,11 @@ RuleOptions::RuleOptions(const MUuidPtr &id) : _id(id)
   beginGroup(id.toString());
 }
 
+quintptr RuleOptions::cpuLimit() const
+{
+  return value(Property::Target_CPULimit).toUInt();
+}
+
 bool RuleOptions::enabled() const
 {
   return value(Property::Enabled).toBool();
