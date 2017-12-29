@@ -16,7 +16,7 @@ class Rules
     Rules();
 
           bool         empty      ()                   const;
-    const RulesPtrList get        ()                   const;
+    const RulesPtrList get        ();
     const RuleSPtr    &get        (const MUuidPtr &id);
           MUuidPtr     id         (quintptr index)     const;
           quintptr     index      (const MUuidPtr &id) const;
