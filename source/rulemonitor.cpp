@@ -9,7 +9,10 @@ RuleMonitor::RuleMonitor(Rules *rules) : _rules(rules)
     if (rule->options().enabled())
     {
       auto ok = rule->conditionsMet();
-      // TODO
+      if (ok)
+      {
+        rule->activate();
+      }
     }
   }
 }

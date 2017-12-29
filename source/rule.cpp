@@ -3,14 +3,22 @@
 #include <MkCore/MProcesses>
 #include <QtCore/QDir>
 
-Rule::Rule(const MUuidPtr &id) : _options(id)
+MLazySingleton<MGovernor> Rule::_governor;
+
+Rule::Rule(const MUuidPtr &id) : _options(id), _active(false), _opId(-1)
 {
+}
+
+void Rule::activate()
+{
+  restrictSelectedProcesses();
+
+  _active = true;
 }
 
 bool Rule::active() const
 {
-  // TODO
-  return false;
+  return _active;
 }
 
 bool Rule::conditionsMet()
@@ -25,6 +33,7 @@ bool Rule::conditionsMet()
   {
     return true;
   }
+
   return false;
 }
 
@@ -81,4 +90,39 @@ bool Rule::conditionProcessRunning()
   }
 
   return false;
+}
+
+void Rule::restrictSelectedProcesses()
+{
+  auto processesInfo = MProcesses::enumerate();
+
+  for (const auto &selectedProcess : _options.selectedProcesses(RuleOptions::Section::Target))
+  {
+    auto pattern = selectedProcess;
+    if (!pattern.contains(QDir::separator()))
+    {
+      pattern.prepend('*' + QDir::separator());
+    }
+
+    for (const auto &processInfo : processesInfo)
+    {
+      if (processInfo.filePath().isEmpty())
+      {
+        continue;
+      }
+
+      QRegExp regExp(QDir::fromNativeSeparators(pattern), Qt::CaseInsensitive, QRegExp::Wildcard);
+      if (regExp.exactMatch(QDir::fromNativeSeparators(processInfo.filePath())))
+      {
+        if (_opId == -1)
+        {
+          _opId = _governor->setCpuRate(processInfo.id(), _options.cpuLimit());
+        }
+        else
+        {
+          // TODO
+        }
+      }
+    }
+  }
 }
