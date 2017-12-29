@@ -12,8 +12,16 @@ bool Rules::empty() const
   return size() == 0;
 }
 
-const RulesPtrList Rules::get() const
+const RulesPtrList Rules::get()
 {
+  if (_rules.size() != size())
+  {
+    for (auto index2 = 0; index2 < size(); index2++)
+    {
+      get(id(index2));
+    }
+  }
+
   return _rules.values();
 }
 
