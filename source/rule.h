@@ -3,15 +3,15 @@
 
 #include <QtCore/QSharedPointer>
 #include "ruleoptions.h"
-#include <MkCore/MLazySingleton>
-#include <MkProcessGovernor/MGovernor>
+
+class MGovernor;
 
 class Rule
 {
   public:
     Rule(const MUuidPtr &id);
 
-    void         activate     ();
+    void         activate     (MGovernor *governor);
     bool         active       () const;
     bool         conditionsMet();
     RuleOptions &options      ();
@@ -21,10 +21,8 @@ class Rule
     quintptr    _opId;
     RuleOptions _options;
 
-    static MLazySingleton<MGovernor> _governor;
-
     bool conditionProcessRunning  ();
-    void restrictSelectedProcesses();
+    void restrictSelectedProcesses(MGovernor *governor);
 };
 
 using RuleSPtr     = QSharedPointer<Rule>;

@@ -3,15 +3,15 @@
 #include <MkCore/MProcesses>
 #include <QtCore/QDir>
 
-MLazySingleton<MGovernor> Rule::_governor;
+#include <MkProcessGovernor/MGovernor>
 
 Rule::Rule(const MUuidPtr &id) : _options(id), _active(false), _opId(MGovernor::OPERATION_ID_INVALID)
 {
 }
 
-void Rule::activate()
+void Rule::activate(MGovernor *governor)
 {
-  restrictSelectedProcesses();
+  restrictSelectedProcesses(governor);
 
   _active = true;
 }
@@ -92,7 +92,7 @@ bool Rule::conditionProcessRunning()
   return false;
 }
 
-void Rule::restrictSelectedProcesses()
+void Rule::restrictSelectedProcesses(MGovernor *governor)
 {
   auto processesInfo = MProcesses::enumerate();
 
@@ -116,11 +116,11 @@ void Rule::restrictSelectedProcesses()
       {
         if (_opId == MGovernor::OPERATION_ID_INVALID)
         {
-          _opId = _governor->setCpuRate(processInfo.id(), _options.cpuLimit());
+          _opId = governor->setCpuRate(processInfo.id(), _options.cpuLimit());
         }
         else
         {
-          _governor->addCpuRate(_opId, processInfo.id());
+          governor->addCpuRate(_opId, processInfo.id());
         }
       }
     }

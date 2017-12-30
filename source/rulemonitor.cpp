@@ -11,7 +11,7 @@ RuleMonitor::RuleMonitor(Rules *rules) : _rules(rules)
       auto ok = rule->conditionsMet();
       if (ok)
       {
-        rule->activate();
+        rule->activate(&_governor);
       }
     }
   }
