@@ -1,6 +1,8 @@
 #ifndef RULEMONITOR_H
 #define RULEMONITOR_H
 
+#include <MkProcessGovernor/MGovernor>
+
 class Rules;
 
 class RuleMonitor
@@ -9,7 +11,8 @@ class RuleMonitor
     RuleMonitor(Rules *rules);
 
   private:
-    Rules *_rules;
+    MGovernor _governor;
+    Rules    *_rules;
 };
 
 #endif
