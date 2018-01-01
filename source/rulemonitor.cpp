@@ -5,11 +5,13 @@
 
 RuleMonitor::RuleMonitor(Rules *rules) : _rules(rules)
 {
+  auto foregroundProcess = MProcessInfo(GetForegroundWindow());
+
   for (const auto &rule : rules->get())
   {
     if (rule->options().enabled())
     {
-      auto ok = rule->conditionsMet();
+      auto ok = rule->conditionsMet(foregroundProcess);
       if (ok)
       {
         rule->activate(&_governor);
@@ -28,8 +30,46 @@ void RuleMonitor::on_processNotifier_ended(DWORD id)
 
 void RuleMonitor::on_processNotifier_started(const MProcessInfo &processInfo)
 {
+  auto foregroundProcess = MProcessInfo(GetForegroundWindow());
+
   for (const auto &rule : _rules->get())
   {
-    // TODO
+    if (rule->active() && rule->options().status() == RuleOptions::Status::Running)
+    {
+      continue;
+    }
+
+    auto conditionsMet = false;
+    switch (rule->options().status())
+    {
+      case RuleOptions::Status::Running:
+        conditionsMet = rule->conditionsMet(processInfo, foregroundProcess);
+        break;
+      case RuleOptions::Status::NotRunning:
+        conditionsMet = rule->conditionsMet(foregroundProcess);
+        break;
+      default:
+        Q_ASSERT_X(false, "RuleMonitor::on_processNotifier_started", "RuleMonitor::on_processNotifier_started");
+        continue;
+    }
+
+    if (conditionsMet)
+    {
+      if (rule->active())
+      {
+        // TODO check new process restriction;
+      }
+      else
+      {
+        rule->activate(&_governor);
+      }
+    }
+    else
+    {
+      if (rule->active())
+      {
+        // TODO rule->activatede(&_governor);
+      }
+    }
   }
 }

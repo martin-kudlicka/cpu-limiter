@@ -12,7 +12,7 @@ bool Rules::empty() const
   return size() == 0;
 }
 
-const RulesPtrList Rules::get()
+const RuleSPtrList Rules::get()
 {
   if (_rules.size() != size())
   {
