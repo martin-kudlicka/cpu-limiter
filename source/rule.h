@@ -5,6 +5,7 @@
 #include "ruleoptions.h"
 
 class MGovernor;
+class MProcessInfo;
 
 class Rule
 {
@@ -13,7 +14,8 @@ class Rule
 
     void         activate     (MGovernor *governor);
     bool         active       () const;
-    bool         conditionsMet();
+    bool         conditionsMet(const MProcessInfo &foregroundProcess);
+    bool         conditionsMet(const MProcessInfo &runningProcess, const MProcessInfo &foregroundProcess);
     RuleOptions &options      ();
 
   private:
@@ -21,11 +23,11 @@ class Rule
     quintptr    _opId;
     RuleOptions _options;
 
-    bool conditionProcessRunning  ();
+    bool conditionsMet            (const QString &selectedProcess, const MProcessInfo &runningProcess, const MProcessInfo &foregroundProcess);
     void restrictSelectedProcesses(MGovernor *governor);
 };
 
 using RuleSPtr     = QSharedPointer<Rule>;
-using RulesPtrList = QList<RuleSPtr>;
+using RuleSPtrList = QList<RuleSPtr>;
 
 #endif
