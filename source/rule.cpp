@@ -23,27 +23,6 @@ bool Rule::active() const
 
 bool Rule::conditionsMet()
 {
-  auto hasConditionProcess = conditionProcessRunning();
-
-  if (_options.status() == RuleOptions::Status::Running && hasConditionProcess)
-  {
-    return true;
-  }
-  else if (_options.status() == RuleOptions::Status::NotRunning && !hasConditionProcess)
-  {
-    return true;
-  }
-
-  return false;
-}
-
-RuleOptions &Rule::options()
-{
-  return _options;
-}
-
-bool Rule::conditionProcessRunning()
-{
   auto processesInfo     = MProcesses::enumerate();
   auto foregroundProcess = MProcessInfo(GetForegroundWindow());
 
@@ -65,31 +44,46 @@ bool Rule::conditionProcessRunning()
       QRegExp regExp(QDir::fromNativeSeparators(pattern), Qt::CaseInsensitive, QRegExp::Wildcard);
       if (regExp.exactMatch(QDir::fromNativeSeparators(processInfo.filePath())))
       {
-        switch (_options.state())
+        if (_options.status() == RuleOptions::Status::Running)
         {
-          case RuleOptions::State::Anyhow:
-            return true;
-          case RuleOptions::State::Foreground:
-            if (processInfo == foregroundProcess)
-            {
+          switch (_options.state())
+          {
+            case RuleOptions::State::Anyhow:
               return true;
-            }
-            break;
-          case RuleOptions::State::Background:
-            if (processInfo != foregroundProcess)
-            {
-              return true;
-            }
-            break;
-          default:
-            Q_ASSERT_X(false, "Rule::conditionProcessRunning", "switch (_options.state())");
-            continue;
+            case RuleOptions::State::Foreground:
+              if (processInfo == foregroundProcess)
+              {
+                return true;
+              }
+              break;
+            case RuleOptions::State::Background:
+              if (processInfo != foregroundProcess)
+              {
+                return true;
+              }
+              break;
+            default:
+              Q_ASSERT_X(false, "Rule::conditionProcessRunning", "switch (_options.state())");
+              continue;
+          }
+        }
+      }
+      else
+      {
+        if (_options.status() == RuleOptions::Status::NotRunning)
+        {
+          return true;
         }
       }
     }
   }
 
   return false;
+}
+
+RuleOptions &Rule::options()
+{
+  return _options;
 }
 
 void Rule::restrictSelectedProcesses(MGovernor *governor)
