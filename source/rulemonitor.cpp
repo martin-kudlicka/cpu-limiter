@@ -44,48 +44,42 @@ void RuleMonitor::on_processNotifier_started(const MProcessInfo &processInfo)
 
   for (const auto &rule : _rules->get())
   {
-    if (!rule->active() && rule->options().status() == RuleOptions::Status::NotRunning)
+    switch (rule->options().status())
     {
-      continue;
-    }
-
-    auto conditionsMet = rule->active() && rule->options().status() == RuleOptions::Status::Running;
-    if (!conditionsMet)
-    {
-      switch (rule->options().status())
-      {
-        case RuleOptions::Status::Running:
-          conditionsMet = rule->conditionsMet(processInfo, foregroundProcess);
-          break;
-        case RuleOptions::Status::NotRunning:
-          conditionsMet = rule->conditionsMet(foregroundProcess);
-          break;
-        default:
-          Q_ASSERT_X(false, "RuleMonitor::on_processNotifier_started", "RuleMonitor::on_processNotifier_started");
-          continue;
-      }
-    }
-
-    if (conditionsMet)
-    {
-      if (rule->active())
-      {
-        if (rule->isTargetProcess(processInfo))
+      case RuleOptions::Status::Running:
+        if (rule->active())
         {
-          rule->restrictProcess(&_governor, processInfo);
+          if (rule->isTargetProcess(processInfo))
+          {
+            rule->restrictProcess(&_governor, processInfo);
+          }
         }
-      }
-      else
-      {
-        rule->activate(&_governor);
-      }
-    }
-    else
-    {
-      if (rule->active())
-      {
-        rule->deactivate(&_governor);
-      }
+        else
+        {
+          auto conditionsMet = rule->conditionsMet(processInfo, foregroundProcess);
+          if (conditionsMet)
+          {
+            rule->activate(&_governor);
+          }
+        }
+        break;
+      case RuleOptions::Status::NotRunning:
+        if (rule->active())
+        {
+          auto conditionsMet = rule->conditionsMet(foregroundProcess);
+          if (!conditionsMet)
+          {
+            rule->deactivate(&_governor);
+          }
+        }
+        else
+        {
+          continue;
+        }
+        break;
+      default:
+        Q_ASSERT_X(false, "RuleMonitor::on_processNotifier_started", "RuleMonitor::on_processNotifier_started");
+        continue;
     }
   }
 }
