@@ -25,7 +25,17 @@ RuleMonitor::RuleMonitor(Rules *rules) : _rules(rules)
 
 void RuleMonitor::on_processNotifier_ended(DWORD id)
 {
-  // TODO
+  auto foregroundProcess = MProcessInfo(GetForegroundWindow());
+
+  for (const auto &rule : _rules->get())
+  {
+    if ((rule->active() && rule->options().status() == RuleOptions::Status::NotRunning) || (!rule->active() && rule->options().status() == RuleOptions::Status::Running))
+    {
+      continue;
+    }
+
+    // TODO
+  }
 }
 
 void RuleMonitor::on_processNotifier_started(const MProcessInfo &processInfo)
@@ -34,6 +44,11 @@ void RuleMonitor::on_processNotifier_started(const MProcessInfo &processInfo)
 
   for (const auto &rule : _rules->get())
   {
+    if (!rule->active() && rule->options().status() == RuleOptions::Status::NotRunning)
+    {
+      continue;
+    }
+
     auto conditionsMet = rule->active() && rule->options().status() == RuleOptions::Status::Running;
     if (!conditionsMet)
     {
