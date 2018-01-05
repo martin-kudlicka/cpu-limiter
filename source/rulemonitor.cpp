@@ -36,6 +36,7 @@ void RuleMonitor::on_processNotifier_started(const MProcessInfo &processInfo)
   {
     if (rule->active() && rule->options().status() == RuleOptions::Status::Running)
     {
+      // TODO check new process restriction
       continue;
     }
 
@@ -57,7 +58,7 @@ void RuleMonitor::on_processNotifier_started(const MProcessInfo &processInfo)
     {
       if (rule->active())
       {
-        // TODO check new process restriction;
+        // TODO check new process restriction
       }
       else
       {
@@ -68,7 +69,7 @@ void RuleMonitor::on_processNotifier_started(const MProcessInfo &processInfo)
     {
       if (rule->active())
       {
-        // TODO rule->activatede(&_governor);
+        rule->deactivate(&_governor);
       }
     }
   }
