@@ -51,6 +51,12 @@ bool Rule::conditionsMet(const MProcessInfo &runningProcess, const MProcessInfo 
   return false;
 }
 
+void Rule::deactivate(MGovernor *governor)
+{
+  governor->revert(_opId);
+  _opId = MGovernor::OPERATION_ID_INVALID;
+}
+
 RuleOptions &Rule::options()
 {
   return _options;
@@ -133,7 +139,7 @@ void Rule::restrictSelectedProcesses(MGovernor *governor)
         }
         else
         {
-          governor->addCpuRate(_opId, processInfo.id());
+          governor->addCpuRate(_opId, processInfo.id(), _options.cpuLimit());
         }
       }
     }
