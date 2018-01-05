@@ -12,12 +12,14 @@ class Rule
   public:
     Rule(const MUuidPtr &id);
 
-    void         activate     (MGovernor *governor);
-    bool         active       () const;
-    bool         conditionsMet(const MProcessInfo &foregroundProcess);
-    bool         conditionsMet(const MProcessInfo &runningProcess, const MProcessInfo &foregroundProcess);
-    void         deactivate   (MGovernor *governor);
-    RuleOptions &options      ();
+    void         activate       (MGovernor *governor);
+    bool         active         () const;
+    bool         conditionsMet  (const MProcessInfo &foregroundProcess);
+    bool         conditionsMet  (const MProcessInfo &runningProcess, const MProcessInfo &foregroundProcess);
+    void         deactivate     (MGovernor *governor);
+    bool         isTargetProcess(const MProcessInfo &runningProcess);
+    RuleOptions &options        ();
+    void         restrictProcess(MGovernor *governor, const MProcessInfo &runningProcess);
 
   private:
     bool        _active;
