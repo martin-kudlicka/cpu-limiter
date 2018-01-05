@@ -29,12 +29,40 @@ void RuleMonitor::on_processNotifier_ended(DWORD id)
 
   for (const auto &rule : _rules->get())
   {
-    if ((rule->active() && rule->options().status() == RuleOptions::Status::NotRunning) || (!rule->active() && rule->options().status() == RuleOptions::Status::Running))
+    switch (rule->options().status())
     {
-      continue;
+      case RuleOptions::Status::Running:
+        if (rule->active())
+        {
+          auto conditionsMet = rule->conditionsMet(foregroundProcess);
+          if (!conditionsMet)
+          {
+            rule->deactivate(&_governor);
+          }
+        }
+        else
+        {
+          continue;
+        }
+        break;
+      case RuleOptions::Status::NotRunning:
+        if (rule->active())
+        {
+          continue;
+        }
+        else
+        {
+          auto conditionsMet = rule->conditionsMet(foregroundProcess);
+          if (conditionsMet)
+          {
+            rule->activate(&_governor);
+          }
+        }
+        break;
+      default:
+        Q_ASSERT_X(false, "RuleMonitor::on_processNotifier_ended", "switch (rule->options().status())");
+        continue;
     }
-
-    // TODO
   }
 }
 
@@ -78,7 +106,7 @@ void RuleMonitor::on_processNotifier_started(const MProcessInfo &processInfo)
         }
         break;
       default:
-        Q_ASSERT_X(false, "RuleMonitor::on_processNotifier_started", "RuleMonitor::on_processNotifier_started");
+        Q_ASSERT_X(false, "RuleMonitor::on_processNotifier_started", "switch (rule->options().status())");
         continue;
     }
   }
