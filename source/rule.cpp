@@ -57,9 +57,46 @@ void Rule::deactivate(MGovernor *governor)
   _opId = MGovernor::OPERATION_ID_INVALID;
 }
 
+bool Rule::isTargetProcess(const MProcessInfo &runningProcess)
+{
+  if (runningProcess.filePath().isEmpty())
+  {
+    return false;
+  }
+
+  for (const auto &selectedProcess : _options.selectedProcesses(RuleOptions::Section::Target))
+  {
+    auto pattern = selectedProcess;
+    if (!pattern.contains(QDir::separator()))
+    {
+      pattern.prepend('*' + QDir::separator());
+    }
+
+    QRegExp regExp(QDir::fromNativeSeparators(pattern), Qt::CaseInsensitive, QRegExp::Wildcard);
+    if (regExp.exactMatch(QDir::fromNativeSeparators(runningProcess.filePath())))
+    {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 RuleOptions &Rule::options()
 {
   return _options;
+}
+
+void Rule::restrictProcess(MGovernor *governor, const MProcessInfo &runningProcess)
+{
+  if (_opId == MGovernor::OPERATION_ID_INVALID)
+  {
+    _opId = governor->setCpuRate(runningProcess.id(), _options.cpuLimit());
+  }
+  else
+  {
+    governor->addCpuRate(_opId, runningProcess.id(), _options.cpuLimit());
+  }
 }
 
 bool Rule::conditionsMet(const QString &selectedProcess, const MProcessInfo &runningProcess, const MProcessInfo &foregroundProcess)
@@ -115,33 +152,11 @@ void Rule::restrictSelectedProcesses(MGovernor *governor)
 {
   auto processesInfo = MProcesses::enumerate();
 
-  for (const auto &selectedProcess : _options.selectedProcesses(RuleOptions::Section::Target))
+  for (const auto &processInfo : processesInfo)
   {
-    auto pattern = selectedProcess;
-    if (!pattern.contains(QDir::separator()))
+    if (isTargetProcess(processInfo))
     {
-      pattern.prepend('*' + QDir::separator());
-    }
-
-    for (const auto &processInfo : processesInfo)
-    {
-      if (processInfo.filePath().isEmpty())
-      {
-        continue;
-      }
-
-      QRegExp regExp(QDir::fromNativeSeparators(pattern), Qt::CaseInsensitive, QRegExp::Wildcard);
-      if (regExp.exactMatch(QDir::fromNativeSeparators(processInfo.filePath())))
-      {
-        if (_opId == MGovernor::OPERATION_ID_INVALID)
-        {
-          _opId = governor->setCpuRate(processInfo.id(), _options.cpuLimit());
-        }
-        else
-        {
-          governor->addCpuRate(_opId, processInfo.id(), _options.cpuLimit());
-        }
-      }
+      restrictProcess(governor, processInfo);
     }
   }
 }
