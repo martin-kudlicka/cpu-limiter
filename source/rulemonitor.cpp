@@ -34,31 +34,31 @@ void RuleMonitor::on_processNotifier_started(const MProcessInfo &processInfo)
 
   for (const auto &rule : _rules->get())
   {
-    if (rule->active() && rule->options().status() == RuleOptions::Status::Running)
+    auto conditionsMet = rule->active() && rule->options().status() == RuleOptions::Status::Running;
+    if (!conditionsMet)
     {
-      // TODO check new process restriction
-      continue;
-    }
-
-    auto conditionsMet = false;
-    switch (rule->options().status())
-    {
-      case RuleOptions::Status::Running:
-        conditionsMet = rule->conditionsMet(processInfo, foregroundProcess);
-        break;
-      case RuleOptions::Status::NotRunning:
-        conditionsMet = rule->conditionsMet(foregroundProcess);
-        break;
-      default:
-        Q_ASSERT_X(false, "RuleMonitor::on_processNotifier_started", "RuleMonitor::on_processNotifier_started");
-        continue;
+      switch (rule->options().status())
+      {
+        case RuleOptions::Status::Running:
+          conditionsMet = rule->conditionsMet(processInfo, foregroundProcess);
+          break;
+        case RuleOptions::Status::NotRunning:
+          conditionsMet = rule->conditionsMet(foregroundProcess);
+          break;
+        default:
+          Q_ASSERT_X(false, "RuleMonitor::on_processNotifier_started", "RuleMonitor::on_processNotifier_started");
+          continue;
+      }
     }
 
     if (conditionsMet)
     {
       if (rule->active())
       {
-        // TODO check new process restriction
+        if (rule->isTargetProcess(processInfo))
+        {
+          rule->restrictProcess(&_governor, processInfo);
+        }
       }
       else
       {
