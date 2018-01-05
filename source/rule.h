@@ -16,6 +16,7 @@ class Rule
     bool         active       () const;
     bool         conditionsMet(const MProcessInfo &foregroundProcess);
     bool         conditionsMet(const MProcessInfo &runningProcess, const MProcessInfo &foregroundProcess);
+    void         deactivate   (MGovernor *governor);
     RuleOptions &options      ();
 
   private:
