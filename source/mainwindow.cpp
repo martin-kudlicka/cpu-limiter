@@ -24,6 +24,13 @@ void MainWindow::on_ruleAdd_clicked(bool checked /* false */)
   }
 
   _rulesModel.insert(ruleDialog.options().id());
+
+  auto foregroundProcess = MProcessInfo(GetForegroundWindow());
+  auto rule = _rulesModel.rules()->get(ruleDialog.options().id());
+  if (rule->conditionsMet(foregroundProcess))
+  {
+    rule->activate(_ruleMonitor.governor());
+  }
 }
 
 void MainWindow::on_ruleRemove_clicked(bool checked /* false */)
