@@ -55,6 +55,8 @@ void Rule::deactivate(MGovernor *governor)
 {
   governor->revert(_opId);
   _opId = MGovernor::OPERATION_ID_INVALID;
+
+  _active = false;
 }
 
 bool Rule::isTargetProcess(const MProcessInfo &runningProcess)
