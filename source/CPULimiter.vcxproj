@@ -93,6 +93,7 @@
     <ClCompile Include="..\..\..\intermediate\cpulimter\Release\moc_rulemonitor.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="log.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
     <ClCompile Include="rule.cpp" />
@@ -141,6 +142,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\intermediate\cpulimter\ui_mainwindow.h" />
     <ClInclude Include="..\..\..\intermediate\cpulimter\ui_ruledialog.h" />
+    <ClInclude Include="log.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="rule.h" />
     <CustomBuild Include="rulemonitor.h">
