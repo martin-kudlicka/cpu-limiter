@@ -28,6 +28,11 @@ RuleMonitor::RuleMonitor(Rules *rules) : _rules(rules)
   connect(&_winEventNotifier, &MWinEventNotifier::notify, this, &RuleMonitor::on_winEventNotifier_notify);
 }
 
+MGovernor *RuleMonitor::governor()
+{
+  return &_governor;
+}
+
 void RuleMonitor::on_processNotifier_ended(DWORD id)
 {
   auto foregroundProcess = MProcessInfo(GetForegroundWindow());

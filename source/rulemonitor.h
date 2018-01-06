@@ -13,6 +13,8 @@ class RuleMonitor : public QObject
   public:
     RuleMonitor(Rules *rules);
 
+    MGovernor *governor();
+
   private:
     MGovernor         _governor;
     MWinEventNotifier _winEventNotifier;
