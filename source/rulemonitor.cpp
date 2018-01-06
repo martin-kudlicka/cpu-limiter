@@ -39,6 +39,11 @@ void RuleMonitor::on_processNotifier_ended(DWORD id)
 
   for (const auto &rule : _rules->get())
   {
+    if (!rule->options().enabled())
+    {
+      continue;
+    }
+
     switch (rule->options().status())
     {
       case RuleOptions::Status::Running:
@@ -82,6 +87,11 @@ void RuleMonitor::on_processNotifier_started(const MProcessInfo &processInfo)
 
   for (const auto &rule : _rules->get())
   {
+    if (!rule->options().enabled())
+    {
+      continue;
+    }
+
     switch (rule->options().status())
     {
       case RuleOptions::Status::Running:
@@ -128,6 +138,10 @@ void RuleMonitor::on_winEventNotifier_notify(const MWinEventInfo &winEventInfo)
 
   for (const auto &rule : _rules->get())
   {
+    if (!rule->options().enabled())
+    {
+      continue;
+    }
     if (rule->options().status() == RuleOptions::Status::NotRunning)
     {
       continue;

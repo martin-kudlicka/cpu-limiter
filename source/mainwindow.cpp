@@ -25,11 +25,14 @@ void MainWindow::on_ruleAdd_clicked(bool checked /* false */)
 
   _rulesModel.insert(ruleDialog.options().id());
 
-  auto foregroundProcess = MProcessInfo(GetForegroundWindow());
   auto rule = _rulesModel.rules()->get(ruleDialog.options().id());
-  if (rule->conditionsMet(foregroundProcess))
+  if (rule->options().enabled())
   {
-    rule->activate(_ruleMonitor.governor());
+    auto foregroundProcess = MProcessInfo(GetForegroundWindow());
+    if (rule->conditionsMet(foregroundProcess))
+    {
+      rule->activate(_ruleMonitor.governor());
+    }
   }
 }
 
@@ -49,10 +52,13 @@ void MainWindow::on_ruleEdit_clicked(bool checked /* false */)
   {
     rule->deactivate(_ruleMonitor.governor());
 
-    auto foregroundProcess = MProcessInfo(GetForegroundWindow());
-    if (rule->conditionsMet(foregroundProcess))
+    if (rule->options().enabled())
     {
-      rule->activate(_ruleMonitor.governor());
+      auto foregroundProcess = MProcessInfo(GetForegroundWindow());
+      if (rule->conditionsMet(foregroundProcess))
+      {
+        rule->activate(_ruleMonitor.governor());
+      }
     }
   }
 }
