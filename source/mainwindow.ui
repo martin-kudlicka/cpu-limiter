@@ -35,6 +35,16 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="ruleEdit">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>&amp;Edit</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="ruleRemove">
         <property name="enabled">
          <bool>false</bool>
