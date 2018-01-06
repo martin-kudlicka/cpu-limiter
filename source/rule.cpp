@@ -3,6 +3,7 @@
 #include <MkCore/MProcesses>
 #include <QtCore/QDir>
 #include <MkProcessGovernor/MGovernor>
+#include "log.h"
 
 Rule::Rule(const MUuidPtr &id) : _options(id), _active(false), _opId(MGovernor::OPERATION_ID_INVALID)
 {
@@ -13,6 +14,8 @@ void Rule::activate(MGovernor *governor)
   restrictSelectedProcesses(governor);
 
   _active = true;
+
+  mCInfo(CPULimiter) << "rule \"" << _options.name() << "\" activated";
 }
 
 bool Rule::active() const
@@ -57,6 +60,8 @@ void Rule::deactivate(MGovernor *governor)
   _opId = MGovernor::OPERATION_ID_INVALID;
 
   _active = false;
+
+  mCInfo(CPULimiter) << "rule \"" << _options.name() << "\" deactivated";
 }
 
 bool Rule::isTargetProcess(const MProcessInfo &runningProcess)
