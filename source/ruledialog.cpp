@@ -14,6 +14,14 @@ RuleDialog::RuleDialog(MUuidPtr &&id, QWidget *parent) : QDialog(parent), _optio
   setupSettings();
 }
 
+RuleDialog::RuleDialog(const MUuidPtr &id, QWidget *parent) : QDialog(parent), _options(id), _widgetSettings(&_options)
+{
+  _ui.setupUi(this);
+
+  setupWidgets();
+  setupSettings();
+}
+
 const RuleOptions &RuleDialog::options() const
 {
   return _options;

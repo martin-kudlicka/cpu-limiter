@@ -33,6 +33,30 @@ void MainWindow::on_ruleAdd_clicked(bool checked /* false */)
   }
 }
 
+void MainWindow::on_ruleEdit_clicked(bool checked /* false */)
+{
+  auto index = _ui.rules->currentIndex();
+  auto id    = _rulesModel.rules()->id(index.row());
+
+  RuleDialog ruleDialog(id, this);
+  if (ruleDialog.exec() == QDialog::Rejected)
+  {
+    return;
+  }
+
+  auto rule = _rulesModel.rules()->get(id);
+  if (rule->active())
+  {
+    rule->deactivate(_ruleMonitor.governor());
+
+    auto foregroundProcess = MProcessInfo(GetForegroundWindow());
+    if (rule->conditionsMet(foregroundProcess))
+    {
+      rule->activate(_ruleMonitor.governor());
+    }
+  }
+}
+
 void MainWindow::on_ruleRemove_clicked(bool checked /* false */)
 {
   auto index = _ui.rules->currentIndex();
@@ -49,5 +73,7 @@ void MainWindow::on_ruleRemove_clicked(bool checked /* false */)
 void MainWindow::on_rules_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected) const
 {
   auto isSelected = !_ui.rules->selectionModel()->selectedRows().isEmpty();
+
+  _ui.ruleEdit->setEnabled(isSelected);
   _ui.ruleRemove->setEnabled(isSelected);
 }

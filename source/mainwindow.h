@@ -22,6 +22,7 @@ class MainWindow : public QMainWindow
 
   private slots:
     void on_ruleAdd_clicked       (bool checked = false);
+    void on_ruleEdit_clicked      (bool checked = false);
     void on_ruleRemove_clicked    (bool checked = false);
     void on_rules_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected) const;
 };
