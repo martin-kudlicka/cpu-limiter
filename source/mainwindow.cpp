@@ -36,6 +36,13 @@ void MainWindow::on_ruleAdd_clicked(bool checked /* false */)
 void MainWindow::on_ruleRemove_clicked(bool checked /* false */)
 {
   auto index = _ui.rules->currentIndex();
+  auto id    = _rulesModel.rules()->id(index.row());
+  auto rule  = _rulesModel.rules()->get(id);
+  if (rule->active())
+  {
+    rule->deactivate(_ruleMonitor.governor());
+  }
+
   _rulesModel.remove(index);
 }
 
