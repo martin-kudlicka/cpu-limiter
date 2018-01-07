@@ -134,7 +134,7 @@ bool Rule::conditionsMet(const QString &selectedProcess, const MProcessInfo &run
           }
           break;
         case RuleOptions::State::Background:
-          if (runningProcess != foregroundProcess)
+          if ((runningProcess != foregroundProcess) && (runningProcess.filePath() != foregroundProcess.filePath()))
           {
             return true;
           }
