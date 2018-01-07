@@ -11,7 +11,8 @@ class RuleMonitor : public QObject
   Q_OBJECT
 
   public:
-    RuleMonitor(Rules *rules);
+             RuleMonitor(Rules *rules);
+    virtual ~RuleMonitor() Q_DECL_OVERRIDE;
 
     MGovernor *governor();
 
