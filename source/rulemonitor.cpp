@@ -28,6 +28,17 @@ RuleMonitor::RuleMonitor(Rules *rules) : _rules(rules)
   connect(&_winEventNotifier, &MWinEventNotifier::notify, this, &RuleMonitor::on_winEventNotifier_notify);
 }
 
+RuleMonitor::~RuleMonitor()
+{
+  for (const auto &rule : _rules->get())
+  {
+    if (rule->active())
+    {
+      rule->deactivate(&_governor);
+    }
+  }
+}
+
 MGovernor *RuleMonitor::governor()
 {
   return &_governor;
