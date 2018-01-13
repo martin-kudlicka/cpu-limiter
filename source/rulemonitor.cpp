@@ -3,6 +3,7 @@
 #include "rules.h"
 #include <MkNotifier/MProcessNotifier>
 #include <MkCore/MWinEventInfo>
+#include "log.h"
 
 RuleMonitor::RuleMonitor(Rules *rules) : _rules(rules)
 {
@@ -146,6 +147,8 @@ void RuleMonitor::on_processNotifier_started(const MProcessInfo &processInfo)
 void RuleMonitor::on_winEventNotifier_notify(const MWinEventInfo &winEventInfo)
 {
   auto foregroundProcess = MProcessInfo(winEventInfo.window());
+
+  mCDebug(CPULimiter) << "process #" << foregroundProcess.id() << " in foreground" << " (" << foregroundProcess.filePath() << ')';
 
   for (const auto &rule : _rules->get())
   {
