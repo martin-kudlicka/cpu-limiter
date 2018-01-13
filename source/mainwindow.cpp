@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 
 #include "ruledialog.h"
+#include <MkWidgets/MAboutBox>
 
 MainWindow::MainWindow() : _ruleMonitor(_rulesModel.rules())
 {
@@ -13,6 +14,11 @@ void MainWindow::setupWidgets()
 {
   _ui.rules->setModel(&_rulesModel);
   connect(_ui.rules->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::on_rules_selectionChanged);
+}
+
+void MainWindow::on_actionAbout_triggered(bool checked /* false */)
+{
+  MAboutBox(this).show();
 }
 
 void MainWindow::on_ruleAdd_clicked(bool checked /* false */)
