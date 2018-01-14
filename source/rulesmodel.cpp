@@ -1,6 +1,7 @@
 #include "rulesmodel.h"
 
 #include <MkCore/MProcessInfo>
+#include <QtGui/QColor>
 
 RulesModel::RulesModel(MGovernor *governor) : _governor(governor)
 {
@@ -30,7 +31,7 @@ int RulesModel::columnCount(const QModelIndex &parent /* QModelIndex() */) const
 
 QVariant RulesModel::data(const QModelIndex &index, int role /* Qt::DisplayRole */) const
 {
-  if (role != Qt::DisplayRole && role != Qt::CheckStateRole)
+  if (role != Qt::DisplayRole && role != Qt::BackgroundRole && role != Qt::CheckStateRole)
   {
     return QVariant();
   }
@@ -39,18 +40,28 @@ QVariant RulesModel::data(const QModelIndex &index, int role /* Qt::DisplayRole 
 
   switch (role)
   {
-    case Qt::CheckStateRole:
-      switch (index.column())
-      {
-        case Column::Enabled:
-          return rule->options().enabled() ? Qt::Checked : Qt::Unchecked;
-      }
-      break;
     case Qt::DisplayRole:
       switch (index.column())
       {
         case Column::Name:
           return rule->options().name();
+      }
+      break;
+    case Qt::BackgroundRole:
+      switch (index.column())
+      {
+        case Column::Active:
+          if (rule->active())
+          {
+            return QColor(Qt::green);
+          }
+      }
+      break;
+    case Qt::CheckStateRole:
+      switch (index.column())
+      {
+        case Column::Enabled:
+          return rule->options().enabled() ? Qt::Checked : Qt::Unchecked;
       }
   }
 
@@ -80,7 +91,9 @@ QVariant RulesModel::headerData(int section, Qt::Orientation orientation, int ro
   switch (section)
   {
     case Column::Enabled:
-      return tr("*");
+      return "*";
+    case Column::Active:
+      return "+";
     case Column::Name:
       return tr("Name");
     default:
