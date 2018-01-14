@@ -1,11 +1,12 @@
 #include "rulemonitor.h"
 
 #include "rules.h"
+#include <MkCore/MProcessInfo>
 #include <MkNotifier/MProcessNotifier>
 #include <MkCore/MWinEventInfo>
 #include "log.h"
 
-RuleMonitor::RuleMonitor(Rules *rules) : _rules(rules)
+RuleMonitor::RuleMonitor(Rules *rules, MGovernor *governor) : _rules(rules), _governor(governor)
 {
   auto foregroundProcess = MProcessInfo(GetForegroundWindow());
 
@@ -16,7 +17,7 @@ RuleMonitor::RuleMonitor(Rules *rules) : _rules(rules)
       auto ok = rule->conditionsMet(foregroundProcess);
       if (ok)
       {
-        rule->activate(&_governor);
+        rule->activate(_governor);
       }
     }
   }
@@ -35,14 +36,9 @@ RuleMonitor::~RuleMonitor()
   {
     if (rule->active())
     {
-      rule->deactivate(&_governor);
+      rule->deactivate(_governor);
     }
   }
-}
-
-MGovernor *RuleMonitor::governor()
-{
-  return &_governor;
 }
 
 void RuleMonitor::on_processNotifier_ended(DWORD id)
@@ -64,7 +60,7 @@ void RuleMonitor::on_processNotifier_ended(DWORD id)
           auto conditionsMet = rule->conditionsMet(foregroundProcess);
           if (!conditionsMet)
           {
-            rule->deactivate(&_governor);
+            rule->deactivate(_governor);
           }
         }
         else
@@ -82,7 +78,7 @@ void RuleMonitor::on_processNotifier_ended(DWORD id)
           auto conditionsMet = rule->conditionsMet(foregroundProcess);
           if (conditionsMet)
           {
-            rule->activate(&_governor);
+            rule->activate(_governor);
           }
         }
         break;
@@ -111,7 +107,7 @@ void RuleMonitor::on_processNotifier_started(const MProcessInfo &processInfo)
         {
           if (rule->isTargetProcess(processInfo))
           {
-            rule->restrictProcess(&_governor, processInfo);
+            rule->restrictProcess(_governor, processInfo);
           }
         }
         else
@@ -119,7 +115,7 @@ void RuleMonitor::on_processNotifier_started(const MProcessInfo &processInfo)
           auto conditionsMet = rule->conditionsMet(processInfo, foregroundProcess);
           if (conditionsMet)
           {
-            rule->activate(&_governor);
+            rule->activate(_governor);
           }
         }
         break;
@@ -129,7 +125,7 @@ void RuleMonitor::on_processNotifier_started(const MProcessInfo &processInfo)
           auto conditionsMet = rule->conditionsMet(foregroundProcess);
           if (!conditionsMet)
           {
-            rule->deactivate(&_governor);
+            rule->deactivate(_governor);
           }
         }
         else
@@ -168,11 +164,11 @@ void RuleMonitor::on_winEventNotifier_notify(const MWinEventInfo &winEventInfo)
     auto conditionsMet = rule->conditionsMet(foregroundProcess);
     if (rule->active() && !conditionsMet)
     {
-      rule->deactivate(&_governor);
+      rule->deactivate(_governor);
     }
     else if (!rule->active() && conditionsMet)
     {
-      rule->activate(&_governor);
+      rule->activate(_governor);
     }
   }
 }

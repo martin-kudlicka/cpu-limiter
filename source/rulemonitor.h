@@ -1,9 +1,10 @@
 #ifndef RULEMONITOR_H
 #define RULEMONITOR_H
 
-#include <MkProcessGovernor/MGovernor>
 #include <MkNotifier/MWinEventNotifier>
 
+class MGovernor;
+class MProcessInfo;
 class Rules;
 
 class RuleMonitor : public QObject
@@ -11,13 +12,11 @@ class RuleMonitor : public QObject
   Q_OBJECT
 
   public:
-             RuleMonitor(Rules *rules);
+             RuleMonitor(Rules *rules, MGovernor *governor);
     virtual ~RuleMonitor() Q_DECL_OVERRIDE;
 
-    MGovernor *governor();
-
   private:
-    MGovernor         _governor;
+    MGovernor        *_governor;
     MWinEventNotifier _winEventNotifier;
     Rules            *_rules;
 

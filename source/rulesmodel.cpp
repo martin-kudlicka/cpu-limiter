@@ -1,5 +1,11 @@
 #include "rulesmodel.h"
 
+#include <MkCore/MProcessInfo>
+
+RulesModel::RulesModel(MGovernor *governor) : _governor(governor)
+{
+}
+
 void RulesModel::insert(const MUuidPtr &id)
 {
   auto row = _rules.index(id);
@@ -49,6 +55,19 @@ QVariant RulesModel::data(const QModelIndex &index, int role /* Qt::DisplayRole 
   }
 
   return QVariant();
+}
+
+Qt::ItemFlags RulesModel::flags(const QModelIndex &index) const
+{
+  auto itemFlags = QAbstractItemModel::flags(index);
+
+  switch (index.column())
+  {
+    case Column::Enabled:
+      itemFlags |= Qt::ItemIsUserCheckable;
+  }
+
+  return itemFlags;
 }
 
 QVariant RulesModel::headerData(int section, Qt::Orientation orientation, int role /* Qt::DisplayRole */) const
@@ -109,4 +128,42 @@ QModelIndex RulesModel::parent(const QModelIndex &child) const
 int RulesModel::rowCount(const QModelIndex &parent /* QModelIndex() */) const
 {
   return _rules.size();
+}
+
+bool RulesModel::setData(const QModelIndex &index, const QVariant &value, int role /* Qt::EditRole */)
+{
+  if (role != Qt::CheckStateRole)
+  {
+    return QAbstractItemModel::setData(index, value, role);
+  }
+
+  auto rule = const_cast<Rules *>(&_rules)->get(index.internalId());
+
+  switch (index.column())
+  {
+    case Column::Enabled:
+      rule->options().setEnabled(value.toBool());
+
+      if (value.toBool())
+      {
+        if (rule->conditionsMet(MProcessInfo(GetForegroundWindow())))
+        {
+          rule->activate(_governor);
+        }
+      }
+      else
+      {
+        if (rule->active())
+        {
+          rule->deactivate(_governor);
+        }
+      }
+
+      emit dataChanged(index, index);
+      return true;
+    default:
+      Q_UNREACHABLE();
+  }
+
+  return false;
 }
