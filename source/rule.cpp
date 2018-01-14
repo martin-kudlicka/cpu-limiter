@@ -64,6 +64,11 @@ void Rule::deactivate(MGovernor *governor)
   mCInfo(CPULimiter) << "rule \"" << _options.name() << "\" deactivated";
 }
 
+bool Rule::isRestricting() const
+{
+  return _opId != MGovernor::OPERATION_ID_INVALID;
+}
+
 bool Rule::isTargetProcess(const MProcessInfo &runningProcess)
 {
   if (runningProcess.filePath().isEmpty())

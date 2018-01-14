@@ -53,7 +53,7 @@ QVariant RulesModel::data(const QModelIndex &index, int role /* Qt::DisplayRole 
         case Column::Active:
           if (rule->active())
           {
-            return QColor(Qt::green);
+            return rule->isRestricting() ? QColor(Qt::green) : QColor(Qt::yellow);
           }
       }
       break;
