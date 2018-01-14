@@ -122,6 +122,11 @@ quintptr RuleOptions::selectedProcessesSize(Section section)
   return size;
 }
 
+void RuleOptions::setEnabled(bool enabled)
+{
+  setValue(Property::Enabled, enabled ? Qt::CheckState::Checked : Qt::CheckState::Unchecked);
+}
+
 RuleOptions::State RuleOptions::state() const
 {
   return static_cast<State>(value(Property::Condition_State).toUInt());
