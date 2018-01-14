@@ -7,14 +7,6 @@
 class RulesModel : public QAbstractItemModel
 {
   public:
-             RulesModel(MGovernor *governor);
-    virtual ~RulesModel() Q_DECL_OVERRIDE Q_DECL_EQ_DEFAULT;
-
-    void   insert(const MUuidPtr &id);
-    void   remove(const QModelIndex &index);
-    Rules *rules ();
-
-  private:
     enum class Column
     {
       Enabled,
@@ -23,6 +15,14 @@ class RulesModel : public QAbstractItemModel
       Count
     };
 
+             RulesModel(MGovernor *governor);
+    virtual ~RulesModel() Q_DECL_OVERRIDE Q_DECL_EQ_DEFAULT;
+
+    void   insert(const MUuidPtr &id);
+    void   remove(const QModelIndex &index);
+    Rules *rules ();
+
+  private:
     MGovernor *_governor;
     Rules      _rules;
 
