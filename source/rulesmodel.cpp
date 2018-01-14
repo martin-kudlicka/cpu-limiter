@@ -24,7 +24,7 @@ int RulesModel::columnCount(const QModelIndex &parent /* QModelIndex() */) const
 
 QVariant RulesModel::data(const QModelIndex &index, int role /* Qt::DisplayRole */) const
 {
-  if (role != Qt::DisplayRole)
+  if (role != Qt::DisplayRole && role != Qt::CheckStateRole)
   {
     return QVariant();
   }
@@ -33,6 +33,13 @@ QVariant RulesModel::data(const QModelIndex &index, int role /* Qt::DisplayRole 
 
   switch (role)
   {
+    case Qt::CheckStateRole:
+      switch (index.column())
+      {
+        case Column::Enabled:
+          return rule->options().enabled() ? Qt::Checked : Qt::Unchecked;
+      }
+      break;
     case Qt::DisplayRole:
       switch (index.column())
       {
@@ -53,6 +60,8 @@ QVariant RulesModel::headerData(int section, Qt::Orientation orientation, int ro
 
   switch (section)
   {
+    case Column::Enabled:
+      return tr("*");
     case Column::Name:
       return tr("Name");
     default:
