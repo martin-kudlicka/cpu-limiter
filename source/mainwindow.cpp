@@ -13,6 +13,10 @@ MainWindow::MainWindow() : _rulesModel(&_governor), _ruleMonitor(_rulesModel.rul
 void MainWindow::setupWidgets()
 {
   _ui.rules->setModel(&_rulesModel);
+
+  _ui.rules->header()->setSectionResizeMode(static_cast<int>(RulesModel::Column::Enabled), QHeaderView::ResizeToContents);
+  _ui.rules->header()->setSectionResizeMode(static_cast<int>(RulesModel::Column::Active),  QHeaderView::ResizeToContents);
+
   connect(_ui.rules->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::on_rules_selectionChanged);
 }
 
