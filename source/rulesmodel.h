@@ -18,6 +18,7 @@ class RulesModel : public QAbstractItemModel
     enum class Column
     {
       Enabled,
+      Active,
       Name,
       Count
     };
