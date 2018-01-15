@@ -3,7 +3,7 @@
 #include <MkCore/MProcessInfo>
 #include <QtGui/QColor>
 
-RulesModel::RulesModel(MGovernor *governor) : _governor(governor)
+RulesModel::RulesModel(MProcessGovernor *processGovernor) : _processGovernor(processGovernor)
 {
 }
 
@@ -161,14 +161,14 @@ bool RulesModel::setData(const QModelIndex &index, const QVariant &value, int ro
       {
         if (rule->conditionsMet(MProcessInfo(GetForegroundWindow())))
         {
-          rule->activate(_governor);
+          rule->activate(_processGovernor);
         }
       }
       else
       {
         if (rule->active())
         {
-          rule->deactivate(_governor);
+          rule->deactivate(_processGovernor);
         }
       }
 

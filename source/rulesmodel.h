@@ -15,7 +15,7 @@ class RulesModel : public QAbstractItemModel
       Count
     };
 
-             RulesModel(MGovernor *governor);
+             RulesModel(MProcessGovernor *processGovernor);
     virtual ~RulesModel() Q_DECL_OVERRIDE Q_DECL_EQ_DEFAULT;
 
     void   insert(const MUuidPtr &id);
@@ -23,8 +23,8 @@ class RulesModel : public QAbstractItemModel
     Rules *rules ();
 
   private:
-    MGovernor *_governor;
-    Rules      _rules;
+    MProcessGovernor *_processGovernor;
+    Rules             _rules;
 
     virtual int           columnCount(const QModelIndex &parent = QModelIndex())                            const Q_DECL_OVERRIDE;
     virtual QVariant      data       (const QModelIndex &index, int role = Qt::DisplayRole)                 const Q_DECL_OVERRIDE;

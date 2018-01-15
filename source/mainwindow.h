@@ -4,7 +4,7 @@
 #include "ui_mainwindow.h"
 #include "rulesmodel.h"
 #include "rulemonitor.h"
-#include <MkProcessGovernor/MGovernor>
+#include <MkProcessGovernor/MProcessGovernor>
 
 class MainWindow : public QMainWindow
 {
@@ -15,10 +15,10 @@ class MainWindow : public QMainWindow
     virtual ~MainWindow() Q_DECL_OVERRIDE Q_DECL_EQ_DEFAULT;
 
   private:
-    Ui::MainWindow _ui;
-    MGovernor      _governor;
-    RulesModel     _rulesModel;
-    RuleMonitor    _ruleMonitor;
+    Ui::MainWindow   _ui;
+    MProcessGovernor _processGovernor;
+    RulesModel       _rulesModel;
+    RuleMonitor      _ruleMonitor;
 
     void setupWidgets();
 
