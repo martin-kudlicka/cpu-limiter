@@ -37,6 +37,8 @@ class RuleDialog : public QDialog
     void on_conditionProcessAdd_clicked                    (bool checked = false);
     void on_conditionProcessRemove_clicked                 (bool checked = false);
     void on_conditionSelectedProcessesList_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected) const;
+    void on_conditionStatusNotRunning_clicked              (bool checked = false)                                             const;
+    void on_conditionStatusRunning_clicked                 (bool checked = false)                                             const;
     void on_name_textChanged                               (const QString &text)                                              const;
     void on_targetProcessAdd_clicked                       (bool checked = false);
     void on_targetProcessRemove_clicked                    (bool checked = false);

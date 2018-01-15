@@ -56,8 +56,8 @@ void RuleDialog::setupSettings()
   _widgetSettings.setWidget(RuleOptions::Property::Enabled, _ui.enabled);
 
   _widgetSettings.setWidget(RuleOptions::Property::Condition_SelectedProcesses, _ui.conditionSelectedProcessesList);
-  _widgetSettings.setWidget(RuleOptions::Property::Condition_State,             qMove(QRadioButtonPtrList() << _ui.conditionStateAnyhow << _ui.conditionStateForeground << _ui.conditionStateBackground));
   _widgetSettings.setWidget(RuleOptions::Property::Condition_Status,            qMove(QRadioButtonPtrList() << _ui.conditionStatusRunning << _ui.conditionStatusNotRunning));
+  _widgetSettings.setWidget(RuleOptions::Property::Condition_State,             _ui.conditionStatusRunningState);
 
   _widgetSettings.setWidget(RuleOptions::Property::Target_SelectedProcesses, _ui.targetSelectedProcessesList);
   _widgetSettings.setWidget(RuleOptions::Property::Target_Action,            qMove(QRadioButtonPtrList() << _ui.targetActionLimitCPU << _ui.targetActionSuspend));
@@ -72,6 +72,10 @@ void RuleDialog::setupWidgets()
 
   _ui.conditionSelectedProcessesList->setModel(&_conditionProcessesModel);
   _ui.targetSelectedProcessesList->setModel(&_targetProcessesModel);
+
+  _ui.conditionStatusRunningState->addItem(tr("Anyhow"));
+  _ui.conditionStatusRunningState->addItem(tr("Foreground"));
+  _ui.conditionStatusRunningState->addItem(tr("Background"));
 
   _ui.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 
@@ -113,6 +117,16 @@ void RuleDialog::on_conditionSelectedProcessesList_selectionChanged(const QItemS
 {
   auto isSelected = !_ui.conditionSelectedProcessesList->selectionModel()->selectedRows().isEmpty();
   _ui.conditionProcessRemove->setEnabled(isSelected);
+}
+
+void RuleDialog::on_conditionStatusNotRunning_clicked(bool checked /* false */) const
+{
+  _ui.conditionStatusRunningState->setEnabled(false);
+}
+
+void RuleDialog::on_conditionStatusRunning_clicked(bool checked /* false */) const
+{
+  _ui.conditionStatusRunningState->setEnabled(true);
 }
 
 void RuleDialog::on_name_textChanged(const QString &text) const
