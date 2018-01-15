@@ -3,7 +3,7 @@
 
 #include <MkNotifier/MWinEventNotifier>
 
-class MGovernor;
+class MProcessGovernor;
 class MProcessInfo;
 class Rules;
 
@@ -12,11 +12,11 @@ class RuleMonitor : public QObject
   Q_OBJECT
 
   public:
-             RuleMonitor(Rules *rules, MGovernor *governor);
+             RuleMonitor(Rules *rules, MProcessGovernor *processGovernor);
     virtual ~RuleMonitor() Q_DECL_OVERRIDE;
 
   private:
-    MGovernor        *_governor;
+    MProcessGovernor *_processGovernor;
     MWinEventNotifier _winEventNotifier;
     Rules            *_rules;
 

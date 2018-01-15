@@ -2,16 +2,16 @@
 
 #include <MkCore/MProcesses>
 #include <QtCore/QDir>
-#include <MkProcessGovernor/MGovernor>
+#include <MkProcessGovernor/MProcessGovernor>
 #include "log.h"
 
-Rule::Rule(const MUuidPtr &id) : _options(id), _active(false), _opId(MGovernor::OPERATION_ID_INVALID)
+Rule::Rule(const MUuidPtr &id) : _options(id), _active(false), _opId(MProcessGovernor::OPERATION_ID_INVALID)
 {
 }
 
-void Rule::activate(MGovernor *governor)
+void Rule::activate(MProcessGovernor *processGovernor)
 {
-  restrictSelectedProcesses(governor);
+  restrictSelectedProcesses(processGovernor);
 
   _active = true;
 
@@ -54,10 +54,10 @@ bool Rule::conditionsMet(const MProcessInfo &runningProcess, const MProcessInfo 
   return false;
 }
 
-void Rule::deactivate(MGovernor *governor)
+void Rule::deactivate(MProcessGovernor *processGovernor)
 {
-  governor->revert(_opId);
-  _opId = MGovernor::OPERATION_ID_INVALID;
+  processGovernor->revert(_opId);
+  _opId = MProcessGovernor::OPERATION_ID_INVALID;
 
   _active = false;
 
@@ -66,7 +66,7 @@ void Rule::deactivate(MGovernor *governor)
 
 bool Rule::isRestricting() const
 {
-  return _opId != MGovernor::OPERATION_ID_INVALID;
+  return _opId != MProcessGovernor::OPERATION_ID_INVALID;
 }
 
 bool Rule::isTargetProcess(const MProcessInfo &runningProcess)
@@ -99,15 +99,15 @@ RuleOptions &Rule::options()
   return _options;
 }
 
-void Rule::restrictProcess(MGovernor *governor, const MProcessInfo &runningProcess)
+void Rule::restrictProcess(MProcessGovernor *processGovernor, const MProcessInfo &runningProcess)
 {
-  if (_opId == MGovernor::OPERATION_ID_INVALID)
+  if (_opId == MProcessGovernor::OPERATION_ID_INVALID)
   {
-    _opId = governor->setCpuRate(runningProcess.id(), _options.cpuLimit());
+    _opId = processGovernor->setCpuRate(runningProcess.id(), _options.cpuLimit());
   }
   else
   {
-    governor->addCpuRate(_opId, runningProcess.id(), _options.cpuLimit());
+    processGovernor->addCpuRate(_opId, runningProcess.id(), _options.cpuLimit());
   }
 }
 
@@ -160,7 +160,7 @@ bool Rule::conditionsMet(const QString &selectedProcess, const MProcessInfo &run
   return false;
 }
 
-void Rule::restrictSelectedProcesses(MGovernor *governor)
+void Rule::restrictSelectedProcesses(MProcessGovernor *processGovernor)
 {
   auto processesInfo = MProcesses::enumerate();
 
@@ -168,7 +168,7 @@ void Rule::restrictSelectedProcesses(MGovernor *governor)
   {
     if (isTargetProcess(processInfo))
     {
-      restrictProcess(governor, processInfo);
+      restrictProcess(processGovernor, processInfo);
     }
   }
 }

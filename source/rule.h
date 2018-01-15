@@ -4,7 +4,7 @@
 #include <QtCore/QSharedPointer>
 #include "ruleoptions.h"
 
-class MGovernor;
+class MProcessGovernor;
 class MProcessInfo;
 
 class Rule
@@ -12,15 +12,15 @@ class Rule
   public:
     Rule(const MUuidPtr &id);
 
-    void         activate       (MGovernor *governor);
+    void         activate       (MProcessGovernor *processGovernor);
     bool         active         () const;
     bool         conditionsMet  (const MProcessInfo &foregroundProcess);
     bool         conditionsMet  (const MProcessInfo &runningProcess, const MProcessInfo &foregroundProcess);
-    void         deactivate     (MGovernor *governor);
+    void         deactivate     (MProcessGovernor *processGovernor);
     bool         isRestricting  () const;
     bool         isTargetProcess(const MProcessInfo &runningProcess);
     RuleOptions &options        ();
-    void         restrictProcess(MGovernor *governor, const MProcessInfo &runningProcess);
+    void         restrictProcess(MProcessGovernor *processGovernor, const MProcessInfo &runningProcess);
 
   private:
     bool        _active;
@@ -28,7 +28,7 @@ class Rule
     RuleOptions _options;
 
     bool conditionsMet            (const QString &selectedProcess, const MProcessInfo &runningProcess, const MProcessInfo &foregroundProcess);
-    void restrictSelectedProcesses(MGovernor *governor);
+    void restrictSelectedProcesses(MProcessGovernor *processGovernor);
 };
 
 using RuleSPtr     = QSharedPointer<Rule>;
