@@ -125,42 +125,6 @@
              <property name="checked">
               <bool>true</bool>
              </property>
-             <attribute name="buttonGroup">
-              <string notr="true">buttonGroup</string>
-             </attribute>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QGroupBox" name="groupBox_5">
-             <property name="title">
-              <string>&amp;State</string>
-             </property>
-             <layout class="QVBoxLayout" name="verticalLayout_8">
-              <item>
-               <widget class="QRadioButton" name="conditionStateAnyhow">
-                <property name="text">
-                 <string>&amp;Anyhow</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QRadioButton" name="conditionStateForeground">
-                <property name="text">
-                 <string>&amp;Foreground</string>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QRadioButton" name="conditionStateBackground">
-                <property name="text">
-                 <string>&amp;Background</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
             </widget>
            </item>
            <item row="3" column="0">
@@ -168,10 +132,10 @@
              <property name="text">
               <string>&amp;Not running</string>
              </property>
-             <attribute name="buttonGroup">
-              <string notr="true">buttonGroup</string>
-             </attribute>
             </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QComboBox" name="conditionStatusRunningState"/>
            </item>
           </layout>
          </widget>
@@ -381,7 +345,4 @@
    </hints>
   </connection>
  </connections>
- <buttongroups>
-  <buttongroup name="buttonGroup"/>
- </buttongroups>
 </ui>
