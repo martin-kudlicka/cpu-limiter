@@ -5,20 +5,20 @@
 
 class MProcessGovernor;
 class MProcessInfo;
-class Rules;
+class RulesModel;
 
 class RuleMonitor : public QObject
 {
   Q_OBJECT
 
   public:
-             RuleMonitor(Rules *rules, MProcessGovernor *processGovernor);
+             RuleMonitor(RulesModel *rulesModel, MProcessGovernor *processGovernor);
     virtual ~RuleMonitor() Q_DECL_OVERRIDE;
 
   private:
     MProcessGovernor *_processGovernor;
     MWinEventNotifier _winEventNotifier;
-    Rules            *_rules;
+    RulesModel       *_rulesModel;
 
   private slots:
     void on_processNotifier_ended  (DWORD id);

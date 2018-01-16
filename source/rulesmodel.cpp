@@ -24,6 +24,13 @@ Rules *RulesModel::rules()
   return &_rules;
 }
 
+void RulesModel::setDataChanged(const RuleSPtr &rule, Column column)
+{
+  auto row    = _rules.index(rule->options().id());
+  auto index2 = index(row, static_cast<int>(column));
+  emit dataChanged(index2, index2);
+}
+
 int RulesModel::columnCount(const QModelIndex &parent /* QModelIndex() */) const
 {
   return static_cast<int>(Column::Count);

@@ -18,9 +18,10 @@ class RulesModel : public QAbstractItemModel
              RulesModel(MProcessGovernor *processGovernor);
     virtual ~RulesModel() Q_DECL_OVERRIDE Q_DECL_EQ_DEFAULT;
 
-    void   insert(const MUuidPtr &id);
-    void   remove(const QModelIndex &index);
-    Rules *rules ();
+    void   insert        (const MUuidPtr &id);
+    void   remove        (const QModelIndex &index);
+    Rules *rules         ();
+    void   setDataChanged(const RuleSPtr &rule, Column column);
 
   private:
     MProcessGovernor *_processGovernor;

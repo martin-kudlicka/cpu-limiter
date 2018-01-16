@@ -1,16 +1,16 @@
 #include "rulemonitor.h"
 
-#include "rules.h"
+#include "rulesmodel.h"
 #include <MkCore/MProcessInfo>
 #include <MkNotifier/MProcessNotifier>
 #include <MkCore/MWinEventInfo>
 #include "log.h"
 
-RuleMonitor::RuleMonitor(Rules *rules, MProcessGovernor *processGovernor) : _rules(rules), _processGovernor(processGovernor)
+RuleMonitor::RuleMonitor(RulesModel *rulesModel, MProcessGovernor *processGovernor) : _rulesModel(rulesModel), _processGovernor(processGovernor)
 {
   auto foregroundProcess = MProcessInfo(GetForegroundWindow());
 
-  for (const auto &rule : rules->get())
+  for (const auto &rule : rulesModel->rules()->get())
   {
     if (rule->options().enabled())
     {
@@ -32,7 +32,7 @@ RuleMonitor::RuleMonitor(Rules *rules, MProcessGovernor *processGovernor) : _rul
 
 RuleMonitor::~RuleMonitor()
 {
-  for (const auto &rule : _rules->get())
+  for (const auto &rule : _rulesModel->rules()->get())
   {
     if (rule->active())
     {
@@ -45,7 +45,7 @@ void RuleMonitor::on_processNotifier_ended(DWORD id)
 {
   auto foregroundProcess = MProcessInfo(GetForegroundWindow());
 
-  for (const auto &rule : _rules->get())
+  for (const auto &rule : _rulesModel->rules()->get())
   {
     if (!rule->options().enabled())
     {
@@ -65,6 +65,8 @@ void RuleMonitor::on_processNotifier_ended(DWORD id)
           else
           {
             rule->deactivate(_processGovernor);
+
+            _rulesModel->setDataChanged(rule, RulesModel::Column::Active);
           }
         }
         else
@@ -83,6 +85,8 @@ void RuleMonitor::on_processNotifier_ended(DWORD id)
           if (conditionsMet)
           {
             rule->activate(_processGovernor);
+
+            _rulesModel->setDataChanged(rule, RulesModel::Column::Active);
           }
         }
         break;
@@ -97,7 +101,7 @@ void RuleMonitor::on_processNotifier_started(const MProcessInfo &processInfo)
 {
   auto foregroundProcess = MProcessInfo(GetForegroundWindow());
 
-  for (const auto &rule : _rules->get())
+  for (const auto &rule : _rulesModel->rules()->get())
   {
     if (!rule->options().enabled())
     {
@@ -120,6 +124,8 @@ void RuleMonitor::on_processNotifier_started(const MProcessInfo &processInfo)
           if (conditionsMet)
           {
             rule->activate(_processGovernor);
+
+            _rulesModel->setDataChanged(rule, RulesModel::Column::Active);
           }
         }
         break;
@@ -130,6 +136,8 @@ void RuleMonitor::on_processNotifier_started(const MProcessInfo &processInfo)
           if (!conditionsMet)
           {
             rule->deactivate(_processGovernor);
+
+            _rulesModel->setDataChanged(rule, RulesModel::Column::Active);
           }
         }
         else
@@ -150,7 +158,7 @@ void RuleMonitor::on_winEventNotifier_notify(const MWinEventInfo &winEventInfo)
 
   mCDebug(CPULimiter) << "process #" << foregroundProcess.id() << " in foreground" << " (" << foregroundProcess.filePath() << ')';
 
-  for (const auto &rule : _rules->get())
+  for (const auto &rule : _rulesModel->rules()->get())
   {
     if (!rule->options().enabled())
     {
@@ -169,10 +177,14 @@ void RuleMonitor::on_winEventNotifier_notify(const MWinEventInfo &winEventInfo)
     if (rule->active() && !conditionsMet)
     {
       rule->deactivate(_processGovernor);
+
+      _rulesModel->setDataChanged(rule, RulesModel::Column::Active);
     }
     else if (!rule->active() && conditionsMet)
     {
       rule->activate(_processGovernor);
+
+      _rulesModel->setDataChanged(rule, RulesModel::Column::Active);
     }
   }
 }
