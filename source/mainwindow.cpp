@@ -3,7 +3,7 @@
 #include "ruledialog.h"
 #include <MkWidgets/MAboutBox>
 
-MainWindow::MainWindow() : _rulesModel(&_processGovernor), _ruleMonitor(_rulesModel.rules(), &_processGovernor)
+MainWindow::MainWindow() : _rulesModel(&_processGovernor), _ruleMonitor(&_rulesModel, &_processGovernor)
 {
 	_ui.setupUi(this);
 
