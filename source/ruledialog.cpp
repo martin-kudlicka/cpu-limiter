@@ -73,9 +73,9 @@ void RuleDialog::setupWidgets()
   _ui.conditionSelectedProcessesList->setModel(&_conditionProcessesModel);
   _ui.targetSelectedProcessesList->setModel(&_targetProcessesModel);
 
-  _ui.conditionStatusRunningState->addItem(tr("Anyhow"));
-  _ui.conditionStatusRunningState->addItem(tr("Foreground"));
-  _ui.conditionStatusRunningState->addItem(tr("Background"));
+  _ui.conditionStatusRunningState->addItem(tr("Anyhow"),     static_cast<quintptr>(RuleOptions::State::Anyhow));
+  _ui.conditionStatusRunningState->addItem(tr("Foreground"), static_cast<quintptr>(RuleOptions::State::Foreground));
+  _ui.conditionStatusRunningState->addItem(tr("Background"), static_cast<quintptr>(RuleOptions::State::Background));
 
   _ui.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 
