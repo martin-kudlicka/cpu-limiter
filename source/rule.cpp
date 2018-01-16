@@ -58,6 +58,7 @@ void Rule::deactivate(MProcessGovernor *processGovernor)
 {
   processGovernor->revert(_opId);
   _opId = MProcessGovernor::OPERATION_ID_INVALID;
+  _restrictedProcesses.clear();
 
   _active = false;
 
@@ -66,7 +67,7 @@ void Rule::deactivate(MProcessGovernor *processGovernor)
 
 bool Rule::isRestricting() const
 {
-  return _opId != MProcessGovernor::OPERATION_ID_INVALID;
+  return !_restrictedProcesses.isEmpty();
 }
 
 bool Rule::isTargetProcess(const MProcessInfo &runningProcess)
@@ -99,6 +100,11 @@ RuleOptions &Rule::options()
   return _options;
 }
 
+void Rule::processEnded(DWORD processId)
+{
+  _restrictedProcesses.remove(processId);
+}
+
 void Rule::restrictProcess(MProcessGovernor *processGovernor, const MProcessInfo &runningProcess)
 {
   if (_opId == MProcessGovernor::OPERATION_ID_INVALID)
@@ -109,6 +115,8 @@ void Rule::restrictProcess(MProcessGovernor *processGovernor, const MProcessInfo
   {
     processGovernor->addCpuRate(_opId, runningProcess.id(), _options.cpuLimit());
   }
+
+  _restrictedProcesses.insert(runningProcess.id());
 }
 
 bool Rule::conditionsMet(const QString &selectedProcess, const MProcessInfo &runningProcess, const MProcessInfo &foregroundProcess)

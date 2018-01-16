@@ -58,7 +58,11 @@ void RuleMonitor::on_processNotifier_ended(DWORD id)
         if (rule->active())
         {
           auto conditionsMet = rule->conditionsMet(foregroundProcess);
-          if (!conditionsMet)
+          if (conditionsMet)
+          {
+            rule->processEnded(id);
+          }
+          else
           {
             rule->deactivate(_processGovernor);
           }
@@ -71,7 +75,7 @@ void RuleMonitor::on_processNotifier_ended(DWORD id)
       case RuleOptions::Status::NotRunning:
         if (rule->active())
         {
-          continue;
+          rule->processEnded(id);
         }
         else
         {
