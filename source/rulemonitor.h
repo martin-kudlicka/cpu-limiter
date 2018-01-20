@@ -3,9 +3,9 @@
 
 #include <MkNotifier/MWinEventNotifier>
 #include <MkNotifier/MNetworkNotifier>
+#include <MkCore/MProcessInfo>
 
 class MProcessGovernor;
-class MProcessInfo;
 class RulesModel;
 
 class RuleMonitor : public QObject
@@ -19,6 +19,7 @@ class RuleMonitor : public QObject
   private:
     MNetworkNotifier  _networkNotifier;
     MProcessGovernor *_processGovernor;
+    MProcessInfo      _foregroundProcess;
     MWinEventNotifier _winEventNotifier;
     RulesModel       *_rulesModel;
 
