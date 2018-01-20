@@ -22,12 +22,14 @@ RuleMonitor::RuleMonitor(RulesModel *rulesModel, MProcessGovernor *processGovern
     }
   }
 
-  _winEventNotifier.addEvent(EVENT_SYSTEM_FOREGROUND);
+  connect(&_networkNotifier, &MNetworkNotifier::connectivityChanged, this, &RuleMonitor::on_networkNotifier_connectivityChanged);
 
   connect(&*mProcessNotifier, &MProcessNotifier::started, this, &RuleMonitor::on_processNotifier_started);
   connect(&*mProcessNotifier, &MProcessNotifier::ended,   this, &RuleMonitor::on_processNotifier_ended);
 
   connect(&_winEventNotifier, &MWinEventNotifier::notify, this, &RuleMonitor::on_winEventNotifier_notify);
+
+  _winEventNotifier.addEvent(EVENT_SYSTEM_FOREGROUND);
 }
 
 RuleMonitor::~RuleMonitor()
@@ -39,6 +41,11 @@ RuleMonitor::~RuleMonitor()
       rule->deactivate(_processGovernor);
     }
   }
+}
+
+void RuleMonitor::on_networkNotifier_connectivityChanged(NLM_CONNECTIVITY newConnectivity) const
+{
+  // TODO
 }
 
 void RuleMonitor::on_processNotifier_ended(DWORD id)
