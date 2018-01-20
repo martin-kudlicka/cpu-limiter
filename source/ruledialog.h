@@ -34,6 +34,7 @@ class RuleDialog : public QDialog
     virtual void accept() Q_DECL_OVERRIDE;
 
   private slots:
+    void on_conditionInternetConnection_stateChanged       (int state)                                                        const;
     void on_conditionProcessAdd_clicked                    (bool checked = false);
     void on_conditionProcessRemove_clicked                 (bool checked = false);
     void on_conditionSelectedProcessesList_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected) const;

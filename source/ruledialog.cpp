@@ -55,9 +55,11 @@ void RuleDialog::setupSettings()
   _widgetSettings.setWidget(RuleOptions::Property::Name,    _ui.name);
   _widgetSettings.setWidget(RuleOptions::Property::Enabled, _ui.enabled);
 
-  _widgetSettings.setWidget(RuleOptions::Property::Condition_SelectedProcesses, _ui.conditionSelectedProcessesList);
-  _widgetSettings.setWidget(RuleOptions::Property::Condition_Status,            qMove(QRadioButtonPtrList() << _ui.conditionStatusRunning << _ui.conditionStatusNotRunning));
-  _widgetSettings.setWidget(RuleOptions::Property::Condition_State,             _ui.conditionStatusRunningState);
+  _widgetSettings.setWidget(RuleOptions::Property::Condition_SelectedProcesses,        _ui.conditionSelectedProcessesList);
+  _widgetSettings.setWidget(RuleOptions::Property::Condition_InternetConnection,       _ui.conditionInternetConnection);
+  _widgetSettings.setWidget(RuleOptions::Property::Condition_InternetConnectionStatus, _ui.conditionInternetConnectionStatus);
+  _widgetSettings.setWidget(RuleOptions::Property::Condition_Status,                   qMove(QRadioButtonPtrList() << _ui.conditionStatusRunning << _ui.conditionStatusNotRunning));
+  _widgetSettings.setWidget(RuleOptions::Property::Condition_State,                    _ui.conditionStatusRunningState);
 
   _widgetSettings.setWidget(RuleOptions::Property::Target_SelectedProcesses, _ui.targetSelectedProcessesList);
   _widgetSettings.setWidget(RuleOptions::Property::Target_Action,            qMove(QRadioButtonPtrList() << _ui.targetActionLimitCPU << _ui.targetActionSuspend));
@@ -72,6 +74,9 @@ void RuleDialog::setupWidgets()
 
   _ui.conditionSelectedProcessesList->setModel(&_conditionProcessesModel);
   _ui.targetSelectedProcessesList->setModel(&_targetProcessesModel);
+
+  _ui.conditionInternetConnectionStatus->addItem(tr("Connected"),    static_cast<quintptr>(RuleOptions::InternetConnection::Connected));
+  _ui.conditionInternetConnectionStatus->addItem(tr("Disconnected"), static_cast<quintptr>(RuleOptions::InternetConnection::Disconnected));
 
   _ui.conditionStatusRunningState->addItem(tr("Anyhow"),     static_cast<quintptr>(RuleOptions::State::Anyhow));
   _ui.conditionStatusRunningState->addItem(tr("Foreground"), static_cast<quintptr>(RuleOptions::State::Foreground));
@@ -95,6 +100,11 @@ void RuleDialog::accept()
   _widgetSettings.save();
 
   QDialog::accept();
+}
+
+void RuleDialog::on_conditionInternetConnection_stateChanged(int state) const
+{
+  _ui.conditionInternetConnectionStatus->setEnabled(state == Qt::Checked);
 }
 
 void RuleDialog::on_conditionProcessAdd_clicked(bool checked /* false */)

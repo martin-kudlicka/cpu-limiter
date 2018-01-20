@@ -7,6 +7,11 @@
 class RuleOptions : public MSettings
 {
   public:
+    enum class InternetConnection
+    {
+      Disconnected,
+      Connected
+    };
     enum class Section
     {
       Condition,
@@ -30,6 +35,8 @@ class RuleOptions : public MSettings
         static Q_DECL_CONSTEXPR QString Enabled;
         static Q_DECL_CONSTEXPR QString Name;
 
+        static Q_DECL_CONSTEXPR QString Condition_InternetConnection;
+        static Q_DECL_CONSTEXPR QString Condition_InternetConnectionStatus;
         static Q_DECL_CONSTEXPR QString Condition_SelectedProcesses;
         static Q_DECL_CONSTEXPR QString Condition_State;
         static Q_DECL_CONSTEXPR QString Condition_Status;
