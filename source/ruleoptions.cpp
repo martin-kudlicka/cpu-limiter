@@ -5,9 +5,11 @@
 Q_DECL_CONSTEXPR QString RuleOptions::Property::Enabled = "enabled";
 Q_DECL_CONSTEXPR QString RuleOptions::Property::Name    = "name";
 
-Q_DECL_CONSTEXPR QString RuleOptions::Property::Condition_SelectedProcesses = "condition/selectedProcesses";
-Q_DECL_CONSTEXPR QString RuleOptions::Property::Condition_State             = "condition/state";
-Q_DECL_CONSTEXPR QString RuleOptions::Property::Condition_Status            = "condition/status";
+Q_DECL_CONSTEXPR QString RuleOptions::Property::Condition_InternetConnection       = "condition/internetConnection";
+Q_DECL_CONSTEXPR QString RuleOptions::Property::Condition_InternetConnectionStatus = "condition/internetConnectionStatus";
+Q_DECL_CONSTEXPR QString RuleOptions::Property::Condition_SelectedProcesses        = "condition/selectedProcesses";
+Q_DECL_CONSTEXPR QString RuleOptions::Property::Condition_State                    = "condition/state";
+Q_DECL_CONSTEXPR QString RuleOptions::Property::Condition_Status                   = "condition/status";
 
 Q_DECL_CONSTEXPR QString RuleOptions::Property::Target_Action            = "target/action";
 Q_DECL_CONSTEXPR QString RuleOptions::Property::Target_CPULimit          = "target/cpuLimit";
