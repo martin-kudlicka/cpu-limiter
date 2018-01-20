@@ -1,20 +1,17 @@
 #include "rulemonitor.h"
 
 #include "rulesmodel.h"
-#include <MkCore/MProcessInfo>
 #include <MkNotifier/MProcessNotifier>
 #include <MkCore/MWinEventInfo>
 #include "log.h"
 
-RuleMonitor::RuleMonitor(RulesModel *rulesModel, MProcessGovernor *processGovernor) : _rulesModel(rulesModel), _processGovernor(processGovernor)
+RuleMonitor::RuleMonitor(RulesModel *rulesModel, MProcessGovernor *processGovernor) : _rulesModel(rulesModel), _processGovernor(processGovernor), _foregroundProcess(GetForegroundWindow())
 {
-  auto foregroundProcess = MProcessInfo(GetForegroundWindow());
-
   for (const auto &rule : rulesModel->rules()->get())
   {
     if (rule->options().enabled())
     {
-      auto ok = rule->conditionsMet(foregroundProcess);
+      auto ok = rule->conditionsMet(_foregroundProcess);
       if (ok)
       {
         rule->activate(processGovernor);
@@ -50,8 +47,6 @@ void RuleMonitor::on_networkNotifier_connectivityChanged(NLM_CONNECTIVITY newCon
 
 void RuleMonitor::on_processNotifier_ended(DWORD id)
 {
-  auto foregroundProcess = MProcessInfo(GetForegroundWindow());
-
   for (const auto &rule : _rulesModel->rules()->get())
   {
     if (!rule->options().enabled())
@@ -64,7 +59,7 @@ void RuleMonitor::on_processNotifier_ended(DWORD id)
       case RuleOptions::Status::Running:
         if (rule->active())
         {
-          auto conditionsMet = rule->conditionsMet(foregroundProcess);
+          auto conditionsMet = rule->conditionsMet(_foregroundProcess);
           if (conditionsMet)
           {
             rule->processEnded(id);
@@ -88,7 +83,7 @@ void RuleMonitor::on_processNotifier_ended(DWORD id)
         }
         else
         {
-          auto conditionsMet = rule->conditionsMet(foregroundProcess);
+          auto conditionsMet = rule->conditionsMet(_foregroundProcess);
           if (conditionsMet)
           {
             rule->activate(_processGovernor);
@@ -106,8 +101,6 @@ void RuleMonitor::on_processNotifier_ended(DWORD id)
 
 void RuleMonitor::on_processNotifier_started(const MProcessInfo &processInfo)
 {
-  auto foregroundProcess = MProcessInfo(GetForegroundWindow());
-
   for (const auto &rule : _rulesModel->rules()->get())
   {
     if (!rule->options().enabled())
@@ -127,7 +120,7 @@ void RuleMonitor::on_processNotifier_started(const MProcessInfo &processInfo)
         }
         else
         {
-          auto conditionsMet = rule->conditionsMet(foregroundProcess);
+          auto conditionsMet = rule->conditionsMet(_foregroundProcess);
           if (conditionsMet)
           {
             rule->activate(_processGovernor);
@@ -139,7 +132,7 @@ void RuleMonitor::on_processNotifier_started(const MProcessInfo &processInfo)
       case RuleOptions::Status::NotRunning:
         if (rule->active())
         {
-          auto conditionsMet = rule->conditionsMet(foregroundProcess);
+          auto conditionsMet = rule->conditionsMet(_foregroundProcess);
           if (!conditionsMet)
           {
             rule->deactivate(_processGovernor);
@@ -161,9 +154,9 @@ void RuleMonitor::on_processNotifier_started(const MProcessInfo &processInfo)
 
 void RuleMonitor::on_winEventNotifier_notify(const MWinEventInfo &winEventInfo)
 {
-  auto foregroundProcess = MProcessInfo(winEventInfo.window());
+  _foregroundProcess = MProcessInfo(winEventInfo.window());
 
-  mCDebug(CPULimiter) << "process #" << foregroundProcess.id() << " in foreground" << " (" << foregroundProcess.filePath() << ')';
+  mCDebug(CPULimiter) << "process #" << _foregroundProcess.id() << " in foreground" << " (" << _foregroundProcess.filePath() << ')';
 
   for (const auto &rule : _rulesModel->rules()->get())
   {
@@ -180,7 +173,7 @@ void RuleMonitor::on_winEventNotifier_notify(const MWinEventInfo &winEventInfo)
       continue;
     }
 
-    auto conditionsMet = rule->conditionsMet(foregroundProcess);
+    auto conditionsMet = rule->conditionsMet(_foregroundProcess);
     if (rule->active() && !conditionsMet)
     {
       rule->deactivate(_processGovernor);
