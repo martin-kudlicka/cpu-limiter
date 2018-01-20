@@ -29,29 +29,24 @@ bool Rule::conditionsMet(const MProcessInfo &foregroundProcess)
 
   for (const auto &selectedProcess : _options.selectedProcesses(RuleOptions::Section::Condition))
   {
+    auto conditionFound = false;
+
     for (const auto &processInfo : processesInfo)
     {
       if (conditionsMet(selectedProcess, processInfo, foregroundProcess))
       {
-        return true;
+        conditionFound = true;
+        break;
       }
     }
-  }
 
-  return false;
-}
-
-bool Rule::conditionsMet(const MProcessInfo &runningProcess, const MProcessInfo &foregroundProcess)
-{
-  for (const auto &selectedProcess : _options.selectedProcesses(RuleOptions::Section::Condition))
-  {
-    if (conditionsMet(selectedProcess, runningProcess, foregroundProcess))
+    if (!conditionFound)
     {
-      return true;
+      return false;
     }
   }
 
-  return false;
+  return true;
 }
 
 void Rule::deactivate(MProcessGovernor *processGovernor)

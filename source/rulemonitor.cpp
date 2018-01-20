@@ -120,7 +120,7 @@ void RuleMonitor::on_processNotifier_started(const MProcessInfo &processInfo)
         }
         else
         {
-          auto conditionsMet = rule->conditionsMet(processInfo, foregroundProcess);
+          auto conditionsMet = rule->conditionsMet(foregroundProcess);
           if (conditionsMet)
           {
             rule->activate(_processGovernor);
