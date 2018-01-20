@@ -17,7 +17,6 @@ class Rule
     void         activate       (MProcessGovernor *processGovernor);
     bool         active         () const;
     bool         conditionsMet  (const MProcessInfo &foregroundProcess);
-    bool         conditionsMet  (const MProcessInfo &runningProcess, const MProcessInfo &foregroundProcess);
     void         deactivate     (MProcessGovernor *processGovernor);
     bool         isRestricting  () const;
     bool         isTargetProcess(const MProcessInfo &runningProcess);
