@@ -2,6 +2,7 @@
 #define RULEMONITOR_H
 
 #include <MkNotifier/MWinEventNotifier>
+#include <MkNotifier/MNetworkNotifier>
 
 class MProcessGovernor;
 class MProcessInfo;
@@ -16,14 +17,16 @@ class RuleMonitor : public QObject
     virtual ~RuleMonitor() Q_DECL_OVERRIDE;
 
   private:
+    MNetworkNotifier  _networkNotifier;
     MProcessGovernor *_processGovernor;
     MWinEventNotifier _winEventNotifier;
     RulesModel       *_rulesModel;
 
   private slots:
-    void on_processNotifier_ended  (DWORD id);
-    void on_processNotifier_started(const MProcessInfo &processInfo);
-    void on_winEventNotifier_notify(const MWinEventInfo &winEventInfo);
+    void on_networkNotifier_connectivityChanged(NLM_CONNECTIVITY newConnectivity) const;
+    void on_processNotifier_ended              (DWORD id);
+    void on_processNotifier_started            (const MProcessInfo &processInfo);
+    void on_winEventNotifier_notify            (const MWinEventInfo &winEventInfo);
 };
 
 #endif
