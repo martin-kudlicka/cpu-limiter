@@ -4,8 +4,9 @@
 #include <MkNotifier/MProcessNotifier>
 #include <MkCore/MWinEventInfo>
 #include "log.h"
+#include <MkNetwork/MNetwork>
 
-RuleMonitor::RuleMonitor(RulesModel *rulesModel, MProcessGovernor *processGovernor) : _rulesModel(rulesModel), _processGovernor(processGovernor), _foregroundProcess(GetForegroundWindow())
+RuleMonitor::RuleMonitor(RulesModel *rulesModel, MProcessGovernor *processGovernor) : _rulesModel(rulesModel), _processGovernor(processGovernor), _foregroundProcess(GetForegroundWindow()), _connectivity(MNetwork().connectivity())
 {
   for (const auto &rule : rulesModel->rules()->get())
   {

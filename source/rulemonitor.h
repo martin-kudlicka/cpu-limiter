@@ -21,6 +21,7 @@ class RuleMonitor : public QObject
     MProcessGovernor *_processGovernor;
     MProcessInfo      _foregroundProcess;
     MWinEventNotifier _winEventNotifier;
+    NLM_CONNECTIVITY  _connectivity;
     RulesModel       *_rulesModel;
 
   private slots:
