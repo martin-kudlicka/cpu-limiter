@@ -19,15 +19,12 @@ class Rule : public QObject
              Rule(const MUuidPtr &id, MProcessGovernor *processGovernor, RulesModel *rulesModel);
     virtual ~Rule() Q_DECL_OVERRIDE;
 
-    void         activate       ();
-    bool         active         () const;
-    bool         conditionsMet  ();
-    void         deactivate     ();
-    bool         isRestricting  () const;
-    bool         isTargetProcess(const MProcessInfo &runningProcess);
-    RuleOptions &options        ();
-    void         processEnded   (DWORD processId);
-    void         restrictProcess(const MProcessInfo &runningProcess);
+    void         activate     ();
+    bool         active       () const;
+    bool         conditionsMet();
+    void         deactivate   ();
+    bool         isRestricting() const;
+    RuleOptions &options      ();
 
   private:
     bool              _active;
@@ -40,6 +37,8 @@ class Rule : public QObject
     RulesModel       *_rulesModel;
 
     bool conditionsMet            (const QString &selectedProcess, const MProcessInfo &runningProcess);
+    bool isTargetProcess          (const MProcessInfo &runningProcess);
+    void restrictProcess          (const MProcessInfo &runningProcess);
     void restrictSelectedProcesses();
 
   public slots:
