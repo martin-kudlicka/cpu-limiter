@@ -233,7 +233,7 @@ void Rule::on_processNotifier_ended(DWORD id)
 
 void Rule::on_processNotifier_started(const MProcessInfo &processInfo)
 {
-  if (_options.enabled())
+  if (!_options.enabled())
   {
     return;
   }
@@ -278,7 +278,7 @@ void Rule::on_winEventNotifier_notify(const MWinEventInfo &winEventInfo)
 {
   _foregroundProcess = MProcessInfo(winEventInfo.window());
 
-  if (_options.enabled())
+  if (!_options.enabled())
   {
     return;
   }
