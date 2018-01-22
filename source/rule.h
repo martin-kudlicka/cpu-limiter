@@ -42,7 +42,7 @@ class Rule : public QObject
     void restrictSelectedProcesses();
 
   public slots:
-    void on_networkNotifier_connectivityChanged(NLM_CONNECTIVITY newConnectivity) const;
+    void on_networkNotifier_connectivityChanged(NLM_CONNECTIVITY newConnectivity);
     void on_processNotifier_ended              (DWORD id);
     void on_processNotifier_started            (const MProcessInfo &processInfo);
     void on_winEventNotifier_notify            (const MWinEventInfo &winEventInfo);
