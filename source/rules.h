@@ -3,6 +3,9 @@
 
 #include <QtCore/QSettings>
 #include "rule.h"
+#include <MkProcessGovernor/MProcessGovernor>
+#include <MkNotifier/MWinEventNotifier>
+#include <MkNotifier/MNetworkNotifier>
 
 class Rules
 {
@@ -13,7 +16,7 @@ class Rules
         static Q_DECL_CONSTEXPR QString Group;
     };
 
-    Rules();
+    Rules(RulesModel *rulesModel);
 
           bool         empty      ()                   const;
     const RuleSPtrList get        ();
@@ -24,8 +27,12 @@ class Rules
           quintptr     size       ()                   const;
 
   private:
+    MNetworkNotifier         _networkNotifier;
+    MProcessGovernor         _processGovernor;
+    MWinEventNotifier        _winEventNotifier;
     QMap<MUuidPtr, RuleSPtr> _rules;
     QSettings                _settings;
+    RulesModel              *_rulesModel;
 
     void removeId(const MUuidPtr &id);
 };

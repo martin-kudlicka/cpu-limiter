@@ -66,17 +66,14 @@
     <ClCompile Include="rulesmodel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rulemonitor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\intermediate\cpulimter\Debug\moc_rulemonitor.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\intermediate\cpulimter\Release\moc_rulemonitor.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
     <ClCompile Include="log.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\intermediate\cpulimter\Debug\moc_rule.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\intermediate\cpulimter\Release\moc_rule.cpp">
+      <Filter>Generated Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -95,7 +92,7 @@
     <CustomBuild Include="ruledialog.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="rulemonitor.h">
+    <CustomBuild Include="rule.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
@@ -113,9 +110,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rules.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="rule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="rulesmodel.h">
