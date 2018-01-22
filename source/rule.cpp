@@ -76,53 +76,9 @@ bool Rule::isRestricting() const
   return !_restrictedProcesses.isEmpty();
 }
 
-bool Rule::isTargetProcess(const MProcessInfo &runningProcess)
-{
-  if (runningProcess.filePath().isEmpty())
-  {
-    return false;
-  }
-
-  for (const auto &selectedProcess : _options.selectedProcesses(RuleOptions::Section::Target))
-  {
-    auto pattern = selectedProcess;
-    if (!pattern.contains(QDir::separator()))
-    {
-      pattern.prepend('*' + QDir::separator());
-    }
-
-    QRegExp regExp(QDir::fromNativeSeparators(pattern), Qt::CaseInsensitive, QRegExp::Wildcard);
-    if (regExp.exactMatch(QDir::fromNativeSeparators(runningProcess.filePath())))
-    {
-      return true;
-    }
-  }
-
-  return false;
-}
-
 RuleOptions &Rule::options()
 {
   return _options;
-}
-
-void Rule::processEnded(DWORD processId)
-{
-  _restrictedProcesses.remove(processId);
-}
-
-void Rule::restrictProcess(const MProcessInfo &runningProcess)
-{
-  if (_opId == MProcessGovernor::OPERATION_ID_INVALID)
-  {
-    _opId = _processGovernor->setCpuRate(runningProcess.id(), _options.cpuLimit());
-  }
-  else
-  {
-    _processGovernor->addCpuRate(_opId, runningProcess.id(), _options.cpuLimit());
-  }
-
-  _restrictedProcesses.insert(runningProcess.id());
 }
 
 bool Rule::conditionsMet(const QString &selectedProcess, const MProcessInfo &runningProcess)
@@ -174,6 +130,45 @@ bool Rule::conditionsMet(const QString &selectedProcess, const MProcessInfo &run
   return false;
 }
 
+bool Rule::isTargetProcess(const MProcessInfo &runningProcess)
+{
+  if (runningProcess.filePath().isEmpty())
+  {
+    return false;
+  }
+
+  for (const auto &selectedProcess : _options.selectedProcesses(RuleOptions::Section::Target))
+  {
+    auto pattern = selectedProcess;
+    if (!pattern.contains(QDir::separator()))
+    {
+      pattern.prepend('*' + QDir::separator());
+    }
+
+    QRegExp regExp(QDir::fromNativeSeparators(pattern), Qt::CaseInsensitive, QRegExp::Wildcard);
+    if (regExp.exactMatch(QDir::fromNativeSeparators(runningProcess.filePath())))
+    {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+void Rule::restrictProcess(const MProcessInfo &runningProcess)
+{
+  if (_opId == MProcessGovernor::OPERATION_ID_INVALID)
+  {
+    _opId = _processGovernor->setCpuRate(runningProcess.id(), _options.cpuLimit());
+  }
+  else
+  {
+    _processGovernor->addCpuRate(_opId, runningProcess.id(), _options.cpuLimit());
+  }
+
+  _restrictedProcesses.insert(runningProcess.id());
+}
+
 void Rule::restrictSelectedProcesses()
 {
   auto processesInfo = MProcesses::enumerate();
@@ -206,7 +201,7 @@ void Rule::on_processNotifier_ended(DWORD id)
       {
         if (conditionsMet())
         {
-          processEnded(id);
+          _restrictedProcesses.remove(id);
         }
         else
         {
@@ -219,7 +214,7 @@ void Rule::on_processNotifier_ended(DWORD id)
     case RuleOptions::Status::NotRunning:
       if (_active)
       {
-        processEnded(id);
+        _restrictedProcesses.remove(id);
       }
       else
       {
