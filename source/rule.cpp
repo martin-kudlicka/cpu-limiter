@@ -36,8 +36,28 @@ bool Rule::active() const
 
 bool Rule::conditionsMet()
 {
-  auto processesInfo = MProcesses::enumerate();
+  if (_options.internetConnectionCheck())
+  {
+    switch (_options.internetConnectionStatus())
+    {
+      case RuleOptions::InternetConnection::Disconnected:
+        if (_connectivity & (NLM_CONNECTIVITY_IPV4_INTERNET | NLM_CONNECTIVITY_IPV6_INTERNET))
+        {
+          return false;
+        }
+        break;
+      case RuleOptions::InternetConnection::Connected:
+        if (!(_connectivity & (NLM_CONNECTIVITY_IPV4_INTERNET | NLM_CONNECTIVITY_IPV6_INTERNET)))
+        {
+          return false;
+        }
+        break;
+      default:
+        Q_ASSERT_X(false, "Rule::conditionsMet", "switch (_options.internetConnectionStatus())");
+    }
+  }
 
+  auto processesInfo = MProcesses::enumerate();
   for (const auto &selectedProcess : _options.selectedProcesses(RuleOptions::Section::Condition))
   {
     auto conditionFound = false;
@@ -182,9 +202,27 @@ void Rule::restrictSelectedProcesses()
   }
 }
 
-void Rule::on_networkNotifier_connectivityChanged(NLM_CONNECTIVITY newConnectivity) const
+void Rule::on_networkNotifier_connectivityChanged(NLM_CONNECTIVITY newConnectivity)
 {
-  // TODO
+  _connectivity = newConnectivity;
+
+  if (!_options.enabled())
+  {
+    return;
+  }
+
+  if (_active && !conditionsMet())
+  {
+    deactivate();
+
+    _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
+  }
+  else if (!_active && conditionsMet())
+  {
+    activate();
+
+    _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
+  }
 }
 
 void Rule::on_processNotifier_ended(DWORD id)
@@ -227,7 +265,7 @@ void Rule::on_processNotifier_ended(DWORD id)
       }
       break;
     default:
-      Q_ASSERT_X(false, "RuleMonitor::on_processNotifier_ended", "switch (rule->options().status())");
+      Q_ASSERT_X(false, "Rule::on_processNotifier_ended", "switch (_options.status())");
   }
 }
 
@@ -270,7 +308,7 @@ void Rule::on_processNotifier_started(const MProcessInfo &processInfo)
       }
       break;
     default:
-      Q_ASSERT_X(false, "RuleMonitor::on_processNotifier_started", "switch (rule->options().status())");
+      Q_ASSERT_X(false, "Rule::on_processNotifier_started", "switch (_options.status())");
   }
 }
 
