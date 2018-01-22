@@ -50,16 +50,18 @@ class RuleOptions : public MSettings
              RuleOptions(const MUuidPtr &id);
     virtual ~RuleOptions() Q_DECL_OVERRIDE Q_DECL_EQ_DEFAULT;
 
-          quintptr    cpuLimit             () const;
-          bool        enabled              () const;
-    const MUuidPtr   &id                   () const;
-          QString     name                 () const;
-          QString     selectedProcess      (Section section, quintptr index);
-          QStringList selectedProcesses    (Section section);
-          quintptr    selectedProcessesSize(Section section);
-          void        setEnabled           (bool enabled);
-          State       state                () const;
-          Status      status               () const;
+          quintptr           cpuLimit                () const;
+          bool               enabled                 () const;
+    const MUuidPtr          &id                      () const;
+          bool               internetConnectionCheck () const;
+          InternetConnection internetConnectionStatus() const;
+          QString            name                    () const;
+          QString            selectedProcess         (Section section, quintptr index);
+          QStringList        selectedProcesses       (Section section);
+          quintptr           selectedProcessesSize   (Section section);
+          void               setEnabled              (bool enabled);
+          State              state                   () const;
+          Status             status                  () const;
 
   private:
     MUuidPtr _id;

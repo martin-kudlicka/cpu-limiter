@@ -42,6 +42,16 @@ const MUuidPtr &RuleOptions::id() const
   return _id;
 }
 
+bool RuleOptions::internetConnectionCheck() const
+{
+  return value(Property::Condition_InternetConnection).toBool();
+}
+
+RuleOptions::InternetConnection RuleOptions::internetConnectionStatus() const
+{
+  return static_cast<InternetConnection>(value(Property::Condition_InternetConnectionStatus).toUInt());
+}
+
 QString RuleOptions::name() const
 {
   return value(Property::Name).toString();
