@@ -28,19 +28,6 @@ bool Rules::empty() const
   return size() == 0;
 }
 
-const RuleSPtrList Rules::get()
-{
-  if (_rules.size() != size())
-  {
-    for (auto index2 = 0; index2 < size(); index2++)
-    {
-      get(id(index2));
-    }
-  }
-
-  return _rules.values();
-}
-
 const RuleSPtr &Rules::get(const MUuidPtr &id)
 {
   if (_rules.contains(id))
@@ -92,6 +79,19 @@ void Rules::removeIndex(quintptr index)
 quintptr Rules::size() const
 {
   return _settings.childGroups().size();
+}
+
+RuleSPtrList Rules::get()
+{
+  if (_rules.size() != size())
+  {
+    for (auto index2 = 0; index2 < size(); index2++)
+    {
+      get(id(index2));
+    }
+  }
+
+  return _rules.values();
 }
 
 void Rules::removeId(const MUuidPtr &id)

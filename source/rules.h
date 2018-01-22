@@ -19,7 +19,6 @@ class Rules
     Rules(RulesModel *rulesModel);
 
           bool         empty      ()                   const;
-    const RuleSPtrList get        ();
     const RuleSPtr    &get        (const MUuidPtr &id);
           MUuidPtr     id         (quintptr index)     const;
           quintptr     index      (const MUuidPtr &id) const;
@@ -34,7 +33,8 @@ class Rules
     QSettings                _settings;
     RulesModel              *_rulesModel;
 
-    void removeId(const MUuidPtr &id);
+    RuleSPtrList get     ();
+    void         removeId(const MUuidPtr &id);
 };
 
 #endif
