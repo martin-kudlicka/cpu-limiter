@@ -3,35 +3,50 @@
 
 #include <QtCore/QSharedPointer>
 #include "ruleoptions.h"
-#include <QtCore/qt_windows.h>
+#include <Netlistmgr.h>
 #include <QtCore/QSet>
+#include <MkCore/MProcessInfo>
 
 class MProcessGovernor;
-class MProcessInfo;
+class MWinEventInfo;
+class RulesModel;
 
-class Rule
+class Rule : public QObject
 {
-  public:
-    Rule(const MUuidPtr &id);
+  Q_OBJECT
 
-    void         activate       (MProcessGovernor *processGovernor);
+  public:
+             Rule(const MUuidPtr &id, MProcessGovernor *processGovernor, RulesModel *rulesModel);
+    virtual ~Rule() Q_DECL_OVERRIDE;
+
+    void         activate       ();
     bool         active         () const;
-    bool         conditionsMet  (const MProcessInfo &foregroundProcess);
-    void         deactivate     (MProcessGovernor *processGovernor);
+    bool         conditionsMet  ();
+    void         deactivate     ();
     bool         isRestricting  () const;
     bool         isTargetProcess(const MProcessInfo &runningProcess);
     RuleOptions &options        ();
     void         processEnded   (DWORD processId);
-    void         restrictProcess(MProcessGovernor *processGovernor, const MProcessInfo &runningProcess);
+    void         restrictProcess(const MProcessInfo &runningProcess);
 
   private:
-    bool        _active;
-    QSet<DWORD> _restrictedProcesses;
-    quintptr    _opId;
-    RuleOptions _options;
+    bool              _active;
+    MProcessGovernor *_processGovernor;
+    MProcessInfo      _foregroundProcess;
+    NLM_CONNECTIVITY  _connectivity;
+    QSet<DWORD>       _restrictedProcesses;
+    quintptr          _opId;
+    RuleOptions       _options;
+    RulesModel       *_rulesModel;
 
-    bool conditionsMet            (const QString &selectedProcess, const MProcessInfo &runningProcess, const MProcessInfo &foregroundProcess);
-    void restrictSelectedProcesses(MProcessGovernor *processGovernor);
+    bool conditionsMet            (const QString &selectedProcess, const MProcessInfo &runningProcess);
+    void restrictSelectedProcesses();
+
+  public slots:
+    void on_networkNotifier_connectivityChanged(NLM_CONNECTIVITY newConnectivity) const;
+    void on_processNotifier_ended              (DWORD id);
+    void on_processNotifier_started            (const MProcessInfo &processInfo);
+    void on_winEventNotifier_notify            (const MWinEventInfo &winEventInfo);
 };
 
 using RuleSPtr     = QSharedPointer<Rule>;

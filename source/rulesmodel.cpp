@@ -1,9 +1,8 @@
 #include "rulesmodel.h"
 
-#include <MkCore/MProcessInfo>
 #include <QtGui/QColor>
 
-RulesModel::RulesModel(MProcessGovernor *processGovernor) : _processGovernor(processGovernor)
+RulesModel::RulesModel() : _rules(this)
 {
 }
 
@@ -24,9 +23,9 @@ Rules *RulesModel::rules()
   return &_rules;
 }
 
-void RulesModel::setDataChanged(const RuleSPtr &rule, Column column)
+void RulesModel::setDataChanged(const MUuidPtr &id, Column column)
 {
-  auto row    = _rules.index(rule->options().id());
+  auto row    = _rules.index(id);
   auto index2 = index(row, static_cast<int>(column));
   emit dataChanged(index2, index2);
 }
@@ -166,16 +165,16 @@ bool RulesModel::setData(const QModelIndex &index, const QVariant &value, int ro
 
       if (value.toBool())
       {
-        if (rule->conditionsMet(MProcessInfo(GetForegroundWindow())))
+        if (rule->conditionsMet())
         {
-          rule->activate(_processGovernor);
+          rule->activate();
         }
       }
       else
       {
         if (rule->active())
         {
-          rule->deactivate(_processGovernor);
+          rule->deactivate();
         }
       }
 

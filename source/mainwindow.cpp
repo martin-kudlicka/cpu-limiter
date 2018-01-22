@@ -3,7 +3,7 @@
 #include "ruledialog.h"
 #include <MkWidgets/MAboutBox>
 
-MainWindow::MainWindow() : _rulesModel(&_processGovernor), _ruleMonitor(&_rulesModel, &_processGovernor)
+MainWindow::MainWindow()
 {
 	_ui.setupUi(this);
 
@@ -38,10 +38,9 @@ void MainWindow::on_ruleAdd_clicked(bool checked /* false */)
   auto rule = _rulesModel.rules()->get(ruleDialog.options().id());
   if (rule->options().enabled())
   {
-    auto foregroundProcess = MProcessInfo(GetForegroundWindow());
-    if (rule->conditionsMet(foregroundProcess))
+    if (rule->conditionsMet())
     {
-      rule->activate(&_processGovernor);
+      rule->activate();
     }
   }
 }
@@ -60,14 +59,13 @@ void MainWindow::on_ruleEdit_clicked(bool checked /* false */)
   auto rule = _rulesModel.rules()->get(id);
   if (rule->active())
   {
-    rule->deactivate(&_processGovernor);
+    rule->deactivate();
 
     if (rule->options().enabled())
     {
-      auto foregroundProcess = MProcessInfo(GetForegroundWindow());
-      if (rule->conditionsMet(foregroundProcess))
+      if (rule->conditionsMet())
       {
-        rule->activate(&_processGovernor);
+        rule->activate();
       }
     }
   }
@@ -80,7 +78,7 @@ void MainWindow::on_ruleRemove_clicked(bool checked /* false */)
   auto rule  = _rulesModel.rules()->get(id);
   if (rule->active())
   {
-    rule->deactivate(&_processGovernor);
+    rule->deactivate();
   }
 
   _rulesModel.remove(index);

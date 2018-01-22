@@ -3,15 +3,26 @@
 #include <MkCore/MProcesses>
 #include <QtCore/QDir>
 #include <MkProcessGovernor/MProcessGovernor>
+#include <MkCore/MWinEventInfo>
+#include "rulesmodel.h"
 #include "log.h"
+#include <MkNetwork/MNetwork>
 
-Rule::Rule(const MUuidPtr &id) : _options(id), _active(false), _opId(MProcessGovernor::OPERATION_ID_INVALID)
+Rule::Rule(const MUuidPtr &id, MProcessGovernor *processGovernor, RulesModel *rulesModel) : _options(id), _processGovernor(processGovernor), _rulesModel(rulesModel), _active(false), _foregroundProcess(GetForegroundWindow()), _connectivity(MNetwork().connectivity()), _opId(MProcessGovernor::OPERATION_ID_INVALID)
 {
 }
 
-void Rule::activate(MProcessGovernor *processGovernor)
+Rule::~Rule()
 {
-  restrictSelectedProcesses(processGovernor);
+  if (_active)
+  {
+    deactivate();
+  }
+}
+
+void Rule::activate()
+{
+  restrictSelectedProcesses();
 
   _active = true;
 
@@ -23,7 +34,7 @@ bool Rule::active() const
   return _active;
 }
 
-bool Rule::conditionsMet(const MProcessInfo &foregroundProcess)
+bool Rule::conditionsMet()
 {
   auto processesInfo = MProcesses::enumerate();
 
@@ -33,7 +44,7 @@ bool Rule::conditionsMet(const MProcessInfo &foregroundProcess)
 
     for (const auto &processInfo : processesInfo)
     {
-      if (conditionsMet(selectedProcess, processInfo, foregroundProcess))
+      if (conditionsMet(selectedProcess, processInfo))
       {
         conditionFound = true;
         break;
@@ -49,9 +60,9 @@ bool Rule::conditionsMet(const MProcessInfo &foregroundProcess)
   return true;
 }
 
-void Rule::deactivate(MProcessGovernor *processGovernor)
+void Rule::deactivate()
 {
-  processGovernor->revert(_opId);
+  _processGovernor->revert(_opId);
   _opId = MProcessGovernor::OPERATION_ID_INVALID;
   _restrictedProcesses.clear();
 
@@ -100,21 +111,21 @@ void Rule::processEnded(DWORD processId)
   _restrictedProcesses.remove(processId);
 }
 
-void Rule::restrictProcess(MProcessGovernor *processGovernor, const MProcessInfo &runningProcess)
+void Rule::restrictProcess(const MProcessInfo &runningProcess)
 {
   if (_opId == MProcessGovernor::OPERATION_ID_INVALID)
   {
-    _opId = processGovernor->setCpuRate(runningProcess.id(), _options.cpuLimit());
+    _opId = _processGovernor->setCpuRate(runningProcess.id(), _options.cpuLimit());
   }
   else
   {
-    processGovernor->addCpuRate(_opId, runningProcess.id(), _options.cpuLimit());
+    _processGovernor->addCpuRate(_opId, runningProcess.id(), _options.cpuLimit());
   }
 
   _restrictedProcesses.insert(runningProcess.id());
 }
 
-bool Rule::conditionsMet(const QString &selectedProcess, const MProcessInfo &runningProcess, const MProcessInfo &foregroundProcess)
+bool Rule::conditionsMet(const QString &selectedProcess, const MProcessInfo &runningProcess)
 {
   if (runningProcess.filePath().isEmpty())
   {
@@ -136,13 +147,13 @@ bool Rule::conditionsMet(const QString &selectedProcess, const MProcessInfo &run
         case RuleOptions::State::Anyhow:
           return true;
         case RuleOptions::State::Foreground:
-          if (runningProcess == foregroundProcess)
+          if (runningProcess == _foregroundProcess)
           {
             return true;
           }
           break;
         case RuleOptions::State::Background:
-          if ((runningProcess != foregroundProcess) && (runningProcess.filePath() != foregroundProcess.filePath()))
+          if ((runningProcess != _foregroundProcess) && (runningProcess.filePath() != _foregroundProcess.filePath()))
           {
             return true;
           }
@@ -163,7 +174,7 @@ bool Rule::conditionsMet(const QString &selectedProcess, const MProcessInfo &run
   return false;
 }
 
-void Rule::restrictSelectedProcesses(MProcessGovernor *processGovernor)
+void Rule::restrictSelectedProcesses()
 {
   auto processesInfo = MProcesses::enumerate();
 
@@ -171,7 +182,130 @@ void Rule::restrictSelectedProcesses(MProcessGovernor *processGovernor)
   {
     if (isTargetProcess(processInfo))
     {
-      restrictProcess(processGovernor, processInfo);
+      restrictProcess(processInfo);
     }
+  }
+}
+
+void Rule::on_networkNotifier_connectivityChanged(NLM_CONNECTIVITY newConnectivity) const
+{
+  // TODO
+}
+
+void Rule::on_processNotifier_ended(DWORD id)
+{
+  if (!_options.enabled())
+  {
+    return;
+  }
+
+  switch (_options.status())
+  {
+    case RuleOptions::Status::Running:
+      if (_active)
+      {
+        if (conditionsMet())
+        {
+          processEnded(id);
+        }
+        else
+        {
+          deactivate();
+
+          _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
+        }
+      }
+      break;
+    case RuleOptions::Status::NotRunning:
+      if (_active)
+      {
+        processEnded(id);
+      }
+      else
+      {
+        if (conditionsMet())
+        {
+          activate();
+
+          _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
+        }
+      }
+      break;
+    default:
+      Q_ASSERT_X(false, "RuleMonitor::on_processNotifier_ended", "switch (rule->options().status())");
+  }
+}
+
+void Rule::on_processNotifier_started(const MProcessInfo &processInfo)
+{
+  if (_options.enabled())
+  {
+    return;
+  }
+
+  switch (_options.status())
+  {
+    case RuleOptions::Status::Running:
+      if (_active)
+      {
+        if (isTargetProcess(processInfo))
+        {
+          restrictProcess(processInfo);
+        }
+      }
+      else
+      {
+        if (conditionsMet())
+        {
+          activate();
+
+          _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
+        }
+      }
+      break;
+    case RuleOptions::Status::NotRunning:
+      if (_active)
+      {
+        if (!conditionsMet())
+        {
+          deactivate();
+
+          _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
+        }
+      }
+      break;
+    default:
+      Q_ASSERT_X(false, "RuleMonitor::on_processNotifier_started", "switch (rule->options().status())");
+  }
+}
+
+void Rule::on_winEventNotifier_notify(const MWinEventInfo &winEventInfo)
+{
+  _foregroundProcess = MProcessInfo(winEventInfo.window());
+
+  if (_options.enabled())
+  {
+    return;
+  }
+  if (_options.status() == RuleOptions::Status::NotRunning)
+  {
+    return;
+  }
+  if (_options.state() == RuleOptions::State::Anyhow)
+  {
+    return;
+  }
+
+  if (_active && !conditionsMet())
+  {
+    deactivate();
+
+    _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
+  }
+  else if (!_active && conditionsMet())
+  {
+    activate();
+
+    _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
   }
 }

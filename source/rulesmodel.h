@@ -15,17 +15,16 @@ class RulesModel : public QAbstractItemModel
       Count
     };
 
-             RulesModel(MProcessGovernor *processGovernor);
+             RulesModel();
     virtual ~RulesModel() Q_DECL_OVERRIDE Q_DECL_EQ_DEFAULT;
 
     void   insert        (const MUuidPtr &id);
     void   remove        (const QModelIndex &index);
     Rules *rules         ();
-    void   setDataChanged(const RuleSPtr &rule, Column column);
+    void   setDataChanged(const MUuidPtr &id, Column column);
 
   private:
-    MProcessGovernor *_processGovernor;
-    Rules             _rules;
+    Rules _rules;
 
     virtual int           columnCount(const QModelIndex &parent = QModelIndex())                            const Q_DECL_OVERRIDE;
     virtual QVariant      data       (const QModelIndex &index, int role = Qt::DisplayRole)                 const Q_DECL_OVERRIDE;
