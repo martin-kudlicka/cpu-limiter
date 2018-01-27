@@ -75,6 +75,15 @@
     <ClCompile Include="..\..\..\intermediate\cpulimter\Release\moc_rule.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="selectprocessdialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\intermediate\cpulimter\Debug\moc_selectprocessdialog.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\intermediate\cpulimter\Release\moc_selectprocessdialog.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="mainwindow.h">
@@ -93,6 +102,12 @@
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="rule.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="selectprocessdialog.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="selectprocessdialog.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
   </ItemGroup>
@@ -117,6 +132,9 @@
     </ClInclude>
     <ClInclude Include="log.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\intermediate\cpulimter\ui_selectprocessdialog.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

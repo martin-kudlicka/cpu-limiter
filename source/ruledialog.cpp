@@ -1,6 +1,6 @@
 #include "ruledialog.h"
 
-#include <QtWidgets/QInputDialog>
+#include "selectprocessdialog.h"
 
 RuleDialog::RuleDialog(QWidget *parent) : RuleDialog(MUuidPtr::createUuid(), parent)
 {
@@ -109,13 +109,13 @@ void RuleDialog::on_conditionInternetConnection_stateChanged(int state) const
 
 void RuleDialog::on_conditionProcessAdd_clicked(bool checked /* false */)
 {
-  auto process = QInputDialog::getText(this, tr("Add condition process"), tr("Name:"));
-  if (process.isEmpty())
+  SelectProcessDialog selectProcessDialog(this);
+  if (selectProcessDialog.exec() == QDialog::Rejected)
   {
     return;
   }
 
-  addProcess(&_conditionProcessesModel, process);
+  addProcess(&_conditionProcessesModel, selectProcessDialog.process());
 }
 
 void RuleDialog::on_conditionProcessRemove_clicked(bool checked /* false */)
@@ -146,13 +146,13 @@ void RuleDialog::on_name_textChanged(const QString &text) const
 
 void RuleDialog::on_targetProcessAdd_clicked(bool checked /* false */)
 {
-  auto process = QInputDialog::getText(this, tr("Add target process"), tr("Name:"));
-  if (process.isEmpty())
+  SelectProcessDialog selectProcessDialog(this);
+  if (selectProcessDialog.exec() == QDialog::Rejected)
   {
     return;
   }
 
- addProcess(& _targetProcessesModel, process);
+  addProcess(&_targetProcessesModel, selectProcessDialog.process());
 }
 
 void RuleDialog::on_targetProcessRemove_clicked(bool checked /* false */)
