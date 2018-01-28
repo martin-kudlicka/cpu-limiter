@@ -70,8 +70,6 @@ void RuleDialog::setupSettings()
 
 void RuleDialog::setupWidgets()
 {
-  _ui.targetActionSuspend->hide();
-
   _ui.conditionSelectedProcessesList->setModel(&_conditionProcessesModel);
   _ui.targetSelectedProcessesList->setModel(&_targetProcessesModel);
 

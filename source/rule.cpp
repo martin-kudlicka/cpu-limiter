@@ -177,13 +177,30 @@ bool Rule::isTargetProcess(const MProcessInfo &runningProcess)
 
 void Rule::restrictProcess(const MProcessInfo &runningProcess)
 {
-  if (_opId == MProcessGovernor::OPERATION_ID_INVALID)
+  switch (_options.action())
   {
-    _opId = _processGovernor->setCpuRate(runningProcess.id(), _options.cpuLimit());
-  }
-  else
-  {
-    _processGovernor->addCpuRate(_opId, runningProcess.id(), _options.cpuLimit());
+    case RuleOptions::Action::SetCpuRate:
+      if (_opId == MProcessGovernor::OPERATION_ID_INVALID)
+      {
+        _opId = _processGovernor->setCpuRate(runningProcess.id(), _options.cpuLimit());
+      }
+      else
+      {
+        _processGovernor->addCpuRate(_opId, runningProcess.id(), _options.cpuLimit());
+      }
+      break;
+    case RuleOptions::Action::Suspend:
+      if (_opId == MProcessGovernor::OPERATION_ID_INVALID)
+      {
+        _opId = _processGovernor->suspend(runningProcess.id());
+      }
+      else
+      {
+        _processGovernor->addSuspend(_opId, runningProcess.id());
+      }
+      break;
+    default:
+      Q_ASSERT_X(false, "Rule::restrictProcess", "switch (_options.action())");
   }
 
   _restrictedProcesses.insert(runningProcess.id());
