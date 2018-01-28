@@ -27,6 +27,11 @@ RuleOptions::RuleOptions(const MUuidPtr &id) : _id(id)
   beginGroup(id.toString());
 }
 
+RuleOptions::Action RuleOptions::action() const
+{
+  return static_cast<Action>(value(Property::Target_Action).toUInt());
+}
+
 quintptr RuleOptions::cpuLimit() const
 {
   return value(Property::Target_CPULimit).toUInt();

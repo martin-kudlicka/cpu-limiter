@@ -7,6 +7,11 @@
 class RuleOptions : public MSettings
 {
   public:
+    enum class Action
+    {
+      SetCpuRate,
+      Suspend
+    };
     enum class InternetConnection
     {
       Disconnected,
@@ -50,6 +55,7 @@ class RuleOptions : public MSettings
              RuleOptions(const MUuidPtr &id);
     virtual ~RuleOptions() Q_DECL_OVERRIDE Q_DECL_EQ_DEFAULT;
 
+          Action             action                  () const;
           quintptr           cpuLimit                () const;
           bool               enabled                 () const;
     const MUuidPtr          &id                      () const;
