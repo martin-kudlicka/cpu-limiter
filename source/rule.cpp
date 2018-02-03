@@ -22,11 +22,11 @@ Rule::~Rule()
 
 void Rule::activate()
 {
+  mCInfo(CPULimiter) << "rule \"" << _options.name() << "\" activated";
+
   restrictSelectedProcesses();
 
   _active = true;
-
-  mCInfo(CPULimiter) << "rule \"" << _options.name() << "\" activated";
 }
 
 bool Rule::active() const
