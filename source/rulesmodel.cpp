@@ -25,7 +25,12 @@ Rules *RulesModel::rules()
 
 void RulesModel::setDataChanged(const MUuidPtr &id, Column column)
 {
-  auto row    = _rules.index(id);
+  auto row = _rules.index(id);
+  setDataChanged(row, column);
+}
+
+void RulesModel::setDataChanged(int row, Column column)
+{
   auto index2 = index(row, static_cast<int>(column));
   emit dataChanged(index2, index2);
 }
@@ -179,6 +184,8 @@ bool RulesModel::setData(const QModelIndex &index, const QVariant &value, int ro
       }
 
       emit dataChanged(index, index);
+      setDataChanged(index.row(), Column::Active);
+
       return true;
     default:
       Q_UNREACHABLE();

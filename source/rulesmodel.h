@@ -26,6 +26,8 @@ class RulesModel : public QAbstractItemModel
   private:
     Rules _rules;
 
+    void setDataChanged(int row, Column column);
+
     virtual int           columnCount(const QModelIndex &parent = QModelIndex())                            const Q_DECL_OVERRIDE;
     virtual QVariant      data       (const QModelIndex &index, int role = Qt::DisplayRole)                 const Q_DECL_OVERRIDE;
     virtual Qt::ItemFlags flags      (const QModelIndex &index)                                             const Q_DECL_OVERRIDE;
