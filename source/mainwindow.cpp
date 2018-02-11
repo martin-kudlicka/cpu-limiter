@@ -2,6 +2,7 @@
 
 #include "ruledialog.h"
 #include <MkWidgets/MAboutBox>
+#include <MkSupport/MFeedback>
 
 MainWindow::MainWindow()
 {
@@ -23,6 +24,11 @@ void MainWindow::setupWidgets()
 void MainWindow::on_actionAbout_triggered(bool checked /* false */)
 {
   MAboutBox(this).show();
+}
+
+void MainWindow::on_actionSendFeedback_triggered(bool checked /* false */) const
+{
+  MFeedback::createEmailForm();
 }
 
 void MainWindow::on_ruleAdd_clicked(bool checked /* false */)
