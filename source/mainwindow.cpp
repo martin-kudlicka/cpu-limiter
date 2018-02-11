@@ -23,7 +23,7 @@ void MainWindow::setupWidgets()
 
 void MainWindow::on_actionAbout_triggered(bool checked /* false */)
 {
-  MAboutBox(this).show();
+  MAboutBox(this).exec();
 }
 
 void MainWindow::on_actionSendFeedback_triggered(bool checked /* false */) const
