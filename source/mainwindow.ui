@@ -14,8 +14,8 @@
    <string>CPU Limiter</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>resources/main.ico</normaloff>resources/main.ico</iconset>
+   <iconset resource="mainwindow.qrc">
+    <normaloff>:/MainWindow/resources/main.png</normaloff>:/MainWindow/resources/main.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
