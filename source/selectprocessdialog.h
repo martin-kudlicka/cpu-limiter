@@ -18,7 +18,7 @@ class SelectProcessDialog : public QDialog
     MProcessesModel _processesModel;
     Ui::SelectProcessDialog _ui;
 
-  private slots:
+  private Q_SLOTS:
     void on_browse_clicked              (bool checked /* false */);
     void on_process_textChanged         (const QString &text) const;
     void on_processesView_currentChanged(const QModelIndex &current, const QModelIndex &previous) const;

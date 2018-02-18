@@ -10,10 +10,9 @@
 class Rules
 {
   public:
-    class Property
+    struct Property
     {
-      public:
-        static Q_DECL_CONSTEXPR QString Group;
+      static Q_DECL_CONSTEXPR QString Group;
     };
 
     Rules(RulesModel *rulesModel);
