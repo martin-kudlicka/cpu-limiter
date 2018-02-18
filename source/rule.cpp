@@ -1,6 +1,5 @@
 #include "rule.h"
 
-#include <MkCore/MProcesses>
 #include <QtCore/QDir>
 #include <MkProcessGovernor/MProcessGovernor>
 #include <MkCore/MWinEventInfo>
@@ -57,14 +56,14 @@ bool Rule::conditionsMet()
     }
   }
 
-  auto processesInfo = MProcesses::enumerate();
+  auto processesInfo = _processGovernor->runningProcesses();
   for (const auto &selectedProcess : _options.selectedProcesses(RuleOptions::Section::Condition))
   {
     auto conditionFound = false;
 
     for (const auto &processInfo : processesInfo)
     {
-      if (conditionsMet(selectedProcess, processInfo))
+      if (conditionsMet(selectedProcess, *processInfo))
       {
         conditionFound = true;
         break;
@@ -208,13 +207,12 @@ void Rule::restrictProcess(const MProcessInfo &runningProcess)
 
 void Rule::restrictSelectedProcesses()
 {
-  auto processesInfo = MProcesses::enumerate();
-
+  auto processesInfo = _processGovernor->runningProcesses();
   for (const auto &processInfo : processesInfo)
   {
-    if (isTargetProcess(processInfo))
+    if (isTargetProcess(*processInfo))
     {
-      restrictProcess(processInfo);
+      restrictProcess(*processInfo);
     }
   }
 }
