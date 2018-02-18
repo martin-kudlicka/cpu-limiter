@@ -34,21 +34,22 @@ class RuleOptions : public MSettings
       NotRunning
     };
 
-    class Property
+    struct Property
     {
-      public:
-        static Q_DECL_CONSTEXPR QString Enabled;
-        static Q_DECL_CONSTEXPR QString Name;
+      static Q_DECL_CONSTEXPR QString Enabled;
+      static Q_DECL_CONSTEXPR QString Name;
 
-        static Q_DECL_CONSTEXPR QString Condition_InternetConnection;
-        static Q_DECL_CONSTEXPR QString Condition_InternetConnectionStatus;
-        static Q_DECL_CONSTEXPR QString Condition_SelectedProcesses;
-        static Q_DECL_CONSTEXPR QString Condition_State;
-        static Q_DECL_CONSTEXPR QString Condition_Status;
+      static Q_DECL_CONSTEXPR QString Condition_InternetConnection;
+      static Q_DECL_CONSTEXPR QString Condition_InternetConnectionStatus;
+      static Q_DECL_CONSTEXPR QString Condition_SelectedProcesses;
+      static Q_DECL_CONSTEXPR QString Condition_State;
+      static Q_DECL_CONSTEXPR QString Condition_Status;
 
-        static Q_DECL_CONSTEXPR QString Target_Action;
-        static Q_DECL_CONSTEXPR QString Target_CPULimit;
-        static Q_DECL_CONSTEXPR QString Target_SelectedProcesses;
+      static Q_DECL_CONSTEXPR QString Target_Action;
+      static Q_DECL_CONSTEXPR QString Target_ApplyDelay;
+      static Q_DECL_CONSTEXPR QString Target_ApplyDelayValue;
+      static Q_DECL_CONSTEXPR QString Target_CPULimit;
+      static Q_DECL_CONSTEXPR QString Target_SelectedProcesses;
     };
 
              RuleOptions(MUuidPtr &&id);
