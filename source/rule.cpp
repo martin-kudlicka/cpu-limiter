@@ -19,18 +19,20 @@ Rule::~Rule()
   }
 }
 
-void Rule::activate()
+void Rule::activate(bool checkDelay /* true */)
 {
-  mCInfo(CPULimiter) << "rule \"" << _options.name() << "\" activated";
-
-  if (_options.applyDelay())
+  if (checkDelay && _options.applyDelay())
   {
+    mCInfo(CPULimiter) << "rule \"" << _options.name() << "\" delayed for " << _options.applyDelayValue() << 's';
+
     _delayTimer = startTimer(_options.applyDelayValue() * 1000, Qt::VeryCoarseTimer);
 
     _status = Status::Delayed;
   }
   else
   {
+    mCInfo(CPULimiter) << "rule \"" << _options.name() << "\" activated";
+
     restrictSelectedProcesses();
 
     _status = Status::Active;
@@ -239,9 +241,7 @@ void Rule::timerEvent(QTimerEvent *event)
   killTimer(_delayTimer);
   _delayTimer = 0;
 
-  restrictSelectedProcesses();
-
-  _status = Status::Active;
+  activate(false);
 
   _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
 }
