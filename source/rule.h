@@ -26,7 +26,7 @@ class Rule : public QObject
              Rule(const MUuidPtr &id, MProcessGovernor *processGovernor, RulesModel *rulesModel);
     virtual ~Rule() Q_DECL_OVERRIDE;
 
-    void         activate     ();
+    void         activate     (bool checkDelay = true);
     bool         conditionsMet();
     void         deactivate   ();
     bool         isRestricting() const;
