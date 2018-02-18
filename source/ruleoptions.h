@@ -57,6 +57,8 @@ class RuleOptions : public MSettings
     virtual ~RuleOptions() Q_DECL_OVERRIDE Q_DECL_EQ_DEFAULT;
 
           Action             action                  () const;
+          bool               applyDelay              () const;
+          quintptr           applyDelayValue         () const;
           quintptr           cpuLimit                () const;
           bool               enabled                 () const;
     const MUuidPtr          &id                      () const;

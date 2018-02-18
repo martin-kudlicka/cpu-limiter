@@ -7,13 +7,13 @@
 #include "log.h"
 #include <MkNetwork/MNetwork>
 
-Rule::Rule(const MUuidPtr &id, MProcessGovernor *processGovernor, RulesModel *rulesModel) : _options(id), _processGovernor(processGovernor), _rulesModel(rulesModel), _active(false), _foregroundProcess(GetForegroundWindow()), _connectivity(MNetwork().connectivity()), _opId(MProcessGovernor::OPERATION_ID_INVALID)
+Rule::Rule(const MUuidPtr &id, MProcessGovernor *processGovernor, RulesModel *rulesModel) : _delayTimer(0), _options(id), _processGovernor(processGovernor), _rulesModel(rulesModel), _foregroundProcess(GetForegroundWindow()), _connectivity(MNetwork().connectivity()), _opId(MProcessGovernor::OPERATION_ID_INVALID), _status(Status::Inactive)
 {
 }
 
 Rule::~Rule()
 {
-  if (_active)
+  if (_status == Status::Active)
   {
     deactivate();
   }
@@ -23,14 +23,18 @@ void Rule::activate()
 {
   mCInfo(CPULimiter) << "rule \"" << _options.name() << "\" activated";
 
-  restrictSelectedProcesses();
+  if (_options.applyDelay())
+  {
+    _delayTimer = startTimer(_options.applyDelayValue() * 1000, Qt::VeryCoarseTimer);
 
-  _active = true;
-}
+    _status = Status::Delayed;
+  }
+  else
+  {
+    restrictSelectedProcesses();
 
-bool Rule::active() const
-{
-  return _active;
+    _status = Status::Active;
+  }
 }
 
 bool Rule::conditionsMet()
@@ -81,11 +85,19 @@ bool Rule::conditionsMet()
 
 void Rule::deactivate()
 {
-  _processGovernor->revert(_opId);
-  _opId = MProcessGovernor::OPERATION_ID_INVALID;
-  _restrictedProcesses.clear();
+  if (_delayTimer)
+  {
+    killTimer(_delayTimer);
+    _delayTimer = 0;
+  }
+  else
+  {
+    _processGovernor->revert(_opId);
+    _opId = MProcessGovernor::OPERATION_ID_INVALID;
+    _restrictedProcesses.clear();
+  }
 
-  _active = false;
+  _status = Status::Inactive;
 
   mCInfo(CPULimiter) << "rule \"" << _options.name() << "\" deactivated";
 }
@@ -98,6 +110,11 @@ bool Rule::isRestricting() const
 RuleOptions &Rule::options()
 {
   return _options;
+}
+
+Rule::Status Rule::status() const
+{
+  return _status;
 }
 
 bool Rule::conditionsMet(const QString &selectedProcess, const MProcessInfo &runningProcess)
@@ -217,6 +234,18 @@ void Rule::restrictSelectedProcesses()
   }
 }
 
+void Rule::timerEvent(QTimerEvent *event)
+{
+  killTimer(_delayTimer);
+  _delayTimer = 0;
+
+  restrictSelectedProcesses();
+
+  _status = Status::Active;
+
+  _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
+}
+
 void Rule::on_networkNotifier_connectivityChanged(NLM_CONNECTIVITY newConnectivity)
 {
   _connectivity = newConnectivity;
@@ -226,17 +255,27 @@ void Rule::on_networkNotifier_connectivityChanged(NLM_CONNECTIVITY newConnectivi
     return;
   }
 
-  if (_active && !conditionsMet())
+  switch (_status)
   {
-    deactivate();
+    case Status::Inactive:
+      if (conditionsMet())
+      {
+        activate();
 
-    _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
-  }
-  else if (!_active && conditionsMet())
-  {
-    activate();
+        _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
+      }
+      break;
+    case Status::Active:
+    case Status::Delayed:
+      if (!conditionsMet())
+      {
+        deactivate();
 
-    _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
+        _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
+      }
+      break;
+    default:
+      Q_ASSERT_X(false, "Rule::on_networkNotifier_connectivityChanged", "switch (_status)");
   }
 }
 
@@ -250,33 +289,52 @@ void Rule::on_processNotifier_ended(DWORD id)
   switch (_options.status())
   {
     case RuleOptions::Status::Running:
-      if (_active)
+      switch (_status)
       {
-        if (conditionsMet())
-        {
-          _restrictedProcesses.remove(id);
-        }
-        else
-        {
-          deactivate();
+        case Status::Inactive:
+          break;
+        case Status::Active:
+          if (conditionsMet())
+          {
+            _restrictedProcesses.remove(id);
+          }
+          else
+          {
+            deactivate();
 
-          _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
-        }
+            _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
+          }
+          break;
+        case Status::Delayed:
+          if (!conditionsMet())
+          {
+            deactivate();
+
+            _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
+          }
+          break;
+        default:
+          Q_ASSERT_X(false, "Rule::on_processNotifier_ended", "switch (_status)");
       }
       break;
     case RuleOptions::Status::NotRunning:
-      if (_active)
+      switch (_status)
       {
-        _restrictedProcesses.remove(id);
-      }
-      else
-      {
-        if (conditionsMet())
-        {
-          activate();
+        case Status::Inactive:
+          if (conditionsMet())
+          {
+            activate();
 
-          _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
-        }
+            _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
+          }
+          break;
+        case Status::Active:
+          _restrictedProcesses.remove(id);
+          break;
+        case Status::Delayed:
+          break;
+        default:
+          Q_ASSERT_X(false, "Rule::on_processNotifier_ended", "switch (_status)");
       }
       break;
     default:
@@ -294,32 +352,44 @@ void Rule::on_processNotifier_started(const MProcessInfo &processInfo)
   switch (_options.status())
   {
     case RuleOptions::Status::Running:
-      if (_active)
+      switch (_status)
       {
-        if (isTargetProcess(processInfo))
-        {
-          restrictProcess(processInfo);
-        }
-      }
-      else
-      {
-        if (conditionsMet())
-        {
-          activate();
+        case Status::Inactive:
+          if (conditionsMet())
+          {
+            activate();
 
-          _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
-        }
+            _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
+          }
+          break;
+        case Status::Active:
+          if (isTargetProcess(processInfo))
+          {
+            restrictProcess(processInfo);
+          }
+          break;
+        case Status::Delayed:
+          break;
+        default:
+          Q_ASSERT_X(false, "Rule::on_processNotifier_started", "switch (_status)");
       }
       break;
     case RuleOptions::Status::NotRunning:
-      if (_active)
+      switch (_status)
       {
-        if (!conditionsMet())
-        {
-          deactivate();
+        case Status::Inactive:
+          break;
+        case Status::Active:
+        case Status::Delayed:
+          if (!conditionsMet())
+          {
+            deactivate();
 
-          _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
-        }
+            _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
+          }
+          break;
+        default:
+          Q_ASSERT_X(false, "Rule::on_processNotifier_started", "switch (_status)");
       }
       break;
     default:
@@ -344,16 +414,26 @@ void Rule::on_winEventNotifier_notify(const MWinEventInfo &winEventInfo)
     return;
   }
 
-  if (_active && !conditionsMet())
+  switch (_status)
   {
-    deactivate();
+    case Status::Inactive:
+      if (conditionsMet())
+      {
+        activate();
 
-    _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
-  }
-  else if (!_active && conditionsMet())
-  {
-    activate();
+        _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
+      }
+      break;
+    case Status::Active:
+    case Status::Delayed:
+      if (!conditionsMet())
+      {
+        deactivate();
 
-    _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
+        _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
+      }
+      break;
+    default:
+      Q_ASSERT_X(false, "Rule::on_winEventNotifier_notify", "switch (_options.status())");
   }
 }

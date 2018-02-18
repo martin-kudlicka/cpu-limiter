@@ -62,9 +62,16 @@ QVariant RulesModel::data(const QModelIndex &index, int role /* Qt::DisplayRole 
       switch (index.column())
       {
         case Column::Active:
-          if (rule->active())
+          switch (rule->status())
           {
-            return rule->isRestricting() ? QColor(Qt::green) : QColor(Qt::yellow);
+            case Rule::Status::Inactive:
+              break;
+            case Rule::Status::Active:
+              return rule->isRestricting() ? QColor(Qt::green) : QColor(Qt::yellow);
+            case Rule::Status::Delayed:
+              return QColor(Qt::cyan);
+            default:
+              Q_ASSERT_X(false, "RulesModel::data", "switch (rule->status())");
           }
       }
       break;
@@ -177,7 +184,7 @@ bool RulesModel::setData(const QModelIndex &index, const QVariant &value, int ro
       }
       else
       {
-        if (rule->active())
+        if (rule->status() != Rule::Status::Inactive)
         {
           rule->deactivate();
         }
