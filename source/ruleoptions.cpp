@@ -12,6 +12,8 @@ Q_DECL_CONSTEXPR QString RuleOptions::Property::Condition_State                 
 Q_DECL_CONSTEXPR QString RuleOptions::Property::Condition_Status                   = "condition/status";
 
 Q_DECL_CONSTEXPR QString RuleOptions::Property::Target_Action            = "target/action";
+Q_DECL_CONSTEXPR QString RuleOptions::Property::Target_ApplyDelay        = "target/applyDelay";
+Q_DECL_CONSTEXPR QString RuleOptions::Property::Target_ApplyDelayValue   = "target/applyDelayValue";
 Q_DECL_CONSTEXPR QString RuleOptions::Property::Target_CPULimit          = "target/cpuLimit";
 Q_DECL_CONSTEXPR QString RuleOptions::Property::Target_SelectedProcesses = "target/selectedProcesses";
 

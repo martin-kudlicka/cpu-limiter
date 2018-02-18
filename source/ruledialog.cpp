@@ -64,6 +64,8 @@ void RuleDialog::setupSettings()
   _widgetSettings.setWidget(RuleOptions::Property::Target_SelectedProcesses, _ui.targetSelectedProcessesList);
   _widgetSettings.setWidget(RuleOptions::Property::Target_Action,            qMove(QRadioButtonPtrList() << _ui.targetActionLimitCPU << _ui.targetActionSuspend));
   _widgetSettings.setWidget(RuleOptions::Property::Target_CPULimit,          _ui.tagetCPULimit);
+  _widgetSettings.setWidget(RuleOptions::Property::Target_ApplyDelay,        _ui.targetApplyDelay);
+  _widgetSettings.setWidget(RuleOptions::Property::Target_ApplyDelayValue,   _ui.targetApplyDelayValue);
 
   _widgetSettings.load();
 }
@@ -140,6 +142,11 @@ void RuleDialog::on_conditionStatusRunning_clicked(bool checked /* false */) con
 void RuleDialog::on_name_textChanged(const QString &text) const
 {
   updateOkButton(!text.isEmpty());
+}
+
+void RuleDialog::on_targetApplyDelay_stateChanged(int state) const
+{
+  _ui.targetApplyDelayValue->setEnabled(state == Qt::Checked);
 }
 
 void RuleDialog::on_targetProcessAdd_clicked(bool checked /* false */)
