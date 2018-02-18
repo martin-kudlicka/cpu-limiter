@@ -34,6 +34,16 @@ RuleOptions::Action RuleOptions::action() const
   return static_cast<Action>(value(Property::Target_Action).toUInt());
 }
 
+bool RuleOptions::applyDelay() const
+{
+  return value(Property::Target_ApplyDelay).toBool();
+}
+
+quintptr RuleOptions::applyDelayValue() const
+{
+  return value(Property::Target_ApplyDelayValue).toUInt();
+}
+
 quintptr RuleOptions::cpuLimit() const
 {
   return value(Property::Target_CPULimit).toUInt();

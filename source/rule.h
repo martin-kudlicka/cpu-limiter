@@ -16,18 +16,25 @@ class Rule : public QObject
   Q_OBJECT
 
   public:
+    enum class Status
+    {
+      Inactive,
+      Active,
+      Delayed
+    };
+
              Rule(const MUuidPtr &id, MProcessGovernor *processGovernor, RulesModel *rulesModel);
     virtual ~Rule() Q_DECL_OVERRIDE;
 
     void         activate     ();
-    bool         active       () const;
     bool         conditionsMet();
     void         deactivate   ();
     bool         isRestricting() const;
     RuleOptions &options      ();
+    Status       status       () const;
 
   private:
-    bool              _active;
+    int               _delayTimer;
     MProcessGovernor *_processGovernor;
     MProcessInfo      _foregroundProcess;
     NLM_CONNECTIVITY  _connectivity;
@@ -35,13 +42,16 @@ class Rule : public QObject
     quintptr          _opId;
     RuleOptions       _options;
     RulesModel       *_rulesModel;
+    Status            _status;
 
     bool conditionsMet            (const QString &selectedProcess, const MProcessInfo &runningProcess);
     bool isTargetProcess          (const MProcessInfo &runningProcess);
     void restrictProcess          (const MProcessInfo &runningProcess);
     void restrictSelectedProcesses();
 
-  public slots:
+    virtual void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE;
+
+  public Q_SLOTS:
     void on_networkNotifier_connectivityChanged(NLM_CONNECTIVITY newConnectivity);
     void on_processNotifier_ended              (DWORD id);
     void on_processNotifier_started            (const MProcessInfo &processInfo);

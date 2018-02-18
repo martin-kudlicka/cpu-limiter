@@ -63,7 +63,7 @@ void MainWindow::on_ruleEdit_clicked(bool checked /* false */)
   }
 
   auto rule = _rulesModel.rules()->get(id);
-  if (rule->active())
+  if (rule->status() != Rule::Status::Inactive)
   {
     rule->deactivate();
 
@@ -82,7 +82,7 @@ void MainWindow::on_ruleRemove_clicked(bool checked /* false */)
   auto index = _ui.rules->currentIndex();
   auto id    = _rulesModel.rules()->id(index.row());
   auto rule  = _rulesModel.rules()->get(id);
-  if (rule->active())
+  if (rule->status() != Rule::Status::Inactive)
   {
     rule->deactivate();
   }
