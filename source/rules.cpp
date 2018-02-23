@@ -85,7 +85,7 @@ RuleSPtrList Rules::get()
 {
   if (_rules.count() != count())
   {
-    for (auto index2 = 0; index2 < count(); index2++)
+    for (auto index2 = 0; index2 < count(); ++index2)
     {
       get(id(index2));
     }
