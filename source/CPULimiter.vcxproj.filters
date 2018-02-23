@@ -36,13 +36,13 @@
     <ClCompile Include="mainwindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\intermediate\cpulimter\Debug\moc_mainwindow.cpp">
+    <ClCompile Include="..\..\..\intermediate\cpulimiter\Debug\moc_mainwindow.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\intermediate\cpulimter\Release\moc_mainwindow.cpp">
+    <ClCompile Include="..\..\..\intermediate\cpulimiter\Release\moc_mainwindow.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\intermediate\cpulimter\qrc_mainwindow.cpp">
+    <ClCompile Include="..\..\..\intermediate\cpulimiter\qrc_mainwindow.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
     <ClCompile Include="ruledialog.cpp">
@@ -51,10 +51,10 @@
     <ClCompile Include="ruleoptions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\intermediate\cpulimter\Debug\moc_ruledialog.cpp">
+    <ClCompile Include="..\..\..\intermediate\cpulimiter\Debug\moc_ruledialog.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\intermediate\cpulimter\Release\moc_ruledialog.cpp">
+    <ClCompile Include="..\..\..\intermediate\cpulimiter\Release\moc_ruledialog.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
     <ClCompile Include="rules.cpp">
@@ -69,19 +69,19 @@
     <ClCompile Include="log.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\intermediate\cpulimter\Debug\moc_rule.cpp">
+    <ClCompile Include="..\..\..\intermediate\cpulimiter\Debug\moc_rule.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\intermediate\cpulimter\Release\moc_rule.cpp">
+    <ClCompile Include="..\..\..\intermediate\cpulimiter\Release\moc_rule.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
     <ClCompile Include="selectprocessdialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\intermediate\cpulimter\Debug\moc_selectprocessdialog.cpp">
+    <ClCompile Include="..\..\..\intermediate\cpulimiter\Debug\moc_selectprocessdialog.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\intermediate\cpulimter\Release\moc_selectprocessdialog.cpp">
+    <ClCompile Include="..\..\..\intermediate\cpulimiter\Release\moc_selectprocessdialog.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -112,13 +112,13 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\intermediate\cpulimter\ui_mainwindow.h">
+    <ClInclude Include="..\..\..\intermediate\cpulimiter\ui_mainwindow.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\intermediate\cpulimter\ui_ruledialog.h">
+    <ClInclude Include="..\..\..\intermediate\cpulimiter\ui_ruledialog.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="ruleoptions.h">
@@ -133,7 +133,7 @@
     <ClInclude Include="log.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\intermediate\cpulimter\ui_selectprocessdialog.h">
+    <ClInclude Include="..\..\..\intermediate\cpulimiter\ui_selectprocessdialog.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
