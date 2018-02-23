@@ -123,7 +123,7 @@ QVariant RulesModel::headerData(int section, Qt::Orientation orientation, int ro
 
 QModelIndex RulesModel::index(int row, int column, const QModelIndex &parent /* QModelIndex() */) const
 {
-  if (_rules.empty())
+  if (_rules.isEmpty())
   {
     return createIndex(row, column);
   }

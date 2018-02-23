@@ -23,11 +23,6 @@ Rules::Rules(RulesModel *rulesModel) : _rulesModel(rulesModel)
   _winEventNotifier.addEvent(EVENT_SYSTEM_FOREGROUND);
 }
 
-bool Rules::empty() const
-{
-  return size() == 0;
-}
-
 const RuleSPtr &Rules::get(const MUuidPtr &id)
 {
   if (_rules.contains(id))
@@ -68,6 +63,11 @@ quintptr Rules::index(const MUuidPtr &id) const
 
   Q_UNREACHABLE();
   return -1;
+}
+
+bool Rules::isEmpty() const
+{
+  return size() == 0;
 }
 
 void Rules::removeIndex(quintptr index)
