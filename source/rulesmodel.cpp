@@ -158,7 +158,7 @@ QModelIndex RulesModel::parent(const QModelIndex &child) const
 
 int RulesModel::rowCount(const QModelIndex &parent /* QModelIndex() */) const
 {
-  return _rules.size();
+  return _rules.count();
 }
 
 bool RulesModel::setData(const QModelIndex &index, const QVariant &value, int role /* Qt::EditRole */)

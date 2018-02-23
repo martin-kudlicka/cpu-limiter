@@ -23,6 +23,11 @@ Rules::Rules(RulesModel *rulesModel) : _rulesModel(rulesModel)
   _winEventNotifier.addEvent(EVENT_SYSTEM_FOREGROUND);
 }
 
+quintptr Rules::count() const
+{
+  return _settings.childGroups().count();
+}
+
 const RuleSPtr &Rules::get(const MUuidPtr &id)
 {
   if (_rules.contains(id))
@@ -67,7 +72,7 @@ quintptr Rules::index(const MUuidPtr &id) const
 
 bool Rules::isEmpty() const
 {
-  return size() == 0;
+  return count() == 0;
 }
 
 void Rules::removeIndex(quintptr index)
@@ -76,16 +81,11 @@ void Rules::removeIndex(quintptr index)
   removeId(id2);
 }
 
-quintptr Rules::size() const
-{
-  return _settings.childGroups().size();
-}
-
 RuleSPtrList Rules::get()
 {
-  if (_rules.size() != size())
+  if (_rules.count() != count())
   {
-    for (auto index2 = 0; index2 < size(); index2++)
+    for (auto index2 = 0; index2 < count(); index2++)
     {
       get(id(index2));
     }
