@@ -17,12 +17,6 @@ Q_DECL_CONSTEXPR QString RuleOptions::Property::Target_ApplyDelayValue   = "targ
 Q_DECL_CONSTEXPR QString RuleOptions::Property::Target_CPULimit          = "target/cpuLimit";
 Q_DECL_CONSTEXPR QString RuleOptions::Property::Target_SelectedProcesses = "target/selectedProcesses";
 
-RuleOptions::RuleOptions(MUuidPtr &&id) : _id(qMove(id))
-{
-  beginGroup(Rules::Property::Group);
-  beginGroup(id.toString());
-}
-
 RuleOptions::RuleOptions(const MUuidPtr &id) : _id(id)
 {
   beginGroup(Rules::Property::Group);
@@ -121,7 +115,7 @@ QStringList RuleOptions::selectedProcesses(Section section)
     setArrayIndex(index);
 
     auto name = value("value").toString();
-    names.append(qMove(name));
+    names.append(name);
   }
 
   endArray();

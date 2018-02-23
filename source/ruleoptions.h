@@ -52,7 +52,6 @@ class RuleOptions : public MSettings
       static Q_DECL_CONSTEXPR QString Target_SelectedProcesses;
     };
 
-             RuleOptions(MUuidPtr &&id);
              RuleOptions(const MUuidPtr &id);
     virtual ~RuleOptions() Q_DECL_OVERRIDE Q_DECL_EQ_DEFAULT;
 

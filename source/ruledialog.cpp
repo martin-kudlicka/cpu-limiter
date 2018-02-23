@@ -6,14 +6,6 @@ RuleDialog::RuleDialog(QWidget *parent) : RuleDialog(MUuidPtr::createUuid(), par
 {
 }
 
-RuleDialog::RuleDialog(MUuidPtr &&id, QWidget *parent) : QDialog(parent), _options(qMove(id)), _widgetSettings(&_options)
-{
-  _ui.setupUi(this);
-
-  setupWidgets();
-  setupSettings();
-}
-
 RuleDialog::RuleDialog(const MUuidPtr &id, QWidget *parent) : QDialog(parent), _options(id), _widgetSettings(&_options)
 {
   _ui.setupUi(this);
@@ -58,11 +50,11 @@ void RuleDialog::setupSettings()
   _widgetSettings.setWidget(RuleOptions::Property::Condition_SelectedProcesses,        _ui.conditionSelectedProcessesList);
   _widgetSettings.setWidget(RuleOptions::Property::Condition_InternetConnection,       _ui.conditionInternetConnection);
   _widgetSettings.setWidget(RuleOptions::Property::Condition_InternetConnectionStatus, _ui.conditionInternetConnectionStatus);
-  _widgetSettings.setWidget(RuleOptions::Property::Condition_Status,                   qMove(QRadioButtonPtrList() << _ui.conditionStatusRunning << _ui.conditionStatusNotRunning));
+  _widgetSettings.setWidget(RuleOptions::Property::Condition_Status,                   QRadioButtonPtrList() << _ui.conditionStatusRunning << _ui.conditionStatusNotRunning);
   _widgetSettings.setWidget(RuleOptions::Property::Condition_State,                    _ui.conditionStatusRunningState);
 
   _widgetSettings.setWidget(RuleOptions::Property::Target_SelectedProcesses, _ui.targetSelectedProcessesList);
-  _widgetSettings.setWidget(RuleOptions::Property::Target_Action,            qMove(QRadioButtonPtrList() << _ui.targetActionLimitCPU << _ui.targetActionSuspend));
+  _widgetSettings.setWidget(RuleOptions::Property::Target_Action,            QRadioButtonPtrList() << _ui.targetActionLimitCPU << _ui.targetActionSuspend);
   _widgetSettings.setWidget(RuleOptions::Property::Target_CPULimit,          _ui.tagetCPULimit);
   _widgetSettings.setWidget(RuleOptions::Property::Target_ApplyDelay,        _ui.targetApplyDelay);
   _widgetSettings.setWidget(RuleOptions::Property::Target_ApplyDelayValue,   _ui.targetApplyDelayValue);
