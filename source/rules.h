@@ -17,12 +17,12 @@ class Rules
 
     Rules(RulesModel *rulesModel);
 
+          quintptr     count      ()                   const;
     const RuleSPtr    &get        (const MUuidPtr &id);
           MUuidPtr     id         (quintptr index)     const;
           quintptr     index      (const MUuidPtr &id) const;
           bool         isEmpty    ()                   const;
           void         removeIndex(quintptr index);
-          quintptr     size       ()                   const;
 
   private:
     MNetworkNotifier          _networkNotifier;
