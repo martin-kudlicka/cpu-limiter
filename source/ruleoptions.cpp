@@ -110,7 +110,7 @@ QStringList RuleOptions::selectedProcesses(Section section)
       return names;
   }
 
-  for (auto index = 0; index < size; index++)
+  for (auto index = 0; index < size; ++index)
   {
     setArrayIndex(index);
 
