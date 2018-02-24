@@ -266,6 +266,7 @@ void Rule::on_networkNotifier_connectivityChanged(NLM_CONNECTIVITY newConnectivi
       }
       break;
     case Status::Active:
+      Q_FALLTHROUGH();
     case Status::Delayed:
       if (!conditionsMet())
       {
@@ -380,6 +381,7 @@ void Rule::on_processNotifier_started(const MProcessInfo &processInfo)
         case Status::Inactive:
           break;
         case Status::Active:
+          Q_FALLTHROUGH();
         case Status::Delayed:
           if (!conditionsMet())
           {
@@ -425,6 +427,7 @@ void Rule::on_winEventNotifier_notify(const MWinEventInfo &winEventInfo)
       }
       break;
     case Status::Active:
+      Q_FALLTHROUGH();
     case Status::Delayed:
       if (!conditionsMet())
       {
