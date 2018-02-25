@@ -121,7 +121,7 @@ Rule::Status Rule::status() const
 
 bool Rule::conditionsMet(const QString &selectedProcess, const MProcessInfo &runningProcess)
 {
-  if (runningProcess.filePath().isEmpty())
+  if (runningProcess.fileInfo().filePath().isEmpty())
   {
     return false;
   }
@@ -132,7 +132,7 @@ bool Rule::conditionsMet(const QString &selectedProcess, const MProcessInfo &run
     pattern.prepend('*' + QDir::separator());
   }
   QRegExp regExp(QDir::fromNativeSeparators(pattern), Qt::CaseInsensitive, QRegExp::Wildcard);
-  if (regExp.exactMatch(QDir::fromNativeSeparators(runningProcess.filePath())))
+  if (regExp.exactMatch(runningProcess.fileInfo().filePath()))
   {
     if (_options.status() == RuleOptions::Status::Running)
     {
@@ -147,7 +147,7 @@ bool Rule::conditionsMet(const QString &selectedProcess, const MProcessInfo &run
           }
           break;
         case RuleOptions::State::Background:
-          if ((runningProcess != _foregroundProcess) && (runningProcess.filePath() != _foregroundProcess.filePath()))
+          if ((runningProcess != _foregroundProcess) && (runningProcess.fileInfo() != _foregroundProcess.fileInfo()))
           {
             return true;
           }
@@ -170,7 +170,7 @@ bool Rule::conditionsMet(const QString &selectedProcess, const MProcessInfo &run
 
 bool Rule::isTargetProcess(const MProcessInfo &runningProcess)
 {
-  if (runningProcess.filePath().isEmpty())
+  if (runningProcess.fileInfo().filePath().isEmpty())
   {
     return false;
   }
@@ -184,7 +184,7 @@ bool Rule::isTargetProcess(const MProcessInfo &runningProcess)
     }
 
     QRegExp regExp(QDir::fromNativeSeparators(pattern), Qt::CaseInsensitive, QRegExp::Wildcard);
-    if (regExp.exactMatch(QDir::fromNativeSeparators(runningProcess.filePath())))
+    if (regExp.exactMatch(runningProcess.fileInfo().filePath()))
     {
       return true;
     }
