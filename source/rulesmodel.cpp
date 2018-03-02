@@ -61,7 +61,7 @@ QVariant RulesModel::data(const QModelIndex &index, int role /* Qt::DisplayRole 
     case Qt::DecorationRole:
       switch (index.column())
       {
-        case Column::Active:
+        case Column::Status:
           switch (rule->status())
           {
             case Rule::Status::Inactive:
@@ -111,7 +111,7 @@ QVariant RulesModel::headerData(int section, Qt::Orientation orientation, int ro
   {
     case Column::Enabled:
       return "*";
-    case Column::Active:
+    case Column::Status:
       return "+";
     case Column::Name:
       return tr("Name");
@@ -192,7 +192,7 @@ bool RulesModel::setData(const QModelIndex &index, const QVariant &value, int ro
       }
 
       emit dataChanged(index, index);
-      setDataChanged(index.row(), Column::Active);
+      setDataChanged(index.row(), Column::Status);
 
       return true;
     default:
