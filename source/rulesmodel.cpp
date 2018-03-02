@@ -1,6 +1,6 @@
 #include "rulesmodel.h"
 
-#include <QtGui/QColor>
+#include <QtGui/QIcon>
 
 RulesModel::RulesModel() : _rules(this)
 {
@@ -42,7 +42,7 @@ int RulesModel::columnCount(const QModelIndex &parent /* QModelIndex() */) const
 
 QVariant RulesModel::data(const QModelIndex &index, int role /* Qt::DisplayRole */) const
 {
-  if (role != Qt::DisplayRole && role != Qt::BackgroundRole && role != Qt::CheckStateRole)
+  if (role != Qt::DisplayRole && role != Qt::DecorationRole && role != Qt::CheckStateRole)
   {
     return QVariant();
   }
@@ -58,18 +58,19 @@ QVariant RulesModel::data(const QModelIndex &index, int role /* Qt::DisplayRole 
           return rule->options().name();
       }
       break;
-    case Qt::BackgroundRole:
+    case Qt::DecorationRole:
       switch (index.column())
       {
         case Column::Active:
           switch (rule->status())
           {
             case Rule::Status::Inactive:
-              break;
+              return QIcon(":/rules/resources/rules/statusinactive.png");
             case Rule::Status::Active:
-              return rule->isRestricting() ? QColor(Qt::green) : QColor(Qt::yellow);
+              return rule->isRestricting() ? QIcon(":/rules/resources/rules/statusactiverestricting.png") : QIcon(":/rules/resources/rules/statusactivenotrestricting.png");
+              break;
             case Rule::Status::Delayed:
-              return QColor(Qt::cyan);
+              return QIcon(":/rules/resources/rules/statusdelayed.png");
             default:
               Q_ASSERT_X(false, "RulesModel::data", "switch (rule->status())");
           }
