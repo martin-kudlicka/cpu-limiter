@@ -16,7 +16,7 @@ void MainWindow::setupWidgets()
   _ui.rules->setModel(&_rulesModel);
 
   _ui.rules->header()->setSectionResizeMode(static_cast<int>(RulesModel::Column::Enabled), QHeaderView::ResizeToContents);
-  _ui.rules->header()->setSectionResizeMode(static_cast<int>(RulesModel::Column::Active),  QHeaderView::ResizeToContents);
+  _ui.rules->header()->setSectionResizeMode(static_cast<int>(RulesModel::Column::Status),  QHeaderView::ResizeToContents);
 
   connect(_ui.rules->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::on_rules_selectionChanged);
 }

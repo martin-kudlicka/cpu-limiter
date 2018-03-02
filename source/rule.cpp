@@ -243,7 +243,7 @@ void Rule::timerEvent(QTimerEvent *event)
 
   activate(false);
 
-  _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
+  _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Status);
 }
 
 void Rule::on_networkNotifier_connectivityChanged(NLM_CONNECTIVITY newConnectivity)
@@ -262,7 +262,7 @@ void Rule::on_networkNotifier_connectivityChanged(NLM_CONNECTIVITY newConnectivi
       {
         activate();
 
-        _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
+        _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Status);
       }
       break;
     case Status::Active:
@@ -272,7 +272,7 @@ void Rule::on_networkNotifier_connectivityChanged(NLM_CONNECTIVITY newConnectivi
       {
         deactivate();
 
-        _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
+        _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Status);
       }
       break;
     default:
@@ -303,7 +303,7 @@ void Rule::on_processNotifier_ended(DWORD id)
           {
             deactivate();
 
-            _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
+            _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Status);
           }
           break;
         case Status::Delayed:
@@ -311,7 +311,7 @@ void Rule::on_processNotifier_ended(DWORD id)
           {
             deactivate();
 
-            _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
+            _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Status);
           }
           break;
         default:
@@ -326,7 +326,7 @@ void Rule::on_processNotifier_ended(DWORD id)
           {
             activate();
 
-            _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
+            _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Status);
           }
           break;
         case Status::Active:
@@ -360,7 +360,7 @@ void Rule::on_processNotifier_started(const MProcessInfo &processInfo)
           {
             activate();
 
-            _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
+            _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Status);
           }
           break;
         case Status::Active:
@@ -387,7 +387,7 @@ void Rule::on_processNotifier_started(const MProcessInfo &processInfo)
           {
             deactivate();
 
-            _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
+            _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Status);
           }
           break;
         default:
@@ -423,7 +423,7 @@ void Rule::on_winEventNotifier_notify(const MWinEventInfo &winEventInfo)
       {
         activate();
 
-        _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
+        _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Status);
       }
       break;
     case Status::Active:
@@ -433,7 +433,7 @@ void Rule::on_winEventNotifier_notify(const MWinEventInfo &winEventInfo)
       {
         deactivate();
 
-        _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Active);
+        _rulesModel->setDataChanged(_options.id(), RulesModel::Column::Status);
       }
       break;
     default:
