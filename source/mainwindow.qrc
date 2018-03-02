@@ -2,4 +2,10 @@
   <qresource prefix="MainWindow">
     <file>resources/main.png</file>
   </qresource>
+  <qresource prefix="rules">
+    <file>resources/rules/statusactivenotrestricting.png</file>
+    <file>resources/rules/statusactiverestricting.png</file>
+    <file>resources/rules/statusdelayed.png</file>
+    <file>resources/rules/statusinactive.png</file>
+  </qresource>
 </RCC>
