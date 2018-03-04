@@ -18,10 +18,11 @@ class RulesModel : public QAbstractItemModel
              RulesModel();
     virtual ~RulesModel() Q_DECL_OVERRIDE Q_DECL_EQ_DEFAULT;
 
-    void   insert        (const MUuidPtr &id);
-    void   remove        (const QModelIndex &index);
-    Rules *rules         ();
-    void   setDataChanged(const MUuidPtr &id, Column column);
+    MUuidPtr id            (const QModelIndex &index) const;
+    void     insert        (const MUuidPtr &id);
+    void     remove        (const QModelIndex &index);
+    Rules   *rules         ();
+    void     setDataChanged(const MUuidPtr &id, Column column);
 
   private:
     Rules _rules;

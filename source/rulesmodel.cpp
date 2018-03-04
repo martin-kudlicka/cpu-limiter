@@ -6,6 +6,11 @@ RulesModel::RulesModel() : _rules(this)
 {
 }
 
+MUuidPtr RulesModel::id(const QModelIndex &index) const
+{
+  return index.internalId();
+}
+
 void RulesModel::insert(const MUuidPtr &id)
 {
   auto row = _rules.index(id);
