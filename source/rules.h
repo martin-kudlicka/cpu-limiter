@@ -32,8 +32,7 @@ class Rules
     QSettings                 _settings;
     RulesModel               *_rulesModel;
 
-    RuleSPtrList get     ();
-    void         removeId(const MUuidPtr &id);
+    RuleSPtrList get();
 };
 
 #endif
