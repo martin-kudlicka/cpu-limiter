@@ -41,7 +41,7 @@ void MainWindow::on_ruleAdd_clicked(bool checked /* false */)
 
   _rulesModel.insert(ruleDialog.options().id());
 
-  auto rule = _rulesModel.rules()->get(ruleDialog.options().id());
+  auto rule = _rulesModel.rule(ruleDialog.options().id());
   if (rule->options().enabled())
   {
     if (rule->conditionsMet())
@@ -62,7 +62,7 @@ void MainWindow::on_ruleEdit_clicked(bool checked /* false */)
     return;
   }
 
-  auto rule = _rulesModel.rules()->get(id);
+  auto rule = _rulesModel.rule(id);
   if (rule->status() != Rule::Status::Inactive)
   {
     rule->deactivate();
@@ -80,8 +80,7 @@ void MainWindow::on_ruleEdit_clicked(bool checked /* false */)
 void MainWindow::on_ruleRemove_clicked(bool checked /* false */)
 {
   auto index = _ui.rules->currentIndex();
-  auto id    = _rulesModel.id(index);
-  auto rule  = _rulesModel.rules()->get(id);
+  auto rule  = _rulesModel.rule(index);
   if (rule->status() != Rule::Status::Inactive)
   {
     rule->deactivate();
