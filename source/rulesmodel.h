@@ -21,7 +21,8 @@ class RulesModel : public QAbstractItemModel
     MUuidPtr id            (const QModelIndex &index) const;
     void     insert        (const MUuidPtr &id);
     void     remove        (const QModelIndex &index);
-    Rules   *rules         ();
+    RuleSPtr rule          (const MUuidPtr &id);
+    RuleSPtr rule          (const QModelIndex &index);
     void     setDataChanged(const MUuidPtr &id, Column column);
 
   private:

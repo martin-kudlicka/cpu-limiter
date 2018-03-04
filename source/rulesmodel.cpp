@@ -23,9 +23,14 @@ void RulesModel::remove(const QModelIndex &index)
   removeRow(index.row());
 }
 
-Rules *RulesModel::rules()
+RuleSPtr RulesModel::rule(const MUuidPtr &id)
 {
-  return &_rules;
+  return _rules.get(id);
+}
+
+RuleSPtr RulesModel::rule(const QModelIndex &index)
+{
+  return _rules.get(index.internalId());
 }
 
 void RulesModel::setDataChanged(const MUuidPtr &id, Column column)
