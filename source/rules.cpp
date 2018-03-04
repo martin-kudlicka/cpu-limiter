@@ -78,24 +78,21 @@ bool Rules::isEmpty() const
 void Rules::removeIndex(quintptr index)
 {
   auto id2 = id(index);
-  removeId(id2);
+
+  _rules.remove(id2);
+  _settings.remove(id2.toString());
 }
 
 RuleSPtrList Rules::get()
 {
-  if (_rules.count() != count())
+  auto rulesCount = count();
+  if (_rules.count() != rulesCount)
   {
-    for (auto index2 = 0; index2 < count(); ++index2)
+    for (decltype(rulesCount) index2 = 0; index2 < rulesCount; ++index2)
     {
       get(id(index2));
     }
   }
 
   return _rules.values();
-}
-
-void Rules::removeId(const MUuidPtr &id)
-{
-  _rules.remove(id);
-  _settings.remove(id.toString());
 }
