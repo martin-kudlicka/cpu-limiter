@@ -6,7 +6,7 @@
 
 MainWindow::MainWindow()
 {
-	_ui.setupUi(this);
+  _ui.setupUi(this);
 
   setupWidgets();
 }
@@ -54,7 +54,7 @@ void MainWindow::on_ruleAdd_clicked(bool checked /* false */)
 void MainWindow::on_ruleEdit_clicked(bool checked /* false */)
 {
   auto index = _ui.rules->currentIndex();
-  auto id    = _rulesModel.rules()->id(index.row());
+  auto id    = _rulesModel.id(index);
 
   RuleDialog ruleDialog(id, this);
   if (ruleDialog.exec() == QDialog::Rejected)
@@ -80,7 +80,7 @@ void MainWindow::on_ruleEdit_clicked(bool checked /* false */)
 void MainWindow::on_ruleRemove_clicked(bool checked /* false */)
 {
   auto index = _ui.rules->currentIndex();
-  auto id    = _rulesModel.rules()->id(index.row());
+  auto id    = _rulesModel.id(index);
   auto rule  = _rulesModel.rules()->get(id);
   if (rule->status() != Rule::Status::Inactive)
   {
