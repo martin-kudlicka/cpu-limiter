@@ -95,6 +95,7 @@
     <ClCompile Include="log.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
+    <ClCompile Include="processlistmodel.cpp" />
     <ClCompile Include="rule.cpp" />
     <ClCompile Include="ruledialog.cpp" />
     <ClCompile Include="rulesmodel.cpp" />
@@ -143,6 +144,7 @@
     <ClInclude Include="..\..\..\intermediate\cpulimiter\ui_ruledialog.h" />
     <ClInclude Include="..\..\..\intermediate\cpulimiter\ui_selectprocessdialog.h" />
     <ClInclude Include="log.h" />
+    <ClInclude Include="processlistmodel.h" />
     <ClInclude Include="resource.h" />
     <CustomBuild Include="selectprocessdialog.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>

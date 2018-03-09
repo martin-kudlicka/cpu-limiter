@@ -84,6 +84,9 @@
     <ClCompile Include="..\..\..\intermediate\cpulimiter\Release\moc_selectprocessdialog.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="processlistmodel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="mainwindow.h">
@@ -135,6 +138,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\intermediate\cpulimiter\ui_selectprocessdialog.h">
       <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="processlistmodel.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
