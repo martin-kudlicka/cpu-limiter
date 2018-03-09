@@ -3,7 +3,7 @@
 
 #include "ui_ruledialog.h"
 #include <MkWidgets/MWidgetSettings>
-#include <QtCore/QStringListModel>
+#include "processlistmodel.h"
 #include "ruleoptions.h"
 
 class RuleDialog : public QDialog
@@ -19,16 +19,16 @@ class RuleDialog : public QDialog
 
   private:
     MWidgetSettings  _widgetSettings;
-    QStringListModel _conditionProcessesModel;
-    QStringListModel _targetProcessesModel;
+    ProcessListModel _conditionProcessesModel;
+    ProcessListModel _targetProcessesModel;
     RuleOptions      _options;
     Ui::RuleDialog   _ui;
 
     void addProcess     (QStringListModel *model, const QString &process) const;
-    void removeProcesses(QListView *view) const;
+    void removeProcesses(QListView *view)                                 const;
     void setupSettings  ();
     void setupWidgets   ();
-    void updateOkButton (bool preEnabled = true) const;
+    void updateOkButton (bool preEnabled = true)                          const;
 
     virtual void accept() Q_DECL_OVERRIDE;
 
