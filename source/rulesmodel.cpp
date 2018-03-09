@@ -120,9 +120,9 @@ QVariant RulesModel::headerData(int section, Qt::Orientation orientation, int ro
   switch (section)
   {
     case Column::Enabled:
-      return "*";
+      return QVariant();
     case Column::Status:
-      return "+";
+      return QVariant();
     case Column::Name:
       return tr("Name");
     default:
