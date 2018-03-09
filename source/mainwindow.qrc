@@ -1,9 +1,9 @@
 <RCC>
   <qresource>
-    <file>resources/images/main.png</file>
-    <file>resources/rules/statusactivenotrestricting.png</file>
-    <file>resources/rules/statusactiverestricting.png</file>
-    <file>resources/rules/statusdelayed.png</file>
-    <file>resources/rules/statusinactive.png</file>
+    <file>resources/images/mainwindow.png</file>
+    <file>resources/images/status/activenotrestricting.png</file>
+    <file>resources/images/status/activerestricting.png</file>
+    <file>resources/images/status/delayed.png</file>
+    <file>resources/images/status/inactive.png</file>
   </qresource>
 </RCC>
