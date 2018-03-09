@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="mainwindow.qrc">
-    <normaloff>:/MainWindow/resources/main.png</normaloff>:/MainWindow/resources/main.png</iconset>
+    <normaloff>:/resources/images/mainwindow.png</normaloff>:/resources/images/mainwindow.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout">

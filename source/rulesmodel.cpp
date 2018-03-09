@@ -75,12 +75,12 @@ QVariant RulesModel::data(const QModelIndex &index, int role /* Qt::DisplayRole 
           switch (rule->status())
           {
             case Rule::Status::Inactive:
-              return QIcon(":/rules/resources/rules/statusinactive.png");
+              return QIcon(":/resources/images/status/inactive.png");
             case Rule::Status::Active:
-              return rule->isRestricting() ? QIcon(":/rules/resources/rules/statusactiverestricting.png") : QIcon(":/rules/resources/rules/statusactivenotrestricting.png");
+              return rule->isRestricting() ? QIcon(":/resources/images/status/activerestricting.png") : QIcon(":/resources/images/status/activenotrestricting.png");
               break;
             case Rule::Status::Delayed:
-              return QIcon(":/rules/resources/rules/statusdelayed.png");
+              return QIcon(":/resources/images/status/delayed.png");
             default:
               Q_ASSERT_X(false, "RulesModel::data", "switch (rule->status())");
           }

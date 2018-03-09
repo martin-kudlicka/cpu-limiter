@@ -1,8 +1,6 @@
 <RCC>
-  <qresource prefix="MainWindow">
-    <file>resources/main.png</file>
-  </qresource>
-  <qresource prefix="rules">
+  <qresource>
+    <file>resources/images/main.png</file>
     <file>resources/rules/statusactivenotrestricting.png</file>
     <file>resources/rules/statusactiverestricting.png</file>
     <file>resources/rules/statusdelayed.png</file>
