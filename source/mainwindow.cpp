@@ -24,6 +24,32 @@ void MainWindow::setupWidgets()
   connect(_ui.rules->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::on_rules_selectionChanged);
 }
 
+void MainWindow::editRule(const QModelIndex &index)
+{
+  auto modelIndex = _rulesProxyModel.mapToSource(index);
+  auto id         = _rulesModel.id(modelIndex);
+
+  RuleDialog ruleDialog(id, this);
+  if (ruleDialog.exec() == QDialog::Rejected)
+  {
+    return;
+  }
+
+  auto rule = _rulesModel.rule(id);
+  if (rule->status() != Rule::Status::Inactive)
+  {
+    rule->deactivate();
+
+    if (rule->options().enabled())
+    {
+      if (rule->conditionsMet())
+      {
+        rule->activate();
+      }
+    }
+  }
+}
+
 void MainWindow::on_actionAbout_triggered(bool checked /* false */)
 {
   MAboutBox(this).exec();
@@ -56,28 +82,7 @@ void MainWindow::on_ruleAdd_clicked(bool checked /* false */)
 
 void MainWindow::on_ruleEdit_clicked(bool checked /* false */)
 {
-  auto index = _rulesProxyModel.mapToSource(_ui.rules->currentIndex());
-  auto id    = _rulesModel.id(index);
-
-  RuleDialog ruleDialog(id, this);
-  if (ruleDialog.exec() == QDialog::Rejected)
-  {
-    return;
-  }
-
-  auto rule = _rulesModel.rule(id);
-  if (rule->status() != Rule::Status::Inactive)
-  {
-    rule->deactivate();
-
-    if (rule->options().enabled())
-    {
-      if (rule->conditionsMet())
-      {
-        rule->activate();
-      }
-    }
-  }
+  editRule(_ui.rules->currentIndex());
 }
 
 void MainWindow::on_ruleRemove_clicked(bool checked /* false */)
@@ -90,6 +95,11 @@ void MainWindow::on_ruleRemove_clicked(bool checked /* false */)
   }
 
   _rulesModel.remove(index);
+}
+
+void MainWindow::on_rules_doubleClicked(const QModelIndex &index)
+{
+  editRule(index);
 }
 
 void MainWindow::on_rules_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected) const
