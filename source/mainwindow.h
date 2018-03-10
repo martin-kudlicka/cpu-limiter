@@ -21,11 +21,14 @@ class MainWindow : public QMainWindow
     void setupWidgets();
 
   private Q_SLOTS:
+    void editRule(const QModelIndex &index);
+
     void on_actionAbout_triggered       (bool checked = false);
     void on_actionSendFeedback_triggered(bool checked = false) const;
     void on_ruleAdd_clicked             (bool checked = false);
     void on_ruleEdit_clicked            (bool checked = false);
     void on_ruleRemove_clicked          (bool checked = false);
+    void on_rules_doubleClicked         (const QModelIndex &index);
     void on_rules_selectionChanged      (const QItemSelection &selected, const QItemSelection &deselected) const;
 };
 
