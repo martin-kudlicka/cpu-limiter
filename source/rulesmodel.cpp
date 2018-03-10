@@ -169,6 +169,11 @@ QModelIndex RulesModel::parent(const QModelIndex &child) const
 
 int RulesModel::rowCount(const QModelIndex &parent /* QModelIndex() */) const
 {
+  if (parent.isValid())
+  {
+    return 0;
+  }
+
   return _rules.count();
 }
 
