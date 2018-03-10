@@ -13,7 +13,8 @@ MainWindow::MainWindow()
 
 void MainWindow::setupWidgets()
 {
-  _ui.rules->setModel(&_rulesModel);
+  _rulesProxyModel.setSourceModel(&_rulesModel);
+  _ui.rules->setModel(&_rulesProxyModel);
 
   _ui.rules->header()->setSectionResizeMode(static_cast<int>(RulesModel::Column::Enabled), QHeaderView::ResizeToContents);
   _ui.rules->header()->setSectionResizeMode(static_cast<int>(RulesModel::Column::Status),  QHeaderView::ResizeToContents);
@@ -53,7 +54,7 @@ void MainWindow::on_ruleAdd_clicked(bool checked /* false */)
 
 void MainWindow::on_ruleEdit_clicked(bool checked /* false */)
 {
-  auto index = _ui.rules->currentIndex();
+  auto index = _rulesProxyModel.mapToSource(_ui.rules->currentIndex());
   auto id    = _rulesModel.id(index);
 
   RuleDialog ruleDialog(id, this);
@@ -79,7 +80,7 @@ void MainWindow::on_ruleEdit_clicked(bool checked /* false */)
 
 void MainWindow::on_ruleRemove_clicked(bool checked /* false */)
 {
-  auto index = _ui.rules->currentIndex();
+  auto index = _rulesProxyModel.mapToSource(_ui.rules->currentIndex());
   auto rule  = _rulesModel.rule(index);
   if (rule->status() != Rule::Status::Inactive)
   {

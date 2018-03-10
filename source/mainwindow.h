@@ -3,6 +3,7 @@
 
 #include "ui_mainwindow.h"
 #include "rulesmodel.h"
+#include <QtCore/QSortFilterProxyModel>
 
 class MainWindow : public QMainWindow
 {
@@ -13,8 +14,9 @@ class MainWindow : public QMainWindow
     virtual ~MainWindow() Q_DECL_OVERRIDE Q_DECL_EQ_DEFAULT;
 
   private:
-    Ui::MainWindow _ui;
-    RulesModel     _rulesModel;
+    Ui::MainWindow        _ui;
+    QSortFilterProxyModel _rulesProxyModel;
+    RulesModel            _rulesModel;
 
     void setupWidgets();
 
