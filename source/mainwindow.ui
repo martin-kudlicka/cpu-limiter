@@ -36,6 +36,9 @@
       <attribute name="headerMinimumSectionSize">
        <number>20</number>
       </attribute>
+      <attribute name="headerStretchLastSection">
+       <bool>false</bool>
+      </attribute>
      </widget>
     </item>
     <item>
