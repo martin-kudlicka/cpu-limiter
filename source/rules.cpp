@@ -30,6 +30,8 @@ quintptr Rules::count() const
 
 const RuleSPtr &Rules::get(const MUuidPtr &id)
 {
+  Q_ASSERT_X(!id.isNull(), "Rules::get", "!id.isNull()");
+
   if (_rules.contains(id))
   {
     return _rules[id];
