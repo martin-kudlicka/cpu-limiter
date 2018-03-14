@@ -8,8 +8,6 @@
 #include <MkNetwork/MNetwork>
 #include <MkAnalytics/MAnalytics>
 
-const auto ANALYTICS_CATEGORY_RULE = "rule";
-
 Rule::Rule(const MUuidPtr &id, MProcessGovernor *processGovernor, RulesModel *rulesModel) : _delayTimer(0), _options(id), _processGovernor(processGovernor), _rulesModel(rulesModel), _foregroundProcess(GetForegroundWindow()), _connectivity(MNetwork().connectivity()), _opId(MProcessGovernor::OPERATION_ID_INVALID), _status(Status::Inactive)
 {
 }
@@ -31,8 +29,6 @@ void Rule::activate(bool checkDelay /* true */)
     _status = Status::Delayed;
 
     mCInfo(CPULimiter) << "rule \"" << _options.name() << "\" delayed for " << _options.applyDelayValue() << 's';
-
-    mAnalytics->sendEvent(ANALYTICS_CATEGORY_RULE, MAnalyticsEvent::Action::Delayed);
   }
   else
   {
@@ -41,8 +37,6 @@ void Rule::activate(bool checkDelay /* true */)
     _status = Status::Active;
 
     mCInfo(CPULimiter) << "rule \"" << _options.name() << "\" activated";
-
-    mAnalytics->sendEvent(ANALYTICS_CATEGORY_RULE, MAnalyticsEvent::Action::Activated);
   }
 }
 
@@ -109,8 +103,6 @@ void Rule::deactivate()
   _status = Status::Inactive;
 
   mCInfo(CPULimiter) << "rule \"" << _options.name() << "\" deactivated";
-
-  mAnalytics->sendEvent(ANALYTICS_CATEGORY_RULE, MAnalyticsEvent::Action::Deactivated);
 }
 
 bool Rule::isRestricting() const
