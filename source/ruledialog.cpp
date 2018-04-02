@@ -38,7 +38,7 @@ void RuleDialog::removeProcesses(QListView *view) const
       break;
     }
 
-    view->model()->removeRow(selected.first().row());
+    view->model()->removeRow(selected.constFirst().row());
   }
 }
 
