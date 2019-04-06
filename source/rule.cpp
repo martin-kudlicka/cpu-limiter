@@ -6,7 +6,6 @@
 #include "rulesmodel.h"
 #include "log.h"
 #include <MkNetwork/MNetwork>
-#include <MkAnalytics/MAnalytics>
 
 Rule::Rule(const MUuidPtr &id, MProcessGovernor *processGovernor, RulesModel *rulesModel) : _delayTimer(0), _options(id), _processGovernor(processGovernor), _rulesModel(rulesModel), _foregroundProcess(GetForegroundWindow()), _connectivity(MNetwork().connectivity()), _opId(MProcessGovernor::OPERATION_ID_INVALID), _status(Status::Inactive)
 {
