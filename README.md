@@ -2,8 +2,8 @@
 
 Limits CPU power to applications.
 
-![](http://martink.cz/sites/default/files/inline-images/cpu-limiter-mainwindow.png)
-![](http://martink.cz/sites/default/files/inline-images/cpu-limiter-rule.png)
+![](https://raw.githubusercontent.com/martin-kudlicka/cpu-limiter/master/web/mainwindow.png)
+![](https://raw.githubusercontent.com/martin-kudlicka/cpu-limiter/master/web/rule.png)
 
 ## Description
 User defined rules consisting of condition and action to limit CPU for specific processes. Condition consists of:
