@@ -30,11 +30,11 @@
   <ImportGroup Label="ExtensionSettings" />
   <ImportGroup Label="Shared" />
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <Import Project="..\..\property-sheets\build settings.props" />
+    <Import Project="..\..\..\property-sheets\build settings.props" />
     <Import Project="..\..\Mk\Mk lib.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <Import Project="..\..\property-sheets\build settings.props" />
+    <Import Project="..\..\..\property-sheets\build settings.props" />
     <Import Project="..\..\Mk\Mk lib.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
