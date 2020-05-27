@@ -47,6 +47,8 @@ void RulesModel::setDataChanged(int row, Column column)
 
 int RulesModel::columnCount(const QModelIndex &parent /* QModelIndex() */) const
 {
+  Q_UNUSED(parent);
+
   return static_cast<int>(Column::Count);
 }
 
@@ -134,6 +136,8 @@ QVariant RulesModel::headerData(int section, Qt::Orientation orientation, int ro
 
 QModelIndex RulesModel::index(int row, int column, const QModelIndex &parent /* QModelIndex() */) const
 {
+  Q_UNUSED(parent);
+
   if (_rules.isEmpty())
   {
     return createIndex(row, column);
@@ -164,6 +168,8 @@ bool RulesModel::removeRows(int row, int count, const QModelIndex &parent /* QMo
 
 QModelIndex RulesModel::parent(const QModelIndex &child) const
 {
+  Q_UNUSED(child);
+
   return QModelIndex();
 }
 

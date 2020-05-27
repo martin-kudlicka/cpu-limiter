@@ -2,20 +2,20 @@
 
 #include "rules.h"
 
-Q_DECL_CONSTEXPR QString RuleOptions::Property::Enabled = "enabled";
-Q_DECL_CONSTEXPR QString RuleOptions::Property::Name    = "name";
+const QString RuleOptions::Property::Enabled = "enabled";
+const QString RuleOptions::Property::Name    = "name";
 
-Q_DECL_CONSTEXPR QString RuleOptions::Property::Condition_InternetConnection       = "condition/internetConnection";
-Q_DECL_CONSTEXPR QString RuleOptions::Property::Condition_InternetConnectionStatus = "condition/internetConnectionStatus";
-Q_DECL_CONSTEXPR QString RuleOptions::Property::Condition_SelectedProcesses        = "condition/selectedProcesses";
-Q_DECL_CONSTEXPR QString RuleOptions::Property::Condition_State                    = "condition/state";
-Q_DECL_CONSTEXPR QString RuleOptions::Property::Condition_Status                   = "condition/status";
+const QString RuleOptions::Property::Condition_InternetConnection       = "condition/internetConnection";
+const QString RuleOptions::Property::Condition_InternetConnectionStatus = "condition/internetConnectionStatus";
+const QString RuleOptions::Property::Condition_SelectedProcesses        = "condition/selectedProcesses";
+const QString RuleOptions::Property::Condition_State                    = "condition/state";
+const QString RuleOptions::Property::Condition_Status                   = "condition/status";
 
-Q_DECL_CONSTEXPR QString RuleOptions::Property::Target_Action            = "target/action";
-Q_DECL_CONSTEXPR QString RuleOptions::Property::Target_ApplyDelay        = "target/applyDelay";
-Q_DECL_CONSTEXPR QString RuleOptions::Property::Target_ApplyDelayValue   = "target/applyDelayValue";
-Q_DECL_CONSTEXPR QString RuleOptions::Property::Target_CPULimit          = "target/cpuLimit";
-Q_DECL_CONSTEXPR QString RuleOptions::Property::Target_SelectedProcesses = "target/selectedProcesses";
+const QString RuleOptions::Property::Target_Action            = "target/action";
+const QString RuleOptions::Property::Target_ApplyDelay        = "target/applyDelay";
+const QString RuleOptions::Property::Target_ApplyDelayValue   = "target/applyDelayValue";
+const QString RuleOptions::Property::Target_CPULimit          = "target/cpuLimit";
+const QString RuleOptions::Property::Target_SelectedProcesses = "target/selectedProcesses";
 
 RuleOptions::RuleOptions(const MUuidPtr &id) : _id(id)
 {

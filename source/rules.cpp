@@ -2,7 +2,7 @@
 
 #include <MkNotifier/MProcessNotifier>
 
-Q_DECL_CONSTEXPR QString Rules::Property::Group = "rules";
+const QString Rules::Property::Group = "rules";
 
 Rules::Rules(RulesModel *rulesModel) : _rulesModel(rulesModel)
 {
@@ -69,7 +69,7 @@ quintptr Rules::index(const MUuidPtr &id) const
   }
 
   Q_UNREACHABLE();
-  return -1;
+  return std::numeric_limits<quintptr>::max();
 }
 
 bool Rules::isEmpty() const
@@ -88,7 +88,7 @@ void Rules::removeIndex(quintptr index)
 RuleSPtrList Rules::get()
 {
   auto rulesCount = count();
-  if (_rules.count() != rulesCount)
+  if (static_cast<quintptr>(_rules.count()) != rulesCount)
   {
     for (decltype(rulesCount) index2 = 0; index2 < rulesCount; ++index2)
     {

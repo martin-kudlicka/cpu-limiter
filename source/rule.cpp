@@ -238,6 +238,8 @@ void Rule::restrictSelectedProcesses()
 
 void Rule::timerEvent(QTimerEvent *event)
 {
+  Q_UNUSED(event);
+
   killTimer(_delayTimer);
   _delayTimer = 0;
 

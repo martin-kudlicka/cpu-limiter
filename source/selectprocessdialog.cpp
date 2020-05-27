@@ -21,6 +21,8 @@ QString SelectProcessDialog::process() const
 
 void SelectProcessDialog::on_browse_clicked(bool checked /* false */)
 {
+  Q_UNUSED(checked);
+
   auto filePath = QFileDialog::getOpenFileName(this, tr("Select file"), QString(), "*.exe");
   if (filePath.isNull())
   {
@@ -37,6 +39,8 @@ void SelectProcessDialog::on_process_textChanged(const QString &text) const
 
 void SelectProcessDialog::on_processesView_currentChanged(const QModelIndex &current, const QModelIndex &previous) const
 {
+  Q_UNUSED(previous);
+
   auto index    = _processesModel.index(current.row(), static_cast<int>(MProcessesModel::Column::FilePath), current.parent());
   auto filePath = _processesModel.data(index).toString();
 

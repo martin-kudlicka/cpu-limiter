@@ -36,20 +36,20 @@ class RuleOptions : public MSettings
 
     struct Property
     {
-      static Q_DECL_CONSTEXPR QString Enabled;
-      static Q_DECL_CONSTEXPR QString Name;
+      static const QString Enabled;
+      static const QString Name;
 
-      static Q_DECL_CONSTEXPR QString Condition_InternetConnection;
-      static Q_DECL_CONSTEXPR QString Condition_InternetConnectionStatus;
-      static Q_DECL_CONSTEXPR QString Condition_SelectedProcesses;
-      static Q_DECL_CONSTEXPR QString Condition_State;
-      static Q_DECL_CONSTEXPR QString Condition_Status;
+      static const QString Condition_InternetConnection;
+      static const QString Condition_InternetConnectionStatus;
+      static const QString Condition_SelectedProcesses;
+      static const QString Condition_State;
+      static const QString Condition_Status;
 
-      static Q_DECL_CONSTEXPR QString Target_Action;
-      static Q_DECL_CONSTEXPR QString Target_ApplyDelay;
-      static Q_DECL_CONSTEXPR QString Target_ApplyDelayValue;
-      static Q_DECL_CONSTEXPR QString Target_CPULimit;
-      static Q_DECL_CONSTEXPR QString Target_SelectedProcesses;
+      static const QString Target_Action;
+      static const QString Target_ApplyDelay;
+      static const QString Target_ApplyDelayValue;
+      static const QString Target_CPULimit;
+      static const QString Target_SelectedProcesses;
     };
 
              RuleOptions(const MUuidPtr &id);

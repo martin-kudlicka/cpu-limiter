@@ -12,7 +12,7 @@ class Rules
   public:
     struct Property
     {
-      static Q_DECL_CONSTEXPR QString Group;
+      static const QString Group;
     };
 
     Rules(RulesModel *rulesModel);

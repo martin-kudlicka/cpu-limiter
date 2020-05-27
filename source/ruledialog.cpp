@@ -101,6 +101,8 @@ void RuleDialog::on_conditionInternetConnection_stateChanged(int state) const
 
 void RuleDialog::on_conditionProcessAdd_clicked(bool checked /* false */)
 {
+  Q_UNUSED(checked);
+
   SelectProcessDialog selectProcessDialog(this);
   if (selectProcessDialog.exec() == QDialog::Rejected)
   {
@@ -112,22 +114,31 @@ void RuleDialog::on_conditionProcessAdd_clicked(bool checked /* false */)
 
 void RuleDialog::on_conditionProcessRemove_clicked(bool checked /* false */)
 {
+  Q_UNUSED(checked);
+
   removeProcesses(_ui.conditionSelectedProcessesList);
 }
 
 void RuleDialog::on_conditionSelectedProcessesList_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected) const
 {
+  Q_UNUSED(selected);
+  Q_UNUSED(deselected);
+
   auto isSelected = !_ui.conditionSelectedProcessesList->selectionModel()->selectedRows().isEmpty();
   _ui.conditionProcessRemove->setEnabled(isSelected);
 }
 
 void RuleDialog::on_conditionStatusNotRunning_clicked(bool checked /* false */) const
 {
+  Q_UNUSED(checked);
+
   _ui.conditionStatusRunningState->setEnabled(false);
 }
 
 void RuleDialog::on_conditionStatusRunning_clicked(bool checked /* false */) const
 {
+  Q_UNUSED(checked);
+
   _ui.conditionStatusRunningState->setEnabled(true);
 }
 
@@ -143,6 +154,8 @@ void RuleDialog::on_targetApplyDelay_stateChanged(int state) const
 
 void RuleDialog::on_targetProcessAdd_clicked(bool checked /* false */)
 {
+  Q_UNUSED(checked);
+
   SelectProcessDialog selectProcessDialog(this);
   if (selectProcessDialog.exec() == QDialog::Rejected)
   {
@@ -154,11 +167,16 @@ void RuleDialog::on_targetProcessAdd_clicked(bool checked /* false */)
 
 void RuleDialog::on_targetProcessRemove_clicked(bool checked /* false */)
 {
+  Q_UNUSED(checked);
+
   removeProcesses(_ui.targetSelectedProcessesList);
 }
 
 void RuleDialog::on_targetSelectedProcessesList_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected) const
 {
+  Q_UNUSED(selected);
+  Q_UNUSED(deselected);
+
   auto isSelected = !_ui.targetSelectedProcessesList->selectionModel()->selectedRows().isEmpty();
   _ui.targetProcessRemove->setEnabled(isSelected);
 }

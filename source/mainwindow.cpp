@@ -52,16 +52,22 @@ void MainWindow::editRule(const QModelIndex &index)
 
 void MainWindow::on_actionAbout_triggered(bool checked /* false */)
 {
+  Q_UNUSED(checked);
+
   MAboutBox(this).exec();
 }
 
 void MainWindow::on_actionSendFeedback_triggered(bool checked /* false */) const
 {
+  Q_UNUSED(checked);
+
   MFeedback::createEmailForm();
 }
 
 void MainWindow::on_ruleAdd_clicked(bool checked /* false */)
 {
+  Q_UNUSED(checked);
+
   RuleDialog ruleDialog(this);
   if (ruleDialog.exec() == QDialog::Rejected)
   {
@@ -82,11 +88,15 @@ void MainWindow::on_ruleAdd_clicked(bool checked /* false */)
 
 void MainWindow::on_ruleEdit_clicked(bool checked /* false */)
 {
+  Q_UNUSED(checked);
+
   editRule(_ui.rules->currentIndex());
 }
 
 void MainWindow::on_ruleRemove_clicked(bool checked /* false */)
 {
+  Q_UNUSED(checked);
+
   auto index = _rulesProxyModel.mapToSource(_ui.rules->currentIndex());
   auto rule  = _rulesModel.rule(index);
   if (rule->status() != Rule::Status::Inactive)
@@ -104,6 +114,9 @@ void MainWindow::on_rules_doubleClicked(const QModelIndex &index)
 
 void MainWindow::on_rules_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected) const
 {
+  Q_UNUSED(selected);
+  Q_UNUSED(deselected);
+
   auto isSelected = !_ui.rules->selectionModel()->selectedRows().isEmpty();
 
   _ui.ruleEdit->setEnabled(isSelected);
