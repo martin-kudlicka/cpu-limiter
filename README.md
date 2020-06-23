@@ -20,7 +20,7 @@ Action consists of:
 
 ## Requirements
 * Windows 8
-* [Visual C++ Redistributable for Visual Studio 2015](https://www.microsoft.com/download/details.aspx?id=48145)
+* [Visual C++ Redistributable for Visual Studio 2017](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads)
 
 ## Components
 * [Qt](https://www.qt.io/)
