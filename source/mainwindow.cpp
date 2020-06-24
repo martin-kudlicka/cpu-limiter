@@ -1,8 +1,7 @@
+#include "pch.h"
 #include "mainwindow.h"
 
 #include "ruledialog.h"
-#include <MkWidgets/MAboutBox>
-#include <MkSupport/MFeedback>
 
 MainWindow::MainWindow()
 {

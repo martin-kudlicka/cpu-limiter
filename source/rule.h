@@ -1,11 +1,7 @@
 #ifndef RULE_H
 #define RULE_H
 
-#include <QtCore/QSharedPointer>
 #include "ruleoptions.h"
-#include <Netlistmgr.h>
-#include <QtCore/QSet>
-#include <MkCore/MProcessInfo>
 
 class MProcessGovernor;
 class MWinEventInfo;

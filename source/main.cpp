@@ -1,6 +1,5 @@
-#include <MkWidgets/MApplication>
+#include "pch.h"
 #include "mainwindow.h"
-#include <MkAnalytics/MAnalytics>
 
 int main(int argc, char *argv[])
 {

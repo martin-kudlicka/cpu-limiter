@@ -1,7 +1,6 @@
 #ifndef RULESMODEL_H
 #define RULESMODEL_H
 
-#include <QtCore/QAbstractItemModel>
 #include "rules.h"
 
 class RulesModel : public QAbstractItemModel

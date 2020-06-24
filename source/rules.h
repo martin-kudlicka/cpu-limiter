@@ -1,11 +1,7 @@
 #ifndef RULES_H
 #define RULES_H
 
-#include <QtCore/QSettings>
 #include "rule.h"
-#include <MkProcessGovernor/MProcessGovernor>
-#include <MkNotifier/MWinEventNotifier>
-#include <MkNotifier/MNetworkNotifier>
 
 class Rules
 {

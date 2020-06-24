@@ -2,7 +2,6 @@
 #define RULEDIALOG_H
 
 #include "ui_ruledialog.h"
-#include <MkWidgets/MWidgetSettings>
 #include "processlistmodel.h"
 #include "ruleoptions.h"
 

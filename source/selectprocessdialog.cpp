@@ -1,6 +1,5 @@
+#include "pch.h"
 #include "selectprocessdialog.h"
-
-#include <QtWidgets/QFileDialog>
 
 SelectProcessDialog::SelectProcessDialog(QWidget *parent) : QDialog(parent), _processesModel(MProcesses::Filter::ValidName | MProcesses::Filter::ValidPath)
 {

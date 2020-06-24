@@ -1,8 +1,6 @@
 #ifndef PROCESSLISTMODEL_H
 #define PROCESSLISTMODEL_H
 
-#include <QtCore/QStringListModel>
-
 class ProcessListModel : public QStringListModel
 {
   public:

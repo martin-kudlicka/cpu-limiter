@@ -1,6 +1,5 @@
+#include "pch.h"
 #include "rulesmodel.h"
-
-#include <QtGui/QIcon>
 
 RulesModel::RulesModel() : _rules(this)
 {

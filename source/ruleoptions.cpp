@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "ruleoptions.h"
 
 #include "rules.h"

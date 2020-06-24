@@ -1,9 +1,6 @@
 #ifndef RULEOPTIONS_H
 #define RULEOPTIONS_H
 
-#include <MkCore/MSettings>
-#include <MkCore/MUuidPtr>
-
 class RuleOptions : public MSettings
 {
   public:

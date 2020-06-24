@@ -1,6 +1,5 @@
+#include "pch.h"
 #include "rules.h"
-
-#include <MkNotifier/MProcessNotifier>
 
 const QString Rules::Property::Group = "rules";
 

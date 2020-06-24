@@ -44,6 +44,8 @@
     <ClCompile>
       <PreprocessorDefinitions>UNICODE;_UNICODE;WIN32;WIN64;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;QT_NETWORK_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.;$(QTDIR)\include;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtWidgets;.\..\..\..\intermediate\cpulimiter\$(ConfigurationName);.\..\..\..\intermediate\cpulimiter;$(QTDIR)\include\QtNetwork;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
@@ -55,6 +57,8 @@
     <ClCompile>
       <PreprocessorDefinitions>UNICODE;_UNICODE;WIN32;WIN64;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;QT_NETWORK_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.;$(QTDIR)\include;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtWidgets;.\..\..\..\intermediate\cpulimiter\$(ConfigurationName);.\..\..\..\intermediate\cpulimiter;$(QTDIR)\include\QtNetwork;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
@@ -75,7 +79,10 @@
     <ClCompile Include="..\..\..\intermediate\cpulimiter\Debug\moc_selectprocessdialog.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\..\intermediate\cpulimiter\qrc_mainwindow.cpp" />
+    <ClCompile Include="..\..\..\intermediate\cpulimiter\qrc_mainwindow.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\..\..\intermediate\cpulimiter\Release\moc_mainwindow.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
@@ -91,6 +98,10 @@
     <ClCompile Include="log.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
+    <ClCompile Include="pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="processlistmodel.cpp" />
     <ClCompile Include="rule.cpp" />
     <ClCompile Include="ruledialog.cpp" />
@@ -103,10 +114,10 @@
     <CustomBuild Include="mainwindow.h">
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing mainwindow.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\..\..\..\intermediate\cpulimiter\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\..\intermediate\cpulimiter\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DQT_NETWORK_LIB -DBUILD_STATIC -DWINVER=0x0600 -D_WIN32_WINNT=0x0600 -DPSAPI_VERSION=1 -D_user_mode_=1  "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\..\intermediate\cpulimiter\$(ConfigurationName)\." "-I.\..\..\..\intermediate\cpulimiter" "-I$(QTDIR)\include\QtNetwork"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\..\intermediate\cpulimiter\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DQT_NETWORK_LIB -D%(PreprocessorDefinitions)  "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\..\intermediate\cpulimiter\$(ConfigurationName)" "-I.\..\..\..\intermediate\cpulimiter" "-I$(QTDIR)\include\QtNetwork" "-fpch.h" "-f../../../projects/cpu-limiter/source/%(Filename)%(Extension)"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing mainwindow.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\..\..\..\intermediate\cpulimiter\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\..\intermediate\cpulimiter\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DQT_NETWORK_LIB -DBUILD_STATIC -DWINVER=0x0600 -D_WIN32_WINNT=0x0600 -DPSAPI_VERSION=1 -D_user_mode_=1  "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\..\intermediate\cpulimiter\$(ConfigurationName)\." "-I.\..\..\..\intermediate\cpulimiter" "-I$(QTDIR)\include\QtNetwork"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\..\intermediate\cpulimiter\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DQT_NETWORK_LIB -D%(PreprocessorDefinitions)  "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\..\intermediate\cpulimiter\$(ConfigurationName)" "-I.\..\..\..\intermediate\cpulimiter" "-I$(QTDIR)\include\QtNetwork" "-fpch.h" "-f../../../projects/cpu-limiter/source/%(Filename)%(Extension)"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
     </CustomBuild>
@@ -140,27 +151,28 @@
     <ClInclude Include="..\..\..\intermediate\cpulimiter\ui_ruledialog.h" />
     <ClInclude Include="..\..\..\intermediate\cpulimiter\ui_selectprocessdialog.h" />
     <ClInclude Include="log.h" />
+    <ClInclude Include="pch.h" />
     <ClInclude Include="processlistmodel.h" />
     <ClInclude Include="resource.h" />
     <CustomBuild Include="selectprocessdialog.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing selectprocessdialog.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\..\..\..\intermediate\cpulimiter\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\..\intermediate\cpulimiter\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DQT_NETWORK_LIB -DBUILD_STATIC -DWINVER=0x0600 -D_WIN32_WINNT=0x0600 -DPSAPI_VERSION=1 -D_user_mode_=1  "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\..\intermediate\cpulimiter\$(ConfigurationName)\." "-I.\..\..\..\intermediate\cpulimiter" "-I$(QTDIR)\include\QtNetwork"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\..\intermediate\cpulimiter\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DQT_NETWORK_LIB -D%(PreprocessorDefinitions)  "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\..\intermediate\cpulimiter\$(ConfigurationName)" "-I.\..\..\..\intermediate\cpulimiter" "-I$(QTDIR)\include\QtNetwork" "-fpch.h" "-f../../../projects/cpu-limiter/source/%(Filename)%(Extension)"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing selectprocessdialog.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\..\..\..\intermediate\cpulimiter\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\..\intermediate\cpulimiter\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DQT_NETWORK_LIB -DBUILD_STATIC -DWINVER=0x0600 -D_WIN32_WINNT=0x0600 -DPSAPI_VERSION=1 -D_user_mode_=1  "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\..\intermediate\cpulimiter\$(ConfigurationName)\." "-I.\..\..\..\intermediate\cpulimiter" "-I$(QTDIR)\include\QtNetwork"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\..\intermediate\cpulimiter\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DQT_NETWORK_LIB -D%(PreprocessorDefinitions)  "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\..\intermediate\cpulimiter\$(ConfigurationName)" "-I.\..\..\..\intermediate\cpulimiter" "-I$(QTDIR)\include\QtNetwork" "-fpch.h" "-f../../../projects/cpu-limiter/source/%(Filename)%(Extension)"</Command>
     </CustomBuild>
     <CustomBuild Include="rule.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing rule.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\..\..\..\intermediate\cpulimiter\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\..\intermediate\cpulimiter\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DQT_NETWORK_LIB -DBUILD_STATIC -DWINVER=0x0600 -D_WIN32_WINNT=0x0600 -DPSAPI_VERSION=1 -D_user_mode_=1  "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\..\intermediate\cpulimiter\$(ConfigurationName)\." "-I.\..\..\..\intermediate\cpulimiter" "-I$(QTDIR)\include\QtNetwork"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\..\intermediate\cpulimiter\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DQT_NETWORK_LIB -D%(PreprocessorDefinitions)  "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\..\intermediate\cpulimiter\$(ConfigurationName)" "-I.\..\..\..\intermediate\cpulimiter" "-I$(QTDIR)\include\QtNetwork" "-fpch.h" "-f../../../projects/cpu-limiter/source/%(Filename)%(Extension)"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing rule.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\..\..\..\intermediate\cpulimiter\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\..\intermediate\cpulimiter\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DQT_NETWORK_LIB -DBUILD_STATIC -DWINVER=0x0600 -D_WIN32_WINNT=0x0600 -DPSAPI_VERSION=1 -D_user_mode_=1  "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\..\intermediate\cpulimiter\$(ConfigurationName)\." "-I.\..\..\..\intermediate\cpulimiter" "-I$(QTDIR)\include\QtNetwork"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\..\intermediate\cpulimiter\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DQT_NETWORK_LIB -D%(PreprocessorDefinitions)  "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\..\intermediate\cpulimiter\$(ConfigurationName)" "-I.\..\..\..\intermediate\cpulimiter" "-I$(QTDIR)\include\QtNetwork" "-fpch.h" "-f../../../projects/cpu-limiter/source/%(Filename)%(Extension)"</Command>
     </CustomBuild>
     <ClInclude Include="rulesmodel.h" />
     <ClInclude Include="rules.h" />
@@ -168,11 +180,11 @@
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing ruledialog.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\..\..\..\intermediate\cpulimiter\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\..\intermediate\cpulimiter\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DQT_NETWORK_LIB -DBUILD_STATIC -DWINVER=0x0600 -D_WIN32_WINNT=0x0600 -DPSAPI_VERSION=1 -D_user_mode_=1  "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\..\intermediate\cpulimiter\$(ConfigurationName)\." "-I.\..\..\..\intermediate\cpulimiter" "-I$(QTDIR)\include\QtNetwork"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\..\intermediate\cpulimiter\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DQT_NETWORK_LIB -D%(PreprocessorDefinitions)  "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\..\intermediate\cpulimiter\$(ConfigurationName)" "-I.\..\..\..\intermediate\cpulimiter" "-I$(QTDIR)\include\QtNetwork" "-fpch.h" "-f../../../projects/cpu-limiter/source/%(Filename)%(Extension)"</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing ruledialog.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\..\..\..\intermediate\cpulimiter\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\..\intermediate\cpulimiter\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DQT_NETWORK_LIB -DBUILD_STATIC -DWINVER=0x0600 -D_WIN32_WINNT=0x0600 -DPSAPI_VERSION=1 -D_user_mode_=1  "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\..\intermediate\cpulimiter\$(ConfigurationName)\." "-I.\..\..\..\intermediate\cpulimiter" "-I$(QTDIR)\include\QtNetwork"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\..\..\..\intermediate\cpulimiter\$(ConfigurationName)\moc_%(Filename).cpp"  -DUNICODE -D_UNICODE -DWIN32 -DWIN64 -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_WIDGETS_LIB -DQT_NETWORK_LIB -D%(PreprocessorDefinitions)  "-I." "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtWidgets" "-I.\..\..\..\intermediate\cpulimiter\$(ConfigurationName)" "-I.\..\..\..\intermediate\cpulimiter" "-I$(QTDIR)\include\QtNetwork" "-fpch.h" "-f../../../projects/cpu-limiter/source/%(Filename)%(Extension)"</Command>
     </CustomBuild>
     <ClInclude Include="ruleoptions.h" />
   </ItemGroup>

@@ -3,7 +3,6 @@
 
 #include "ui_mainwindow.h"
 #include "rulesmodel.h"
-#include <QtCore/QSortFilterProxyModel>
 
 class MainWindow : public QMainWindow
 {

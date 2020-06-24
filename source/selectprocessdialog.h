@@ -2,7 +2,6 @@
 #define SELECTPOCESSDIALOG_H
 
 #include "ui_selectprocessdialog.h"
-#include <MkWidgets/MProcessesModel>
 
 class SelectProcessDialog : public QDialog
 {

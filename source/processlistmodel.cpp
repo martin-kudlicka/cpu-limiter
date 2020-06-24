@@ -1,7 +1,5 @@
+#include "pch.h"
 #include "processlistmodel.h"
-
-#include <QtCore/QFile>
-#include <QtWidgets/QFileIconProvider>
 
 QVariant ProcessListModel::data(const QModelIndex &index, int role /* Qt::DisplayRole */) const
 {
