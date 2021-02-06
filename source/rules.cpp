@@ -36,7 +36,7 @@ const RuleSPtr &Rules::get(const MUuidPtr &id)
     return _rules[id];
   }
 
-  auto rule = _rules.insert(id, RuleSPtr(new Rule(id, &_processGovernor, _rulesModel)));
+  auto rule = _rules.insert(id, QSharedPointer<Rule>::create(id, &_processGovernor, _rulesModel));
 
   QObject::connect(&_networkNotifier, &MNetworkNotifier::connectivityChanged, &**rule, &Rule::on_networkNotifier_connectivityChanged);
 
