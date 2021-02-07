@@ -68,12 +68,12 @@ void RuleDialog::setupWidgets()
   _ui.conditionSelectedProcessesList->setModel(&_conditionProcessesModel);
   _ui.targetSelectedProcessesList->setModel(&_targetProcessesModel);
 
-  _ui.conditionInternetConnectionStatus->addItem(tr("Connected"),    static_cast<quintptr>(RuleOptions::InternetConnection::Connected));
-  _ui.conditionInternetConnectionStatus->addItem(tr("Disconnected"), static_cast<quintptr>(RuleOptions::InternetConnection::Disconnected));
+  _ui.conditionInternetConnectionStatus->addItem(tr("Connected"),    gsl::narrow<quintptr>(RuleOptions::InternetConnection::Connected));
+  _ui.conditionInternetConnectionStatus->addItem(tr("Disconnected"), gsl::narrow<quintptr>(RuleOptions::InternetConnection::Disconnected));
 
-  _ui.conditionStatusRunningState->addItem(tr("Anyhow"),     static_cast<quintptr>(RuleOptions::State::Anyhow));
-  _ui.conditionStatusRunningState->addItem(tr("Foreground"), static_cast<quintptr>(RuleOptions::State::Foreground));
-  _ui.conditionStatusRunningState->addItem(tr("Background"), static_cast<quintptr>(RuleOptions::State::Background));
+  _ui.conditionStatusRunningState->addItem(tr("Anyhow"),     gsl::narrow<quintptr>(RuleOptions::State::Anyhow));
+  _ui.conditionStatusRunningState->addItem(tr("Foreground"), gsl::narrow<quintptr>(RuleOptions::State::Foreground));
+  _ui.conditionStatusRunningState->addItem(tr("Background"), gsl::narrow<quintptr>(RuleOptions::State::Background));
 
   _ui.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 

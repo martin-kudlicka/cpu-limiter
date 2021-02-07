@@ -15,10 +15,10 @@ void MainWindow::setupWidgets()
   _rulesProxyModel.setSourceModel(&_rulesModel);
   _ui.rules->setModel(&_rulesProxyModel);
 
-  _ui.rules->header()->setSectionResizeMode(static_cast<int>(RulesModel::Column::Enabled), QHeaderView::ResizeToContents);
-  _ui.rules->header()->setSectionResizeMode(static_cast<int>(RulesModel::Column::Status),  QHeaderView::ResizeToContents);
-  _ui.rules->header()->setSectionResizeMode(static_cast<int>(RulesModel::Column::Name),    QHeaderView::Stretch);
-  _ui.rules->header()->setSortIndicator(static_cast<int>(RulesModel::Column::Name), Qt::AscendingOrder);
+  _ui.rules->header()->setSectionResizeMode(gsl::narrow<int>(RulesModel::Column::Enabled), QHeaderView::ResizeToContents);
+  _ui.rules->header()->setSectionResizeMode(gsl::narrow<int>(RulesModel::Column::Status),  QHeaderView::ResizeToContents);
+  _ui.rules->header()->setSectionResizeMode(gsl::narrow<int>(RulesModel::Column::Name),    QHeaderView::Stretch);
+  _ui.rules->header()->setSortIndicator(gsl::narrow<int>(RulesModel::Column::Name), Qt::AscendingOrder);
 
   connect(_ui.rules->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::on_rules_selectionChanged);
 }

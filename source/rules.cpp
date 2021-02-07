@@ -87,7 +87,7 @@ void Rules::removeIndex(quintptr index)
 RuleSPtrList Rules::get()
 {
   auto rulesCount = count();
-  if (static_cast<quintptr>(_rules.count()) != rulesCount)
+  if (gsl::narrow<decltype(rulesCount)>(_rules.count()) != rulesCount)
   {
     for (decltype(rulesCount) index2 = 0; index2 < rulesCount; ++index2)
     {

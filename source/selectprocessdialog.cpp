@@ -7,8 +7,8 @@ SelectProcessDialog::SelectProcessDialog(QWidget *parent) : QDialog(parent), _pr
 
   _ui.processesView->setModel(&_processesModel);
 
-  _ui.processesView->header()->setSectionResizeMode(static_cast<int>(MProcessesModel::Column::Name), QHeaderView::ResizeToContents);
-  _ui.processesView->header()->setSectionResizeMode(static_cast<int>(MProcessesModel::Column::Id),   QHeaderView::ResizeToContents);
+  _ui.processesView->header()->setSectionResizeMode(gsl::narrow<int>(MProcessesModel::Column::Name), QHeaderView::ResizeToContents);
+  _ui.processesView->header()->setSectionResizeMode(gsl::narrow<int>(MProcessesModel::Column::Id),   QHeaderView::ResizeToContents);
 
   connect(_ui.processesView->selectionModel(), &QItemSelectionModel::currentChanged, this, &SelectProcessDialog::on_processesView_currentChanged);
 }
@@ -40,7 +40,7 @@ void SelectProcessDialog::on_processesView_currentChanged(const QModelIndex &cur
 {
   Q_UNUSED(previous);
 
-  auto index    = _processesModel.index(current.row(), static_cast<int>(MProcessesModel::Column::FilePath), current.parent());
+  auto index    = _processesModel.index(current.row(), gsl::narrow<int>(MProcessesModel::Column::FilePath), current.parent());
   auto filePath = _processesModel.data(index).toString();
 
   _ui.process->setText(filePath);

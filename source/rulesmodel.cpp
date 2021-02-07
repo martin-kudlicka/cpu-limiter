@@ -40,7 +40,7 @@ void RulesModel::setDataChanged(const MUuidPtr &id, Column column)
 
 void RulesModel::setDataChanged(int row, Column column)
 {
-  auto index2 = index(row, static_cast<int>(column));
+  auto index2 = index(row, gsl::narrow<int>(column));
   emit dataChanged(index2, index2);
 }
 
@@ -48,7 +48,7 @@ int RulesModel::columnCount(const QModelIndex &parent /* QModelIndex() */) const
 {
   Q_UNUSED(parent);
 
-  return static_cast<int>(Column::Count);
+  return gsl::narrow<int>(Column::Count);
 }
 
 QVariant RulesModel::data(const QModelIndex &index, int role /* Qt::DisplayRole */) const

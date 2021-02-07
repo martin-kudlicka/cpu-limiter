@@ -26,7 +26,7 @@ RuleOptions::RuleOptions(const MUuidPtr &id) : _id(id)
 
 RuleOptions::Action RuleOptions::action() const
 {
-  return static_cast<Action>(value(Property::Target_Action).toUInt());
+  return gsl::narrow<Action>(value(Property::Target_Action).toUInt());
 }
 
 bool RuleOptions::applyDelay() const
@@ -61,7 +61,7 @@ bool RuleOptions::internetConnectionCheck() const
 
 RuleOptions::InternetConnection RuleOptions::internetConnectionStatus() const
 {
-  return static_cast<InternetConnection>(value(Property::Condition_InternetConnectionStatus).toUInt());
+  return gsl::narrow<InternetConnection>(value(Property::Condition_InternetConnectionStatus).toUInt());
 }
 
 QString RuleOptions::name() const
@@ -153,10 +153,10 @@ void RuleOptions::setEnabled(bool enabled)
 
 RuleOptions::State RuleOptions::state() const
 {
-  return static_cast<State>(value(Property::Condition_State).toUInt());
+  return gsl::narrow<State>(value(Property::Condition_State).toUInt());
 }
 
 RuleOptions::Status RuleOptions::status() const
 {
-  return static_cast<Status>(value(Property::Condition_Status).toUInt());
+  return gsl::narrow<Status>(value(Property::Condition_Status).toUInt());
 }
