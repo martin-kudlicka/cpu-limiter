@@ -5,7 +5,7 @@
 #include "processlistmodel.h"
 #include "ruleoptions.h"
 
-class RuleDialog : public QDialog
+class RuleDialog : public MOptionsDialog<Ui::RuleDialog, RuleOptions>
 {
   Q_OBJECT
 
@@ -14,22 +14,16 @@ class RuleDialog : public QDialog
              RuleDialog(const MUuidPtr &id, QWidget *parent);
     virtual ~RuleDialog() Q_DECL_OVERRIDE Q_DECL_EQ_DEFAULT;
 
-    const RuleOptions &options() const;
-
   private:
-    MWidgetSettings  _widgetSettings;
     ProcessListModel _conditionProcessesModel;
     ProcessListModel _targetProcessesModel;
-    RuleOptions      _options;
-    Ui::RuleDialog   _ui;
 
     void addProcess     (QStringListModel *model, const QString &process) const;
     void removeProcesses(QListView *view)                                 const;
-    void setupSettings  ();
-    void setupWidgets   ();
     void updateOkButton (bool preEnabled = true)                          const;
 
-    virtual void accept() Q_DECL_OVERRIDE;
+    virtual void setupSettings() Q_DECL_OVERRIDE;
+    virtual void setupWidgets () Q_DECL_OVERRIDE;
 
   private Q_SLOTS:
     void on_conditionInternetConnection_stateChanged       (int state)                                                        const;

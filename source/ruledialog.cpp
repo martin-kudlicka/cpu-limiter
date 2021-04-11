@@ -3,21 +3,12 @@
 
 #include "selectprocessdialog.h"
 
-RuleDialog::RuleDialog(QWidget *parent) : RuleDialog(MUuidPtr::createUuid(), parent)
+RuleDialog::RuleDialog(QWidget *parent) : MOptionsDialog(parent)
 {
 }
 
-RuleDialog::RuleDialog(const MUuidPtr &id, QWidget *parent) : QDialog(parent), _options(id), _widgetSettings(&_options)
+RuleDialog::RuleDialog(const MUuidPtr &id, QWidget *parent) : MOptionsDialog(id, parent)
 {
-  _ui.setupUi(this);
-
-  setupWidgets();
-  setupSettings();
-}
-
-const RuleOptions &RuleDialog::options() const
-{
-  return _options;
 }
 
 void RuleDialog::addProcess(QStringListModel *model, const QString &process) const
@@ -43,6 +34,13 @@ void RuleDialog::removeProcesses(QListView *view) const
   }
 }
 
+void RuleDialog::updateOkButton(bool preEnabled /* true */) const
+{
+  auto enabled = preEnabled && !_ui.name->text().isEmpty();
+
+  _ui.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(enabled);
+}
+
 void RuleDialog::setupSettings()
 {
   _widgetSettings.setWidget(RuleOptions::Property::Name,    _ui.name);
@@ -60,7 +58,7 @@ void RuleDialog::setupSettings()
   _widgetSettings.setWidget(RuleOptions::Property::Target_ApplyDelay,        _ui.targetApplyDelay);
   _widgetSettings.setWidget(RuleOptions::Property::Target_ApplyDelayValue,   _ui.targetApplyDelayValue);
 
-  _widgetSettings.load();
+  MOptionsDialog::setupSettings();
 }
 
 void RuleDialog::setupWidgets()
@@ -79,20 +77,6 @@ void RuleDialog::setupWidgets()
 
   connect(_ui.conditionSelectedProcessesList->selectionModel(), &QItemSelectionModel::selectionChanged, this, &RuleDialog::on_conditionSelectedProcessesList_selectionChanged);
   connect(_ui.targetSelectedProcessesList->selectionModel(),    &QItemSelectionModel::selectionChanged, this, &RuleDialog::on_targetSelectedProcessesList_selectionChanged);
-}
-
-void RuleDialog::updateOkButton(bool preEnabled /* true */) const
-{
-  auto enabled = preEnabled && !_ui.name->text().isEmpty();
-
-  _ui.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(enabled);
-}
-
-void RuleDialog::accept()
-{
-  _widgetSettings.save();
-
-  QDialog::accept();
 }
 
 void RuleDialog::on_conditionInternetConnection_stateChanged(int state) const
