@@ -22,11 +22,6 @@ Rules::Rules(RulesModel *rulesModel) : _rulesModel(rulesModel)
   _winEventNotifier.addEvent(EVENT_SYSTEM_FOREGROUND);
 }
 
-quintptr Rules::count() const
-{
-  return _settings.childGroups().count();
-}
-
 const RuleSPtr &Rules::get(const MUuidPtr &id)
 {
   Q_ASSERT_X(!id.isNull(), "Rules::get", "!id.isNull()");
@@ -46,34 +41,6 @@ const RuleSPtr &Rules::get(const MUuidPtr &id)
   QObject::connect(&_winEventNotifier, &MWinEventNotifier::notify, &**rule, &Rule::on_winEventNotifier_notify);
 
   return *rule;
-}
-
-MUuidPtr Rules::id(quintptr index) const
-{
-  return _settings.childGroups().at(index);
-}
-
-quintptr Rules::index(const MUuidPtr &id) const
-{
-  quintptr index2 = 0;
-
-  for (const auto &id2 : _settings.childGroups())
-  {
-    if (id2 == id.toString())
-    {
-      return index2;
-    }
-
-    ++index2;
-  }
-
-  Q_UNREACHABLE();
-  return std::numeric_limits<quintptr>::max();
-}
-
-bool Rules::isEmpty() const
-{
-  return count() == 0;
 }
 
 void Rules::removeIndex(quintptr index)

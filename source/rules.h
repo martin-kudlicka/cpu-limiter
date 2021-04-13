@@ -3,7 +3,7 @@
 
 #include "rule.h"
 
-class Rules
+class Rules : public MSettingsGroup<Rule>
 {
   public:
     struct Property
@@ -11,14 +11,11 @@ class Rules
       static const QString Group;
     };
 
-    Rules(RulesModel *rulesModel);
+    explicit Rules(RulesModel *rulesModel);
 
-          quintptr     count      ()                   const;
-    const RuleSPtr    &get        (const MUuidPtr &id);
-          MUuidPtr     id         (quintptr index)     const;
-          quintptr     index      (const MUuidPtr &id) const;
-          bool         isEmpty    ()                   const;
-          void         removeIndex(quintptr index);
+    const RuleSPtr &get(const MUuidPtr &id);
+
+    virtual void removeIndex(quintptr index) Q_DECL_OVERRIDE;
 
   private:
     MNetworkNotifier          _networkNotifier;
